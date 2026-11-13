@@ -1,0 +1,38 @@
+---
+title: Button
+description: The main action control. Radius follows size, so small buttons never become pills.
+---
+
+import { ButtonSizes, ButtonVariants } from '@/components/demos/basics';
+
+<Preview>
+  <ButtonVariants />
+</Preview>
+
+```tsx
+import { Button } from '@crazy-staff/ui';
+
+<Button>Apply</Button>
+<Button variant="outline" size="sm">Export</Button>
+<Button glow>Start the trainer</Button>
+```
+
+## Sizes and glow
+
+<Preview align="start">
+  <ButtonSizes />
+</Preview>
+
+`glow` adds a soft accent shadow under a solid button. It is **off by default** — keep it for the one main
+action on a screen.
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'solid' \| 'soft' \| 'outline' \| 'ghost' \| 'danger'` | `'solid'` |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'icon' \| 'icon-sm'` | `'md'` |
+| `glow` | `boolean` | `false` |
+| `className` | `string` | — |
+
+All other props go to Base UI's `Button` (a native `<button>`).

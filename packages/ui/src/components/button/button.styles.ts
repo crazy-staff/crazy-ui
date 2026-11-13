@@ -13,12 +13,12 @@ export const buttonStyles = tv({
   ],
   variants: {
     variant: {
-      solid: 'bg-accent text-accent-foreground shadow-button hover:brightness-110',
+      solid: 'bg-accent text-accent-foreground shadow-button hover:brightness-105',
       soft: 'bg-accent-soft text-accent-soft-foreground hover:brightness-105',
       outline:
         'border border-border-strong bg-transparent text-foreground hover:bg-surface-2',
       ghost: 'bg-transparent text-foreground hover:bg-surface-2',
-      danger: 'bg-danger text-danger-foreground shadow-button hover:brightness-110',
+      danger: 'bg-danger text-danger-foreground hover:brightness-105',
     },
     size: {
       sm: 'h-control-sm rounded-control-sm px-3 text-xs [&_svg]:size-3.5',
@@ -27,9 +27,15 @@ export const buttonStyles = tv({
       icon: 'h-control w-control rounded-control [&_svg]:size-4',
       'icon-sm': 'h-control-sm w-control-sm rounded-control-sm [&_svg]:size-3.5',
     },
+    /** A soft accent glow under solid buttons. Off by default; use it for the one main action. */
+    glow: {
+      true: 'shadow-glow',
+      false: '',
+    },
   },
   defaultVariants: {
     variant: 'solid',
     size: 'md',
+    glow: false,
   },
 });

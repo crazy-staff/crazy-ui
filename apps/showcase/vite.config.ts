@@ -30,6 +30,8 @@ export default defineConfig({
     tsconfigPaths: true,
     alias: [
       { find: 'tslib', replacement: 'tslib/tslib.es6.js' },
+      // MDX files are outside tsconfig's include, so `@/` needs a plain alias for them
+      { find: /^@\//, replacement: `${fileURLToPath(new URL('./src/', import.meta.url))}` },
       // the showcase runs on the library's sources, so edits hot-reload without a rebuild
       {
         find: /^@crazy-staff\/ui$/,

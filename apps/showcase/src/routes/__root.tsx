@@ -3,6 +3,15 @@ import * as React from 'react';
 import appCss from '@/styles/app.css?url';
 import { RootProvider } from 'fumadocs-ui/provider/tanstack';
 import SearchDialog from '@/components/search';
+import { registerSquircles } from '@crazy-staff/ui';
+
+/** Squircle corners in Firefox/Safari; `?fallback` forces the polyfill in Chromium. */
+function Squircles() {
+  React.useEffect(() => {
+    registerSquircles({ force: new URLSearchParams(location.search).has('fallback') });
+  }, []);
+  return null;
+}
 
 export const Route = createRootRoute({
   head: () => ({
@@ -15,7 +24,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'crazy-ui — design round 1',
+        title: 'crazy-ui',
       },
     ],
     links: [{ rel: 'stylesheet', href: appCss }],
@@ -30,7 +39,8 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body className="flex flex-col min-h-screen">
-        <RootProvider search={{ SearchDialog }} theme={{ enabled: false }}>
+        <RootProvider search={{ SearchDialog }} theme={{ defaultTheme: 'dark' }}>
+          <Squircles />
           <Outlet />
         </RootProvider>
         <Scripts />

@@ -1,13 +1,14 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+@import 'fumadocs-ui/css/generated/spacious.css';
 
 /* crazy-ui tokens + source so Tailwind sees the library's utility classes */
 @import '@crazy-staff/ui/theme.css';
 @source '../../../../packages/ui/src';
 
-/* fonts of the theme: Plus Jakarta Sans + Geist Mono */
-@import '@fontsource-variable/plus-jakarta-sans';
+/* fonts of the theme: Inter + Geist Mono */
+@import '@fontsource-variable/inter';
 @import '@fontsource-variable/geist-mono';
 
 html {
@@ -19,8 +20,62 @@ html > body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0px !important;
 }
 
-/* the showcase page itself sits on the frame colour (crazy-hub layout) */
 body {
-  background: var(--cui-frame);
   font-family: var(--cui-font-sans);
+}
+
+/* Fumadocs' chrome reads its colours from the crazy-ui tokens, so docs and components match. */
+:root,
+.dark {
+  --color-fd-background: var(--cui-background);
+  --color-fd-foreground: var(--cui-foreground);
+  --color-fd-muted: var(--cui-surface-2);
+  --color-fd-muted-foreground: var(--cui-muted);
+  --color-fd-popover: var(--cui-popover);
+  --color-fd-popover-foreground: var(--cui-foreground);
+  --color-fd-card: var(--cui-frame);
+  --color-fd-card-foreground: var(--cui-foreground);
+  --color-fd-border: var(--cui-border);
+  --color-fd-primary: var(--cui-accent-soft-foreground);
+  --color-fd-primary-foreground: hsl(0 0% 98%);
+  --color-fd-secondary: var(--cui-surface-2);
+  --color-fd-secondary-foreground: var(--cui-foreground);
+  --color-fd-accent: var(--cui-hover);
+  --color-fd-accent-foreground: var(--cui-foreground);
+  --color-fd-ring: var(--cui-ring);
+}
+.dark {
+  --color-fd-primary-foreground: var(--cui-accent-foreground);
+}
+
+/* The page panel: a superellipse like every other surface, no shadow (keeps the squircle
+   polyfill in clip mode, so the page glow is clipped to the shape). */
+@media (min-width: 768px) {
+  #nd-page-panel {
+    --corner-shape: var(--cui-corner-shape);
+    corner-shape: var(--cui-corner-shape);
+    border-radius: var(--radius-panel);
+    border-color: var(--cui-border);
+    box-shadow: none;
+  }
+  @supports not (corner-shape: squircle) {
+    #nd-page-panel {
+      --corner-scale: 0.75;
+    }
+  }
+}
+
+/* Inline code and links in the prose, in our colours. */
+.prose :where(a):not(:where(.not-prose, .not-prose *)) {
+  text-decoration-color: color-mix(in oklab, var(--cui-accent-soft-foreground) 55%, transparent);
+}
+
+/* lets a page glow sit between the panel background and the content */
+#nd-page-panel {
+  isolation: isolate;
+}
+
+/* a page with a glow: the panel's top bar stays clear so the gradient isn't cut by a band */
+#nd-page-panel:has([data-page-glow]) > header {
+  background: none;
 }

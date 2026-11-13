@@ -1,0 +1,15 @@
+{
+  "title": "crazy-ui",
+  "pages": [
+    "---Getting started---",
+    "index",
+    "installation",
+    "---Foundations---",
+    "colors",
+    "typography",
+    "shape",
+    "motion",
+    "---Components---",
+    "...components"
+  ]
+}

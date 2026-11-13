@@ -32,4 +32,11 @@ describe('Button', () => {
     await userEvent.click(screen.getByRole('button'));
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it('has no glow unless asked', () => {
+    const { rerender } = render(<Button>A</Button>);
+    expect(screen.getByRole('button')).not.toHaveClass('shadow-glow');
+    rerender(<Button glow>A</Button>);
+    expect(screen.getByRole('button')).toHaveClass('shadow-glow');
+  });
 });

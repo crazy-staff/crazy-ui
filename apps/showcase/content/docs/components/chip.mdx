@@ -1,0 +1,20 @@
+---
+title: Chip
+description: A small label or status — verified, new, a tag, a count.
+---
+
+import { ChipExamples } from '@/components/demos/basics';
+
+<Preview align="start">
+  <ChipExamples />
+</Preview>
+
+```tsx
+<Chip>verified</Chip>
+<Chip variant="neutral" size="sm">4 pages</Chip>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'soft' \| 'solid' \| 'outline' \| 'neutral'` | `'soft'` |
+| `size` | `'sm' \| 'md'` | `'md'` |

@@ -1,0 +1,29 @@
+---
+title: Shape
+description: Superellipse corners and a radius scale that shrinks with the element.
+icon: Shapes
+---
+
+import { RadiusScale } from '@/components/demos/foundations';
+
+<RadiusScale />
+
+## Superellipse corners
+
+Corners use CSS `corner-shape: superellipse(1.5)` — halfway between a circle and a squircle. Chromium draws
+it natively; Firefox and Safari use the `hyperellipse` polyfill (`registerSquircles()`). Set
+`--cui-corner-shape` to `round`, `squircle` or any `superellipse(k)` to change every corner at once.
+
+## Smaller element, smaller radius
+
+Chips use the smallest radius, cards and panels the largest. A small button never turns into a pill.
+
+## Polyfill rules
+
+The polyfill paints background, border and shadow from the computed style, so:
+
+- no `box-shadow` on inputs and other replaced elements, and none on transparent backgrounds;
+- outlines are borders, not `ring-*` or inset shadows;
+- background, border and shadow transitions switch off under `[data-squircle-fallback]`.
+
+Append `?fallback` to a showcase URL to see the polyfill in Chromium.

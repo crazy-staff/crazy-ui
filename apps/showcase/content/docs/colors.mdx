@@ -1,0 +1,28 @@
+---
+title: Colours
+description: Neutral greys from the crazy-hub docs and the Crazy purple, in light and dark.
+icon: Palette
+---
+
+import { ColorSwatches } from '@/components/demos/foundations';
+
+<ColorSwatches />
+
+## Rules
+
+- Light mirrors dark: the accent is a **lavender fill with dark ink** in both modes. Text in the accent colour
+  uses `accent-soft-foreground`, a deeper purple in light mode so it stays readable.
+- Every pair is checked against WCAG in `packages/ui/src/styles/contrast.test.ts` — text at least **4.5:1**,
+  body text on backgrounds at least **7:1**. A colour change that breaks a pair fails CI.
+- Status colours are muted, never neon.
+
+## Tokens
+
+| Token | Use |
+| --- | --- |
+| `--cui-frame` | The app frame behind the page panel (sidebar) |
+| `--cui-background` | The page panel |
+| `--cui-surface`, `--cui-surface-2` | Cards and muted fills |
+| `--cui-accent`, `--cui-accent-foreground` | Primary fill and the text on it |
+| `--cui-accent-soft`, `--cui-accent-soft-foreground` | Tinted fill and accent-coloured text |
+| `--cui-glow`, `--cui-glow-2` | The two layers of the accent gradient |

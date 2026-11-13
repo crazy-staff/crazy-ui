@@ -1,0 +1,21 @@
+---
+title: Input
+description: A single-line text field. Works on its own or inside a Base UI Field.
+---
+
+import { InputExamples } from '@/components/demos/basics';
+
+<Preview>
+  <InputExamples />
+</Preview>
+
+```tsx
+<Input placeholder="Search features…" />
+<Input size="sm" placeholder="Filter…" />
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+
+Inputs have no shadow: the squircle polyfill can't draw one on replaced elements.

@@ -1,0 +1,28 @@
+---
+title: Card
+description: A surface that groups content. Interactive cards lift a little on hover.
+---
+
+import { CardExamples } from '@/components/demos/basics';
+
+<Preview align="stretch">
+  <CardExamples />
+</Preview>
+
+```tsx
+<Card.Root interactive>
+  <Card.Header>
+    <Card.Title>Infinite mana</Card.Title>
+    <Card.Description>Keeps your mana pool topped up in combat.</Card.Description>
+  </Card.Header>
+  <Card.Footer>
+    <Button size="sm">Enable</Button>
+  </Card.Footer>
+</Card.Root>
+```
+
+Parts: `Card.Root`, `Card.Header`, `Card.Title`, `Card.Description`, `Card.Body`, `Card.Footer`.
+
+| Prop (Root) | Type | Default |
+| --- | --- | --- |
+| `interactive` | `boolean` | `false` |

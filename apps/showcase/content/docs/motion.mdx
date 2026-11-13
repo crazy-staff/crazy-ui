@@ -1,0 +1,36 @@
+---
+title: Motion
+description: Short, eased movement that switches off for reduced motion.
+icon: Wind
+---
+
+import { MotionDemo } from '@/components/demos/foundations';
+
+<MotionDemo />
+
+## Reveal
+
+`Reveal` fades and lifts content in when it scrolls into view. `Reveal.Group` staggers its `Reveal.Item`
+children.
+
+```tsx
+<Reveal.Group className="grid gap-3 sm:grid-cols-3">
+  {topics.map((t) => (
+    <Reveal.Item key={t.id}>
+      <Card.Root interactive>…</Card.Root>
+    </Reveal.Item>
+  ))}
+</Reveal.Group>
+```
+
+## Tokens
+
+| Token | Default |
+| --- | --- |
+| `--cui-duration-fast` | 150ms |
+| `--cui-duration-normal` | 250ms |
+| `--cui-ease` | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| `--cui-press-scale` | 0.97 |
+| `--cui-card-lift` | 2px |
+
+With `prefers-reduced-motion: reduce`, durations become 0 and `Reveal` renders statically.

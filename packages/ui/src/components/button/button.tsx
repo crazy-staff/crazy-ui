@@ -11,6 +11,6 @@ export interface ButtonProps
  * The primary action control. Token-driven: radius, height, shadow and accent
  * all come from `--cui-*`, so an app restyles every button by overriding tokens.
  */
-export function Button({ className, variant, size, ...props }: ButtonProps) {
-  return <BaseButton className={cn(buttonStyles({ variant, size }), className)} {...props} />;
+export function Button({ className, variant, size, glow, ...props }: ButtonProps) {
+  return <BaseButton className={cn(buttonStyles({ variant, size, glow }), className)} {...props} />;
 }

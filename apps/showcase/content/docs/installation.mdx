@@ -1,0 +1,42 @@
+---
+title: Installation
+description: Add crazy-ui to a React app with Tailwind CSS 4.
+icon: Download
+---
+
+## Install
+
+```sh
+bun add @crazy-staff/ui
+```
+
+React 19 and Tailwind CSS 4 are peer dependencies.
+
+## Add the theme
+
+In your app stylesheet, after Tailwind:
+
+```css
+@import 'tailwindcss';
+@import '@crazy-staff/ui/theme.css';
+@source '../node_modules/@crazy-staff/ui/dist';
+```
+
+The theme uses **Inter** and **Geist Mono**. Load them (for example with `@fontsource-variable/inter` and
+`@fontsource-variable/geist-mono`) or point `--cui-font-sans` / `--cui-font-mono` at your own fonts.
+
+## Turn on squircles
+
+Corners are superellipses. Chromium draws them natively; Firefox and Safari need a small polyfill. Call this
+once on the client:
+
+```ts
+import { registerSquircles } from '@crazy-staff/ui';
+
+registerSquircles();
+```
+
+## Dark mode
+
+Add the `dark` class (or `data-theme="dark"`) to `<html>`. Components never use `dark:` — only the token
+values change, so any subtree can be forced into `.light` or `.dark`.

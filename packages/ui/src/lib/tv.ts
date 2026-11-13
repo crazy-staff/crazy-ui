@@ -35,7 +35,7 @@ export const twMergeConfig = {
         'warning',
       ],
       radius: ['chip', 'control-sm', 'control', 'control-lg', 'item', 'card', 'panel', 'switch'],
-      shadow: ['control', 'button', 'card', 'card-hover', 'overlay'],
+      shadow: ['control', 'button', 'glow', 'card', 'card-hover', 'overlay'],
       font: ['sans', 'mono', 'heading'],
       spacing: ['control', 'control-sm', 'control-lg'],
       ease: ['ui', 'spring'],
