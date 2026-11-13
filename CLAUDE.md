@@ -6,6 +6,7 @@ All decisions behind it are in `docs/decisions.md`; read it before changing dire
 
 ## People and process
 
+- **Language with Claude is Polish**: messages to the owner, prompts for new sessions, handoffs and scheduled tasks are written in Polish. Only what lands on GitHub (code, commits, issues, PRs, docs) is in English.
 - The owner (Dawid) acts as **project lead**, not as the main coder. He is a frontend developer and may
   push quick style fixes himself; treat them as the intended look, then clean up and generalise them,
   and record the rule they imply in `docs/guidelines.md` so the same mistake never comes back.
