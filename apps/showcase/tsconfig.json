@@ -15,7 +15,8 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@crazy-staff/ui": ["../../packages/ui/src/index.ts"]
     },
     "noEmit": true
   }

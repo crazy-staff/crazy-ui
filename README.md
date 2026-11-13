@@ -25,9 +25,25 @@ bun run test        # run the library's Vitest suite
 bun changeset       # describe a change to @crazy-staff/ui for the changelog
 ```
 
+## Using the library
+
+```css
+@import 'tailwindcss';
+@import '@crazy-staff/ui/theme.css';
+@source '../node_modules/@crazy-staff/ui/dist';
+```
+
+```ts
+import { registerSquircles } from '@crazy-staff/ui';
+registerSquircles(); // once on the client: squircle corners in Firefox/Safari
+```
+
+The theme uses Plus Jakarta Sans and Geist Mono (e.g. `@fontsource-variable/plus-jakarta-sans`,
+`@fontsource-variable/geist-mono`); override `--cui-font-sans` / `--cui-font-mono` to use others.
+
 ## Status
 
-Design **round 1** is on the showcase home page: three visual directions (Docs / Soft / Technical),
-all built from the same tokens with the Crazy-purple accent. See
+Design **round 1b** is on the showcase home page: direction B "Soft" on the crazy-hub palette, with
+squircle corners, accent gradients and the framed app layout (decision 16). See
 [docs/decisions.md](docs/decisions.md) for the roadmap and [docs/guidelines.md](docs/guidelines.md)
 for the component rules.

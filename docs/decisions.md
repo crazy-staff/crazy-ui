@@ -42,3 +42,12 @@ decision by adding a new entry that supersedes the old one; don't edit history.
     100 %) and 1920×1080; the PR preview in his browser is the source of truth.
 15. **Context.** `CLAUDE.md` per repo, this file for decisions, GitHub issues for task specs, Claude project
     memory for the owner's preferences. One conversation per task; hand off to a new session when done.
+
+## Design rounds
+
+16. **Round 1 pick (2026-11-13): direction B "Soft"**, with changes from the owner: smaller radius on
+    smaller elements (chips, small buttons) with **squircle** corners (CSS `corner-shape`, polyfilled
+    by `hyperellipse` for Firefox/Safari); the **colours of the crazy-hub docs** (neutral greys,
+    fumadocs.dev style) instead of the round-1 palettes; **accent gradients** either filling a rounded
+    frame or the whole page background, never cut off; the hub's **framed app layout** (sidebar on the
+    frame colour, page in a rounded panel) with a **collapsible sidebar**. Shown as round 1b.

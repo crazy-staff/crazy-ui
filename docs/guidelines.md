@@ -31,3 +31,19 @@ regress (decision 13).
 ## Showcase
 
 - No component without a showcase page and a test (Vitest + Testing Library).
+
+## Squircles
+
+- Corners use the `squircle` utility plus a radius from the scale (`rounded-chip` < `rounded-control-sm`
+  < `rounded-control` < `rounded-control-lg`, `rounded-item`, `rounded-card`, `rounded-panel`). The
+  smaller the element, the smaller the radius — small controls and chips must never look like pills
+  (owner's feedback, round 1).
+- Firefox and Safari draw squircles with the `hyperellipse` polyfill (`registerSquircles()`), which
+  paints background, border and shadow from a snapshot of the computed style. Therefore:
+  - no `box-shadow` on `<input>`/`<textarea>`/`<img>` with `squircle` (the shadow layer lives on
+    `::before`, which replaced elements don't have);
+  - no inset shadows or `ring-*` on squircle elements for outlines — use `border`;
+  - no `box-shadow` on elements with a transparent background (the polyfill paints the shadow as a
+    filled shape that shows through);
+  - transitions of background/border/shadow are switched off under `[data-squircle-fallback]`.
+- Check the fallback in Chromium with `?fallback` on the showcase URL.

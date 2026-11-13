@@ -17,6 +17,11 @@ describe('Button', () => {
     expect(screen.getByRole('button')).not.toHaveClass('rounded-control');
   });
 
+  it('uses a smaller radius for smaller sizes', () => {
+    render(<Button size="sm">S</Button>);
+    expect(screen.getByRole('button')).toHaveClass('rounded-control-sm', 'squircle');
+  });
+
   it('does not fire when disabled', async () => {
     const onClick = vi.fn();
     render(

@@ -6,10 +6,8 @@
 @import '@crazy-staff/ui/theme.css';
 @source '../../../../packages/ui/src';
 
-/* fonts used by the three round-1 directions */
-@import '@fontsource-variable/inter';
+/* fonts of the theme: Plus Jakarta Sans + Geist Mono */
 @import '@fontsource-variable/plus-jakarta-sans';
-@import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
 
 html {
@@ -21,91 +19,8 @@ html > body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0px !important;
 }
 
-/*
- * Round 1 — three visual directions as pure token overrides.
- * Only shape, elevation, type and density change; the Crazy purple accent is
- * identical in all three, which is the whole point of a token-driven system.
- */
-
-/* A — close to fumadocs.dev: neutral, calm, medium radius, flat */
-.dir-a {
-  --cui-font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --cui-font-heading: var(--cui-font-sans);
-  --cui-font-mono: ui-monospace, monospace;
-  --cui-radius-control: 0.5rem;
-  --cui-radius-card: 0.75rem;
-  --cui-radius-item: 0.375rem;
-  --cui-shadow-button: none;
-  --cui-shadow-card: 0 1px 2px hsl(240 10% 4% / 0.05);
-  --cui-shadow-card-hover: 0 2px 6px hsl(240 10% 4% / 0.08);
-  --cui-heading-weight: 600;
-  --cui-heading-tracking: -0.01em;
-  --cui-density: 1;
-  --cui-press-scale: 0.98;
-  --cui-card-lift: 0px;
-}
-.dir-a.dark,
-.dir-a .dark {
-  --cui-shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4);
-  --cui-shadow-card-hover: 0 3px 10px hsl(0 0% 0% / 0.5);
-}
-
-/* B — HeroUI: softer, rounder, generous padding, soft glowy shadows */
-.dir-b {
-  --cui-font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --cui-font-heading: var(--cui-font-sans);
-  --cui-font-mono: ui-monospace, monospace;
-  --cui-radius-control: 0.875rem;
-  --cui-radius-card: 1.25rem;
-  --cui-radius-item: 0.75rem;
-  --cui-shadow-button: 0 6px 16px hsl(250 80% 54% / 0.28);
-  --cui-shadow-control: 0 2px 6px hsl(240 10% 4% / 0.06);
-  --cui-shadow-card: 0 8px 24px hsl(240 10% 4% / 0.08);
-  --cui-shadow-card-hover: 0 14px 34px hsl(250 60% 40% / 0.16);
-  --cui-heading-weight: 700;
-  --cui-heading-tracking: -0.02em;
-  --cui-density: 1.15;
-  --cui-press-scale: 0.96;
-  --cui-card-lift: 3px;
-  --cui-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.dir-b.dark,
-.dir-b .dark {
-  --cui-shadow-button: 0 6px 20px hsl(250 100% 70% / 0.35);
-  --cui-shadow-card: 0 10px 30px hsl(0 0% 0% / 0.55);
-  --cui-shadow-card-hover: 0 16px 40px hsl(250 90% 60% / 0.3);
-}
-
-/* C — Linear / Raycast: sharp, technical, tight, crisp borders, mono labels */
-.dir-c {
-  --cui-font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-  --cui-font-heading: var(--cui-font-sans);
-  --cui-font-mono: 'Geist Mono Variable', ui-monospace, monospace;
-  --cui-radius-control: 0.3125rem;
-  --cui-radius-card: 0.5rem;
-  --cui-radius-item: 0.25rem;
-  --cui-shadow-button: 0 1px 0 hsl(0 0% 100% / 0.08) inset, 0 1px 2px hsl(240 10% 4% / 0.3);
-  --cui-shadow-control: 0 1px 1px hsl(240 10% 4% / 0.06);
-  --cui-shadow-card: 0 1px 2px hsl(240 10% 4% / 0.08);
-  --cui-shadow-card-hover: 0 2px 4px hsl(240 10% 4% / 0.1);
-  --cui-heading-weight: 600;
-  --cui-heading-tracking: -0.02em;
-  --cui-density: 0.92;
-  --cui-press-scale: 0.99;
-  --cui-card-lift: 0px;
-  --cui-duration-fast: 100ms;
-  --cui-duration-normal: 160ms;
-  --cui-ease: cubic-bezier(0.25, 1, 0.5, 1);
-}
-.dir-c.dark,
-.dir-c .dark {
-  --cui-surface: hsl(240 6% 9%);
-  --cui-surface-2: hsl(240 5% 14%);
-  --cui-border: hsl(240 4% 17%);
-  --cui-shadow-card: 0 1px 2px hsl(0 0% 0% / 0.5);
-  --cui-shadow-card-hover: 0 2px 6px hsl(0 0% 0% / 0.6);
-}
-
-.font-mono-token {
-  font-family: var(--cui-font-mono);
+/* the showcase page itself sits on the frame colour (crazy-hub layout) */
+body {
+  background: var(--cui-frame);
+  font-family: var(--cui-font-sans);
 }

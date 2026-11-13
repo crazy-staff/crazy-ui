@@ -6,10 +6,16 @@
  * Tailwind utilities read the variables through `@theme inline`, so overrides on a subtree work
  * without rebuilding CSS: `bg-accent`, `rounded-control`, `shadow-card`, `h-control`, `font-heading`.
  *
+ * Look (design round 1, owner's pick): direction B "Soft" — roomy, rounded, soft shadows,
+ * springy motion — on the neutral palette of crazy-hub (fumadocs.dev neutral + Crazy purple).
+ * Corners are squircles (CSS `corner-shape`, polyfilled by `registerSquircles()` in Firefox and
+ * Safari) and the radius shrinks with the element: chips < small controls < controls < cards.
+ *
  * Usage in an app stylesheet:
  *   @import 'tailwindcss';
  *   @import '@crazy-staff/ui/theme.css';
  *   @source '../node_modules/@crazy-staff/ui/dist';
+ * and once on the client: `registerSquircles()` from '@crazy-staff/ui'.
  */
 
 /* Components never use `dark:`; dark mode only swaps token values. */
@@ -17,8 +23,11 @@
 @theme inline {
   --color-background: var(--cui-background);
   --color-foreground: var(--cui-foreground);
+  --color-frame: var(--cui-frame);
   --color-surface: var(--cui-surface);
   --color-surface-2: var(--cui-surface-2);
+  --color-popover: var(--cui-popover);
+  --color-hover: var(--cui-hover);
   --color-muted: var(--cui-muted);
   --color-border: var(--cui-border);
   --color-border-strong: var(--cui-border-strong);
@@ -34,116 +43,161 @@
   --color-success: var(--cui-success);
   --color-warning: var(--cui-warning);
 
-  --radius-control: var(--cui-radius-control);
-  --radius-card: var(--cui-radius-card);
-  --radius-item: var(--cui-radius-item);
+  /* `--corner-scale` is 1 where `corner-shape` is native and while the polyfill measures;
+     before the polyfill runs it shrinks squircle radii so they don't flash too round. */
+  --radius-chip: calc(var(--cui-radius-chip) * var(--corner-scale, 1));
+  --radius-control-sm: calc(var(--cui-radius-control-sm) * var(--corner-scale, 1));
+  --radius-control: calc(var(--cui-radius-control) * var(--corner-scale, 1));
+  --radius-control-lg: calc(var(--cui-radius-control-lg) * var(--corner-scale, 1));
+  --radius-item: calc(var(--cui-radius-item) * var(--corner-scale, 1));
+  --radius-card: calc(var(--cui-radius-card) * var(--corner-scale, 1));
+  --radius-panel: calc(var(--cui-radius-panel) * var(--corner-scale, 1));
   --radius-switch: var(--cui-radius-switch);
 
   --shadow-control: var(--cui-shadow-control);
   --shadow-button: var(--cui-shadow-button);
   --shadow-card: var(--cui-shadow-card);
   --shadow-card-hover: var(--cui-shadow-card-hover);
-  --shadow-popover: var(--cui-shadow-popover);
+  --shadow-overlay: var(--cui-shadow-overlay);
 
   --font-sans: var(--cui-font-sans);
   --font-mono: var(--cui-font-mono);
   --font-heading: var(--cui-font-heading);
 
   --spacing-control: var(--cui-control-height);
-  --spacing-control-sm: calc(var(--cui-control-height) * 0.8);
+  --spacing-control-sm: calc(var(--cui-control-height) * 0.78);
   --spacing-control-lg: calc(var(--cui-control-height) * 1.2);
 
   --ease-ui: var(--cui-ease);
   --ease-spring: var(--cui-ease-spring);
 }
 
+/* Squircle corners. The custom property is what the polyfill looks for. */
+@utility squircle {
+  --corner-shape: var(--cui-corner-shape);
+  corner-shape: var(--cui-corner-shape);
+}
+@supports not (corner-shape: squircle) {
+  .squircle {
+    --corner-scale: 0.6;
+  }
+}
+/* Polyfilled squircles are painted from a snapshot of the computed style: animating the painted
+   properties would snapshot a half-way colour. Keep motion on transform, colour and opacity. */
+[data-squircle-fallback] .squircle {
+  transition-property: color, opacity, transform, translate, scale;
+}
+
+/* The accent glow used behind heroes and page tops. */
+@utility glow {
+  background-image:
+    radial-gradient(60% 90% at 12% 0%, var(--cui-glow), transparent 70%),
+    radial-gradient(45% 70% at 88% 0%, var(--cui-glow-2), transparent 70%);
+}
+
 :root,
 .light {
   color-scheme: light;
 
-  /* colour */
-  --cui-background: hsl(0 0% 100%);
-  --cui-foreground: hsl(240 10% 4%);
-  --cui-surface: hsl(0 0% 99%);
-  --cui-surface-2: hsl(240 5% 95%);
-  --cui-muted: hsl(240 4% 46%);
-  --cui-border: hsl(240 6% 90%);
-  --cui-border-strong: hsl(240 5% 83%);
-  --cui-input: var(--cui-background);
-  --cui-input-border: var(--cui-border-strong);
+  /* colour — crazy-hub light palette */
+  --cui-frame: hsl(0 0% 94.7%);
+  --cui-background: hsl(0 0% 97.5%);
+  --cui-foreground: hsl(0 0% 3.9%);
+  --cui-surface: hsl(0 0% 100%);
+  --cui-surface-2: hsl(0 0% 93.1%);
+  --cui-popover: hsl(0 0% 98%);
+  --cui-hover: hsl(0 0% 82% / 0.5);
+  --cui-muted: hsl(0 0% 45.1%);
+  --cui-border: hsl(0 0% 80% / 0.5);
+  --cui-border-strong: hsl(0 0% 75% / 0.6);
+  --cui-input: hsl(0 0% 100%);
+  --cui-input-border: hsl(0 0% 75% / 0.6);
   --cui-accent: hsl(250 80% 54%);
-  --cui-accent-foreground: hsl(0 0% 100%);
+  --cui-accent-foreground: hsl(0 0% 98%);
   --cui-accent-soft: hsl(250 80% 54% / 0.1);
-  --cui-accent-soft-foreground: hsl(250 70% 46%);
+  --cui-accent-soft-foreground: hsl(250 80% 50%);
   --cui-ring: hsl(250 80% 54% / 0.35);
   --cui-danger: hsl(0 72% 51%);
-  --cui-danger-foreground: hsl(0 0% 100%);
-  --cui-success: hsl(142 64% 36%);
-  --cui-warning: hsl(38 92% 45%);
+  --cui-danger-foreground: hsl(0 0% 98%);
+  --cui-success: hsl(150 60% 38%);
+  --cui-warning: hsl(35 90% 48%);
+  --cui-glow: hsl(250 80% 54% / 0.16);
+  --cui-glow-2: hsl(250 80% 54% / 0.07);
 
-  /* shape */
-  --cui-radius-control: 0.5rem;
-  --cui-radius-card: 0.75rem;
-  --cui-radius-item: 0.375rem;
+  /* shape — the smaller the element, the smaller the radius */
+  --cui-corner-shape: squircle;
+  --cui-radius-chip: 0.5rem;
+  --cui-radius-control-sm: 0.75rem;
+  --cui-radius-control: 1rem;
+  --cui-radius-control-lg: 1.125rem;
+  --cui-radius-item: 0.875rem;
+  --cui-radius-card: 1.5rem;
+  --cui-radius-panel: 1.75rem;
   --cui-radius-switch: 9999px;
   --cui-border-width: 1px;
 
-  /* elevation */
-  --cui-shadow-control: 0 1px 2px hsl(240 10% 4% / 0.05);
-  --cui-shadow-button: 0 1px 2px hsl(250 80% 30% / 0.2);
-  --cui-shadow-card: 0 1px 3px hsl(240 10% 4% / 0.06);
-  --cui-shadow-card-hover: 0 4px 12px hsl(240 10% 4% / 0.08);
-  --cui-shadow-popover: 0 8px 30px hsl(240 10% 4% / 0.12);
+  /* elevation — soft, slightly tinted */
+  --cui-shadow-control: 0 1px 2px hsl(0 0% 0% / 0.05);
+  --cui-shadow-button: 0 6px 16px hsl(250 80% 54% / 0.28);
+  --cui-shadow-card: 0 8px 24px hsl(0 0% 0% / 0.06);
+  --cui-shadow-card-hover: 0 14px 34px hsl(250 60% 40% / 0.14);
+  --cui-shadow-overlay: 0 12px 36px hsl(0 0% 0% / 0.14);
 
   /* type */
-  --cui-font-sans: ui-sans-serif, system-ui, sans-serif;
-  --cui-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --cui-font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --cui-font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   --cui-font-heading: var(--cui-font-sans);
-  --cui-heading-weight: 600;
-  --cui-heading-tracking: -0.015em;
+  --cui-heading-weight: 700;
+  --cui-heading-tracking: -0.02em;
   --cui-control-weight: 500;
 
   /* density: scale every control height with one number */
-  --cui-density: 1;
+  --cui-density: 1.15;
   --cui-control-height: calc(2.25rem * var(--cui-density));
 
   /* motion */
   --cui-duration-fast: 150ms;
   --cui-duration-normal: 250ms;
-  --cui-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --cui-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
-  --cui-press-scale: 0.98;
-  --cui-card-lift: 0px;
+  --cui-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cui-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --cui-press-scale: 0.96;
+  --cui-card-lift: 3px;
 }
 
 .dark,
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --cui-background: hsl(240 6% 4%);
-  --cui-foreground: hsl(0 0% 96%);
-  --cui-surface: hsl(240 5% 7%);
-  --cui-surface-2: hsl(240 4% 12%);
-  --cui-muted: hsl(240 5% 64%);
-  --cui-border: hsl(240 4% 15%);
-  --cui-border-strong: hsl(240 4% 22%);
-  --cui-input: hsl(240 5% 7%);
-  --cui-input-border: var(--cui-border-strong);
+  /* crazy-hub dark palette */
+  --cui-frame: hsl(0 0% 9.8%);
+  --cui-background: hsl(0 0% 7.04%);
+  --cui-foreground: hsl(0 0% 92%);
+  --cui-surface: hsl(0 0% 9.8%);
+  --cui-surface-2: hsl(0 0% 12.9%);
+  --cui-popover: hsl(0 0% 11.6%);
+  --cui-hover: hsl(0 0% 40.9% / 0.3);
+  --cui-muted: hsl(0 0% 62%);
+  --cui-border: hsl(0 0% 40% / 0.2);
+  --cui-border-strong: hsl(0 0% 40% / 0.3);
+  --cui-input: hsl(0 0% 9.8%);
+  --cui-input-border: hsl(0 0% 40% / 0.3);
   --cui-accent: hsl(250 100% 80%);
   --cui-accent-foreground: hsl(250 30% 10%);
-  --cui-accent-soft: hsl(250 100% 80% / 0.14);
-  --cui-accent-soft-foreground: hsl(250 100% 86%);
+  --cui-accent-soft: hsl(250 100% 80% / 0.1);
+  --cui-accent-soft-foreground: hsl(250 100% 80%);
   --cui-ring: hsl(250 100% 80% / 0.4);
-  --cui-danger: hsl(0 84% 63%);
+  --cui-danger: hsl(0 91% 71%);
   --cui-danger-foreground: hsl(0 0% 5%);
-  --cui-success: hsl(142 60% 50%);
-  --cui-warning: hsl(38 92% 58%);
+  --cui-success: hsl(150 60% 62%);
+  --cui-warning: hsl(40 90% 62%);
+  --cui-glow: hsl(250 100% 80% / 0.2);
+  --cui-glow-2: hsl(250 100% 80% / 0.06);
 
   --cui-shadow-control: 0 1px 2px hsl(0 0% 0% / 0.4);
-  --cui-shadow-button: 0 1px 2px hsl(0 0% 0% / 0.4);
-  --cui-shadow-card: 0 1px 3px hsl(0 0% 0% / 0.5);
-  --cui-shadow-card-hover: 0 6px 16px hsl(0 0% 0% / 0.5);
-  --cui-shadow-popover: 0 8px 30px hsl(0 0% 0% / 0.6);
+  --cui-shadow-button: 0 6px 20px hsl(250 100% 70% / 0.3);
+  --cui-shadow-card: 0 10px 30px hsl(0 0% 0% / 0.45);
+  --cui-shadow-card-hover: 0 16px 40px hsl(250 90% 60% / 0.22);
+  --cui-shadow-overlay: 0 12px 36px hsl(0 0% 0% / 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {

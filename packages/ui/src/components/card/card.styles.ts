@@ -3,7 +3,7 @@ import { tv } from '../../lib/tv';
 export const cardStyles = tv({
   slots: {
     root: [
-      'rounded-card border border-border bg-surface text-foreground shadow-card',
+      'squircle rounded-card border border-border bg-surface text-foreground shadow-card',
       'transition-[box-shadow,transform,border-color] duration-[var(--cui-duration-normal)] ease-ui',
     ],
     header: 'flex flex-col gap-1 p-5 pb-0',

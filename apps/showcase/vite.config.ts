@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { fumadocsMdx } from 'fumadocs-mdx/vite';
 import { nitro } from 'nitro/vite';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   server: {
@@ -27,8 +28,13 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true,
-    alias: {
-      tslib: 'tslib/tslib.es6.js',
-    },
+    alias: [
+      { find: 'tslib', replacement: 'tslib/tslib.es6.js' },
+      // the showcase runs on the library's sources, so edits hot-reload without a rebuild
+      {
+        find: /^@crazy-staff\/ui$/,
+        replacement: fileURLToPath(new URL('../../packages/ui/src/index.ts', import.meta.url)),
+      },
+    ],
   },
 });

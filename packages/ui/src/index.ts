@@ -1,7 +1,11 @@
 export { cn, tv, twMergeConfig, type VariantProps } from './lib/tv';
+export { registerSquircles } from './lib/squircle';
 
 export { Button, type ButtonProps } from './components/button/button';
 export { buttonStyles } from './components/button/button.styles';
+
+export { Chip, type ChipProps } from './components/chip/chip';
+export { chipStyles } from './components/chip/chip.styles';
 
 export { Input, type InputProps } from './components/input/input';
 export { inputStyles } from './components/input/input.styles';
