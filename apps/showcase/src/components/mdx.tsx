@@ -3,6 +3,11 @@ import type { MDXComponents } from 'mdx/types';
 import * as UI from '@crazy-staff/ui';
 import { Example, PageGlow, Preview } from '@/components/docs/preview';
 import { ComponentGrid } from '@/components/docs/component-grid';
+import { ComponentPreview } from '@/components/docs/component-preview';
+import { InstallTabs, PackageInstall } from '@/components/docs/install';
+import { Code, CollapsibleCode } from '@/components/docs/code';
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 /** Every crazy-ui component (capitalised exports) is available in MDX without an import. */
 const ui = Object.fromEntries(
@@ -17,6 +22,14 @@ export function getMDXComponents(components?: MDXComponents) {
     PageGlow,
     Example,
     ComponentGrid,
+    ComponentPreview,
+    InstallTabs,
+    PackageInstall,
+    Code,
+    CollapsibleCode,
+    TypeTable,
+    Steps,
+    Step,
     ...components,
   } satisfies MDXComponents;
 }

@@ -21,3 +21,5 @@ export { Reveal, revealEase, type RevealProps, type RevealGroupProps } from './c
 export * from './batches/forms';
 export * from './batches/overlays';
 export * from './batches/display';
+export * from './batches/advanced-a';
+export * from './batches/advanced-b';

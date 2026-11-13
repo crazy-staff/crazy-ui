@@ -190,7 +190,7 @@ export function BreadcrumbDemo() {
   return (
     <div className="flex w-full flex-col gap-4">
       <Breadcrumb
-        items={[{ label: 'Docs', href: '/docs' }, { label: 'Components', href: '/docs/components' }, { label: 'Breadcrumb' }]}
+        items={[{ label: 'Docs', href: '/docs' }, { label: 'Components', href: '/docs/all-components' }, { label: 'Breadcrumb' }]}
         renderLink={(item) => <Link to={item.href as "/"} />}
       />
       <Breadcrumb

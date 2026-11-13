@@ -79,3 +79,54 @@ body {
 #nd-page-panel:has([data-page-glow]) > header {
   background: none;
 }
+
+/* A new page's blocks rise in one after another, top to bottom (title, description, then each
+   section of the content). Only after client-side navigation, never on the first paint. */
+@keyframes cui-rise {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+    filter: blur(3px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-page-enter] [data-stagger] > * {
+    animation: cui-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  [data-page-enter] [data-stagger] > :nth-child(1) { animation-delay: 40ms; }
+  [data-page-enter] [data-stagger] > :nth-child(2) { animation-delay: 90ms; }
+  [data-page-enter] [data-stagger] > :nth-child(3) { animation-delay: 140ms; }
+  [data-page-enter] [data-stagger] > :nth-child(4) { animation-delay: 190ms; }
+  [data-page-enter] [data-stagger] > :nth-child(5) { animation-delay: 240ms; }
+  [data-page-enter] [data-stagger] > :nth-child(6) { animation-delay: 290ms; }
+  [data-page-enter] [data-stagger] > :nth-child(7) { animation-delay: 340ms; }
+  [data-page-enter] [data-stagger] > :nth-child(8) { animation-delay: 390ms; }
+  [data-page-enter] [data-stagger] > :nth-child(n + 9) { animation-delay: 440ms; }
+  /* the table of contents follows the content */
+  #nd-toc {
+    animation: cui-rise 0.6s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Code blocks: our corner shape, and the copy button centred on the first line of code (so a
+   one-line block doesn't look lopsided). The first line's centre sits 23px from the top; the
+   button is 24px tall. */
+figure.shiki {
+  --corner-shape: var(--cui-corner-shape);
+  corner-shape: var(--cui-corner-shape);
+  border-radius: var(--radius-control-lg);
+  border-color: var(--cui-border);
+}
+figure.shiki > div[class*='absolute'][class*='top-2'] {
+  top: 11px;
+}
+
+/* code inside a preview frame: no second border or corners */
+.cui-code-flush figure.shiki {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  corner-shape: round;
+  --corner-shape: round;
+  background: var(--cui-surface);
+}

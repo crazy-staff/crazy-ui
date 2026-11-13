@@ -1,7 +1,8 @@
 /**
  * The docs sidebar, ported from crazy-hub (which is based on the sidebar of Fumadocs' "spacious"
  * layout, MIT (c) Fuma): title row with the collapse button, a large search field, the page tree
- * with one gliding hover block, and a footer with the theme switch.
+ * with one gliding hover block. The theme switch sits top right in the page panel (where crazy-hub
+ * has its account menu).
  * Collapsing hides the sidebar completely; the page panel then shows the open button.
  */
 import { cn } from '@crazy-staff/ui';
@@ -12,7 +13,6 @@ import { useSpaciousLayout } from 'fumadocs-ui/layouts/spacious';
 import { SidebarIcon } from 'lucide-react';
 import { Fragment, type ComponentProps } from 'react';
 import { GLIDE_BLOCK_CLASS, glide } from './glide';
-import { ThemeToggle } from './theme-toggle';
 
 /** One look for every row of the sidebar. */
 export const sidebarItem = (active = false) =>
@@ -101,15 +101,6 @@ function Viewport() {
   );
 }
 
-function Footer() {
-  return (
-    <div className="flex shrink-0 items-center justify-between gap-2 border-t border-border px-4 pt-2.5 pb-3 text-xs text-muted">
-      <span>crazy-ui · v0</span>
-      <ThemeToggle />
-    </div>
-  );
-}
-
 function Title({ children }: { children: React.ReactNode }) {
   const { slots } = useSpaciousLayout();
   return (
@@ -148,7 +139,6 @@ export function Sidebar() {
         </Title>
         <Search />
         <Viewport />
-        <Footer />
       </div>
     </aside>
   );
@@ -168,8 +158,7 @@ export function SidebarDrawer() {
           </Title>
           <Search />
           <Viewport />
-          <Footer />
-        </div>
+          </div>
       </Base.SidebarDrawerContent>
     </Fragment>
   );

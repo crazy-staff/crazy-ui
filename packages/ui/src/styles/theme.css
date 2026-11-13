@@ -109,10 +109,11 @@
   --cui-popover: hsl(0 0% 98%);
   --cui-hover: hsl(0 0% 82% / 0.5);
   --cui-muted: hsl(0 0% 40%);
-  --cui-border: hsl(0 0% 80% / 0.5);
-  --cui-border-strong: hsl(0 0% 75% / 0.6);
+  /* borders are opaque: transparent greys read as shadcn / old Material */
+  --cui-border: hsl(0 0% 88%);
+  --cui-border-strong: hsl(0 0% 82%);
   --cui-input: hsl(0 0% 100%);
-  --cui-input-border: hsl(0 0% 75% / 0.6);
+  --cui-input-border: hsl(0 0% 82%);
   /* light mirrors dark: a lavender fill with dark ink, a deeper purple for accent text */
   --cui-accent: hsl(250 75% 72%);
   --cui-accent-foreground: hsl(250 30% 10%);
@@ -181,10 +182,10 @@
   --cui-popover: hsl(0 0% 11.6%);
   --cui-hover: hsl(0 0% 40.9% / 0.3);
   --cui-muted: hsl(0 0% 62%);
-  --cui-border: hsl(0 0% 40% / 0.2);
-  --cui-border-strong: hsl(0 0% 40% / 0.3);
+  --cui-border: hsl(0 0% 13.5%);
+  --cui-border-strong: hsl(0 0% 17.5%);
   --cui-input: hsl(0 0% 9.8%);
-  --cui-input-border: hsl(0 0% 40% / 0.3);
+  --cui-input-border: hsl(0 0% 18%);
   --cui-accent: hsl(250 100% 80%);
   --cui-accent-foreground: hsl(250 30% 10%);
   --cui-accent-soft: hsl(250 100% 80% / 0.1);
