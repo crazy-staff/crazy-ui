@@ -1,0 +1,19 @@
+{
+  "name": "crazy-ui-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "dev": "bun run --filter @crazy-staff/ui build && bun run --filter showcase dev",
+    "build": "bun run --filter @crazy-staff/ui build && bun run --filter showcase build",
+    "typecheck": "bun run --filter '*' typecheck",
+    "test": "bun run --filter @crazy-staff/ui test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "bun run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "3.0.3",
+    "typescript": "7.0.2"
+  }
+}
