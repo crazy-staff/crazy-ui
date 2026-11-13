@@ -1,0 +1,23 @@
+---
+title: Slider
+description: Pick a value — or a range — on a track.
+---
+
+import { SliderDemo } from '@/components/demos/forms';
+
+<Preview>
+  <SliderDemo />
+</Preview>
+
+```tsx
+<Slider label="World speed" showValue defaultValue={100} min={25} max={400} step={25} />
+<Slider label="Level range" defaultValue={[5, 30]} />
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `label` | `ReactNode` | — |
+| `showValue` | `boolean` | `false` |
+| `value`, `defaultValue` | `number \| number[]` | — |
+| `min`, `max`, `step` | `number` | `0`, `100`, `1` |
+| `classNames` | `{ root, track, indicator, thumb }` | — |

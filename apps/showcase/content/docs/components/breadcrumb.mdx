@@ -1,0 +1,26 @@
+---
+title: Breadcrumb
+description: The path to the current page.
+---
+
+import { BreadcrumbDemo } from '@/components/demos/display';
+
+<Preview align="start">
+  <BreadcrumbDemo />
+</Preview>
+
+```tsx
+<Breadcrumb
+  items={[{ label: 'Docs', href: '/docs' }, { label: 'Breadcrumb' }]}
+  renderLink={(item) => <Link to={item.href} />}
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `items` | `{ label, href? }[]` (the last is the current page) | — |
+| `renderLink` | `(item) => ReactElement` (router links) | plain `<a>` |
+
+Parts: `Breadcrumb.Root`, `List`, `Item`, `Link` (takes `render={<Link … />}`), `Page`, `Separator`.

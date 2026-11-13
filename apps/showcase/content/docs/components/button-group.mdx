@@ -1,0 +1,24 @@
+---
+title: Button Group
+description: Buttons joined into one control.
+---
+
+import { ButtonGroupDemo } from '@/components/demos/forms';
+
+<Preview align="start">
+  <ButtonGroupDemo />
+</Preview>
+
+```tsx
+<ButtonGroup aria-label="Zoom">
+  <Button variant="outline" size="icon" aria-label="Zoom out"><Minus /></Button>
+  <Button variant="outline">100%</Button>
+  <Button variant="outline" size="icon" aria-label="Zoom in"><Plus /></Button>
+</ButtonGroup>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+
+Inner corners go square and borders overlap, so outline buttons read as one control.

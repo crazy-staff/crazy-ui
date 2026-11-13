@@ -1,0 +1,34 @@
+---
+title: Table
+description: A styled table, like the tables in the crazy-hub docs.
+---
+
+import { TableDemo } from '@/components/demos/display';
+
+<Preview align="stretch">
+  <TableDemo />
+</Preview>
+
+```tsx
+<Table
+  hover
+  columns={[
+    { key: 'name', header: 'Feature' },
+    { key: 'status', header: 'Status', cell: (r) => <Chip size="sm">{r.status}</Chip> },
+  ]}
+  rows={features}
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `columns` | `{ key, header, cell?, className? }[]` | — |
+| `rows` | `Row[]` | — |
+| `hover` | `boolean` | `false` |
+| `dense` | `boolean` | `false` |
+| `caption` | `ReactNode` | — |
+
+Parts: `Table.Root`, `Header`, `Body`, `Footer`, `Row`, `Head`, `Cell`, `Caption`. Sorting and filtering
+will live in **Data Table**.

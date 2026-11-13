@@ -1,0 +1,28 @@
+---
+title: Input Group
+description: An input with icons, text or small controls before and after it.
+---
+
+import { InputGroupDemo } from '@/components/demos/forms';
+
+<Preview>
+  <InputGroupDemo />
+</Preview>
+
+```tsx
+<InputGroup start={<Search />} end={<Kbd size="sm">K</Kbd>} placeholder="Search items…" />
+
+// compound
+<InputGroup.Root>
+  <InputGroup.Addon>https://</InputGroup.Addon>
+  <InputGroup.Input placeholder="crazy-hub.dev" />
+</InputGroup.Root>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `start`, `end` | `ReactNode` | — |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+| `classNames` | `{ root, input, start, end }` | — |
+
+The frame takes the focus border when the input inside is focused.

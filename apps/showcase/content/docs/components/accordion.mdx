@@ -1,0 +1,30 @@
+---
+title: Accordion
+description: Stacked sections that expand. The panel height animates with its content.
+---
+
+import { AccordionDemo } from '@/components/demos/display';
+
+<Preview align="center">
+  <AccordionDemo />
+</Preview>
+
+```tsx
+<Accordion
+  defaultValue={['install']}
+  items={[
+    { value: 'install', title: 'How do I install the trainer?', content: '…' },
+    { value: 'steam', title: 'Does it work with Steam?', content: '…' },
+  ]}
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `items` | `{ value, title, content, disabled? }[]` | — |
+| `multiple` | `boolean` | `false` |
+| `defaultValue` / `value` / `onValueChange` | `string[]` | — |
+
+Parts: `Accordion.Root`, `Accordion.Item`, `Accordion.Trigger` (with heading and chevron), `Accordion.Panel`.

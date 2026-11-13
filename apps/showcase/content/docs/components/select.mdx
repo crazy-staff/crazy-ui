@@ -1,0 +1,39 @@
+---
+title: Select
+description: Pick one value from a list. The popup is styled like every other popover.
+---
+
+import { SelectDemo } from '@/components/demos/forms';
+
+<Preview>
+  <SelectDemo />
+</Preview>
+
+```tsx
+// short form
+<Select items={[{ value: 'g1', label: 'Gothic 1' }]} placeholder="Pick a game" />
+
+// compound
+<Select.Root items={{ dx11: 'GD3D11' }}>
+  <Select.Trigger>
+    <Select.Value placeholder="Pick a renderer" />
+  </Select.Trigger>
+  <Select.Content>
+    <Select.Group>
+      <Select.GroupLabel>Supported</Select.GroupLabel>
+      <Select.Item value="dx11">GD3D11</Select.Item>
+    </Select.Group>
+  </Select.Content>
+</Select.Root>
+```
+
+| Prop (short form) | Type | Default |
+| --- | --- | --- |
+| `items` | `{ value: string; label: ReactNode; disabled? }[]` | — |
+| `placeholder` | `ReactNode` | — |
+| `value`, `defaultValue` | `string \| null` | — |
+| `onValueChange` | `(value: string \| null) => void` | — |
+| `classNames` | `{ trigger, popup, item }` | — |
+
+Parts: `Select.Root`, `Select.Trigger`, `Select.Value`, `Select.Content`, `Select.Item`, `Select.Group`,
+`Select.GroupLabel`, `Select.Separator`.

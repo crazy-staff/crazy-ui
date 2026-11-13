@@ -1,0 +1,30 @@
+---
+title: Empty
+description: "A placeholder for empty states — icon, title, text and an action."
+---
+
+import { EmptyDemo } from '@/components/demos/display';
+
+<Preview align="stretch">
+  <EmptyDemo />
+</Preview>
+
+```tsx
+<Empty
+  icon={<Inbox />}
+  title="No posts yet"
+  description="Be the first to suggest a feature."
+  action={<Button size="sm">New post</Button>}
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `icon` | `ReactNode` | — |
+| `title` | `ReactNode` | — |
+| `description` | `ReactNode` | — |
+| `action` | `ReactNode` | — |
+
+Parts: `Empty.Root`, `Icon`, `Title`, `Description`, `Actions`.

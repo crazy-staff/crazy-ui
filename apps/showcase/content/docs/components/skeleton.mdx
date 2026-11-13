@@ -1,0 +1,22 @@
+---
+title: Skeleton
+description: A placeholder while content loads. The shimmer stops with reduced motion.
+---
+
+import { SkeletonDemo } from '@/components/demos/display';
+
+<Preview align="stretch">
+  <SkeletonDemo />
+</Preview>
+
+```tsx
+<Skeleton shape="circle" className="size-9" />
+<Skeleton lines={3} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `shape` | `'line' \| 'block' \| 'card' \| 'circle'` | `'line'` |
+| `lines` | `number` | — (the last line is shorter) |

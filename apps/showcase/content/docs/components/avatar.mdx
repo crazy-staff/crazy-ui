@@ -1,0 +1,24 @@
+---
+title: Avatar
+description: A user picture with an initials fallback. Avatars stay circular.
+---
+
+import { AvatarDemo } from '@/components/demos/display';
+
+<Preview align="start">
+  <AvatarDemo />
+</Preview>
+
+```tsx
+<Avatar src={user.image} name="Dawid Seipold" size="lg" />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `name` | `string` | — (alt text and initials) |
+| `src` | `string` | — |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+
+Parts: `Avatar.Root`, `Avatar.Image`, `Avatar.Fallback`. `initials(name)` is exported too.

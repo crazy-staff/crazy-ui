@@ -1,0 +1,30 @@
+---
+title: Toggle Group
+description: A set of toggles in one frame — a segmented control, or a toolbar with `multiple`.
+---
+
+import { ToggleGroupDemo } from '@/components/demos/forms';
+
+<Preview align="start">
+  <ToggleGroupDemo />
+</Preview>
+
+```tsx
+<ToggleGroup
+  defaultValue={['week']}
+  items={[
+    { value: 'day', label: 'Day' },
+    { value: 'week', label: 'Week' },
+  ]}
+/>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `items` | `{ value, label, disabled?, 'aria-label'? }[]` | — |
+| `multiple` | `boolean` | `false` |
+| `value`, `defaultValue`, `onValueChange` | `string[]` | — |
+| `size` | `'sm' \| 'md'` | `'md'` |
+| `classNames` | `{ root, item }` | — |
+
+Hand-placed children: `<Toggle value="…" className={toggleGroupItemClass()}>`.

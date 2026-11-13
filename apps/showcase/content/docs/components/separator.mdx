@@ -1,0 +1,23 @@
+---
+title: Separator
+description: A thin line between content, optionally with a label.
+---
+
+import { SeparatorDemo } from '@/components/demos/display';
+
+<Preview align="center">
+  <SeparatorDemo />
+</Preview>
+
+```tsx
+<Separator />
+<Separator orientation="vertical" />
+<Separator label="or" />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| `label` | `ReactNode` | — |

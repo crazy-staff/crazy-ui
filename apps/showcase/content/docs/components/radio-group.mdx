@@ -1,0 +1,33 @@
+---
+title: Radio Group
+description: Pick one option from a set.
+---
+
+import { RadioGroupDemo } from '@/components/demos/forms';
+
+<Preview>
+  <RadioGroupDemo />
+</Preview>
+
+```tsx
+<RadioGroup
+  defaultValue="normal"
+  items={[
+    { value: 'easy', label: 'Easy', description: 'Enemies deal half damage.' },
+    { value: 'normal', label: 'Normal' },
+  ]}
+/>
+
+// or by hand
+<RadioGroup defaultValue="a">
+  <Radio value="a" label="A" />
+  <Radio value="b" label="B" />
+</RadioGroup>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `items` | `{ value, label, description?, disabled? }[]` | — |
+| `value`, `defaultValue`, `onValueChange` | Base UI props | — |
+
+`Radio` takes `label`, `description` and `classNames={{ item, radio, indicator, description }}`.

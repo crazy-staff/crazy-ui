@@ -1,0 +1,25 @@
+---
+title: Alert
+description: A callout for important messages, in muted colours.
+---
+
+import { AlertDemo } from '@/components/demos/display';
+
+<Preview align="center">
+  <AlertDemo />
+</Preview>
+
+```tsx
+<Alert variant="warning" title="Works badly">Save before using polymorph.</Alert>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | `'info'` |
+| `title` | `ReactNode` | — |
+| `icon` | `ReactNode \| false` | the variant's icon |
+| `classNames` | `{ icon, body, title, description }` | — |
+
+`danger` and `warning` use `role="alert"`, the others `role="status"`.

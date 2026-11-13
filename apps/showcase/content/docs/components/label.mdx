@@ -1,0 +1,22 @@
+---
+title: Label
+description: A label for a form control.
+---
+
+import { LabelDemo } from '@/components/demos/forms';
+
+<Preview>
+  <LabelDemo />
+</Preview>
+
+```tsx
+<Label htmlFor="kit-name">Kit name</Label>
+<Input id="kit-name" />
+```
+
+Inside a [Field](/docs/components/field), use `Field.Label` — it connects to the control by itself.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `htmlFor` | `string` | — |
+| `className` | `string` | — |

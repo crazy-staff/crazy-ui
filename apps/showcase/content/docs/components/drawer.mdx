@@ -1,0 +1,21 @@
+---
+title: Drawer
+description: A panel that slides up from the bottom and closes with a swipe — made for phones.
+---
+
+import { DrawerDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <DrawerDemo />
+</Preview>
+
+```tsx
+<Drawer trigger={<Button>Open drawer</Button>} title="Warrior starter" footer={<Drawer.Close render={<Button />}>Spawn kit</Drawer.Close>}>
+  …
+</Drawer>
+```
+
+Use a [Sheet](/docs/components/sheet) on desktop and a Drawer on small screens when the content is the same.
+
+Parts: `Drawer.Root` (`swipeDirection`, `snapPoints` from Base UI), `.Trigger`, `.Content` (`showHandle`), `.Title`,
+`.Description`, `.Footer`, `.Close`.

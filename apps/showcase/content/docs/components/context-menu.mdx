@@ -1,0 +1,19 @@
+---
+title: Context Menu
+description: A menu on right click (or long press on touch).
+---
+
+import { ContextMenuDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <ContextMenuDemo />
+</Preview>
+
+```tsx
+<ContextMenu items={[{ label: 'Copy', shortcut: 'Ctrl C' }, { type: 'separator' }, { label: 'Delete', danger: true }]}>
+  <div>Right-click here</div>
+</ContextMenu>
+```
+
+It shares items and look with [Dropdown Menu](/docs/components/dropdown-menu): `ContextMenu.Item`, `.CheckboxItem`,
+`.RadioItem`, `.Separator`, `.Shortcut` … plus `ContextMenu.Root`, `.Trigger` and `.Content`.

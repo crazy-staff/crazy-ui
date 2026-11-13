@@ -1,0 +1,26 @@
+---
+title: Progress
+description: A progress bar with an optional label and value.
+---
+
+import { ProgressDemo } from '@/components/demos/display';
+
+<Preview align="center">
+  <ProgressDemo />
+</Preview>
+
+```tsx
+<Progress value={42} label="Downloading build 0.9" />
+<Progress value={null} label="Preparing…" />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `number \| null` (`null` = indeterminate) | — |
+| `label` | `ReactNode` | — |
+| `showValue` | `boolean` | `true` with a label |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+
+Parts: `Progress.Root`, `Progress.Label`, `Progress.Value`, `Progress.Track`.

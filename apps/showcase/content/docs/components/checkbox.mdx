@@ -1,0 +1,28 @@
+---
+title: Checkbox
+description: A box to tick, alone or in a group that shares one array value.
+---
+
+import { CheckboxDemo } from '@/components/demos/forms';
+
+<Preview align="start">
+  <CheckboxDemo />
+</Preview>
+
+```tsx
+<Checkbox label="Remember me" defaultChecked />
+
+<CheckboxGroup value={value} onValueChange={setValue}>
+  <Checkbox value="esp" label="ESP" />
+  <Checkbox value="radar" label="Radar" />
+</CheckboxGroup>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `label` | `ReactNode` | — |
+| `checked`, `defaultChecked`, `onCheckedChange` | Base UI props | — |
+| `indeterminate` | `boolean` | `false` |
+| `classNames` | `{ root, indicator, label }` | — |
+
+Compound parts: `Checkbox.Root`, `Checkbox.Indicator` (unstyled Base UI parts).

@@ -1,0 +1,36 @@
+---
+title: Toast
+description: Short messages that stack in the corner. Hover the stack to expand it, swipe to dismiss.
+---
+
+import { ToastDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <ToastDemo />
+</Preview>
+
+Mount `<Toaster />` once, then call `toast()` from anywhere:
+
+```tsx
+// root layout
+<Toaster />
+
+// anywhere
+toast('Build copied to the game folder');
+toast.success('Kit saved', { description: '12 items' });
+toast.error('Could not reach the game');
+toast.promise(save(), {
+  loading: { title: 'Saving…', type: 'loading' },
+  success: { title: 'Saved', type: 'success' },
+  error: { title: 'Failed', type: 'error' },
+});
+toast('Feature disabled', { actionProps: { children: 'Undo', onClick: undo } });
+```
+
+| `Toaster` prop | Type | Default |
+| --- | --- | --- |
+| `timeout` | `number` (ms) | `5000` |
+| `limit` | `number` | `3` |
+
+Toasts keep plain rounded corners: the stack needs its `::after` hover bridge, which the squircle polyfill would
+take over in Firefox.

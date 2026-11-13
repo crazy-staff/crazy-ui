@@ -47,3 +47,17 @@ regress (decision 13).
     filled shape that shows through);
   - transitions of background/border/shadow are switched off under `[data-squircle-fallback]`.
 - Check the fallback in Chromium with `?fallback` on the showcase URL.
+
+## Colour and contrast
+
+- Check contrast **before** changing any colour: every token pair in
+  `packages/ui/src/styles/contrast.test.ts` must stay green (text ≥ 4.5:1, body text ≥ 7:1). Add new
+  pairs there when you add tokens.
+- No neon: status colours are muted; the light theme mirrors the dark one.
+
+## Effects
+
+- The accent glow under buttons is opt-in (`glow` prop), never the default.
+- Hover shadows are subtle: low opacity, large blur, negative spread.
+- Things that appear (cards, list rows, sections) animate in with `Reveal`; nothing animates without
+  respecting reduced motion.

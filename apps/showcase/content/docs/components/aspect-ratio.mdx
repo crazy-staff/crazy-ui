@@ -1,0 +1,23 @@
+---
+title: Aspect Ratio
+description: Keeps media at a fixed ratio.
+---
+
+import { AspectRatioDemo } from '@/components/demos/display';
+
+<Preview align="stretch">
+  <AspectRatioDemo />
+</Preview>
+
+```tsx
+<AspectRatio ratio={16 / 9} rounded>
+  <img src={screenshot} alt="" />
+</AspectRatio>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `ratio` | `number` | `1` |
+| `rounded` | `boolean` (card radius) | `false` |

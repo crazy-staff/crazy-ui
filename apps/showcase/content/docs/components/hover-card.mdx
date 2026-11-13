@@ -1,0 +1,25 @@
+---
+title: Hover Card
+description: A preview card on hover — a user, a linked docs page, a feature.
+---
+
+import { HoverCardDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <HoverCardDemo />
+</Preview>
+
+```tsx
+<HoverCard trigger={<a href="/u/dawid">@dawid</a>}>
+  …
+</HoverCard>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `trigger` | `ReactElement` (usually a link) | — |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
+| `delay` | `number` (ms) | `500` |
+
+Parts: `HoverCard.Root`, `.Trigger`, `.Content`. Built on Base UI's Preview Card. Don't put anything people must
+reach only here — touch screens never hover.

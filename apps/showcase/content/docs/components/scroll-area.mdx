@@ -1,0 +1,25 @@
+---
+title: Scroll Area
+description: A scroll container with the thin scrollbar of the docs sidebar.
+---
+
+import { ScrollAreaDemo } from '@/components/demos/display';
+
+<Preview align="stretch">
+  <ScrollAreaDemo />
+</Preview>
+
+```tsx
+<ScrollArea className="h-64" fade>…</ScrollArea>
+<ScrollArea orientation="horizontal">…</ScrollArea>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `'vertical' \| 'horizontal' \| 'both'` | `'vertical'` |
+| `fade` | `boolean` (fade the top and bottom edges) | `false` |
+| `classNames` | `{ viewport, scrollbar }` | — |
+
+Parts: `ScrollArea.Root`, `Viewport`, `Content`, `Scrollbar`, `Corner`.

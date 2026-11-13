@@ -1,0 +1,31 @@
+---
+title: Alert Dialog
+description: A modal that asks to confirm an action. Clicking outside doesn't close it.
+---
+
+import { AlertDialogDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <AlertDialogDemo />
+</Preview>
+
+```tsx
+<AlertDialog
+  trigger={<Button variant="danger">Delete kit</Button>}
+  title="Delete this kit?"
+  description="This can't be undone."
+  actionLabel="Delete"
+  tone="danger"
+  onAction={deleteKit}
+/>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `title`, `description` | `ReactNode` | — |
+| `cancelLabel` | `ReactNode` | `'Cancel'` |
+| `actionLabel` | `ReactNode` | `'Continue'` |
+| `onAction` | `() => void` | — |
+| `tone` | `'default' \| 'danger'` | `'default'` |
+
+Parts: `AlertDialog.Root`, `.Trigger`, `.Content`, `.Header`, `.Title`, `.Description`, `.Footer`, `.Close`.

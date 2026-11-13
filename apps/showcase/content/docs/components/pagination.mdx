@@ -1,0 +1,26 @@
+---
+title: Pagination
+description: Moves between pages of results. The highlight glides to the current page.
+---
+
+import { PaginationDemo } from '@/components/demos/display';
+
+<Preview align="center">
+  <PaginationDemo />
+</Preview>
+
+```tsx
+const [page, setPage] = useState(1);
+<Pagination page={page} total={20} onPageChange={setPage} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `page` | `number` | — |
+| `total` | `number` | — |
+| `onPageChange` | `(page: number) => void` | — |
+| `siblings` | `number` | `1` |
+
+`paginationRange(page, total, siblings)` returns the numbers and ellipses if you build your own.

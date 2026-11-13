@@ -1,0 +1,21 @@
+---
+title: Toggle
+description: A button that stays pressed.
+---
+
+import { ToggleDemo } from '@/components/demos/forms';
+
+<Preview align="start">
+  <ToggleDemo />
+</Preview>
+
+```tsx
+<Toggle size="icon" aria-label="Bold"><Bold /></Toggle>
+<Toggle variant="outline" defaultPressed>Show hidden</Toggle>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'ghost' \| 'outline'` | `'ghost'` |
+| `size` | `'sm' \| 'md' \| 'icon' \| 'icon-sm'` | `'md'` |
+| `pressed`, `defaultPressed`, `onPressedChange` | Base UI props | — |

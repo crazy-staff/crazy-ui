@@ -1,0 +1,36 @@
+---
+title: Dialog
+description: A modal window for a focused task.
+---
+
+import { DialogDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <DialogDemo />
+</Preview>
+
+```tsx
+<Dialog
+  trigger={<Button>Edit kit</Button>}
+  title="Edit kit"
+  description="Rename the kit and choose what it spawns."
+  footer={
+    <>
+      <Dialog.Close render={<Button variant="outline" />}>Cancel</Dialog.Close>
+      <Dialog.Close render={<Button />}>Save</Dialog.Close>
+    </>
+  }
+>
+  <Input defaultValue="Warrior starter" />
+</Dialog>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `trigger` | `ReactElement` | — |
+| `title`, `description` | `ReactNode` | — |
+| `footer` | `ReactNode` | — |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+
+Parts: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content` (`size`, `showClose`), `Dialog.Header`, `Dialog.Title`,
+`Dialog.Description`, `Dialog.Body`, `Dialog.Footer`, `Dialog.Close`.

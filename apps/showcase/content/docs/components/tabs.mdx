@@ -1,0 +1,41 @@
+---
+title: Tabs
+description: Switch between views. The indicator glides to the active tab.
+---
+
+import { TabsDemo } from '@/components/demos/display';
+
+<Preview align="start">
+  <TabsDemo />
+</Preview>
+
+```tsx
+<Tabs
+  items={[
+    { value: 'overview', label: 'Overview', content: <Overview /> },
+    { value: 'cheats', label: 'Cheats', content: <Cheats /> },
+  ]}
+/>
+
+// compound parts
+<Tabs.Root defaultValue="overview" variant="line">
+  <Tabs.List>
+    <Tabs.Tab value="overview">Overview</Tabs.Tab>
+    <Tabs.Tab value="cheats">Cheats</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="overview">…</Tabs.Panel>
+  <Tabs.Panel value="cheats">…</Tabs.Panel>
+</Tabs.Root>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `items` | `{ value, label, content, disabled? }[]` | — |
+| `variant` | `'pill' \| 'line'` | `'pill'` |
+| `defaultValue` / `value` / `onValueChange` | Base UI Tabs | first item |
+| `classNames` | `{ list, tab, indicator, panel }` | — |
+
+Parts: `Tabs.Root`, `Tabs.List` (includes the indicator), `Tabs.Tab`, `Tabs.Panel`. Keyboard: arrow keys move
+between tabs.

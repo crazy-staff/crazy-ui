@@ -1,0 +1,24 @@
+---
+title: Sheet
+description: A side panel over the page, floating a little off the window edge like the docs panel.
+---
+
+import { SheetDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <SheetDemo />
+</Preview>
+
+```tsx
+<Sheet trigger={<Button>Filters</Button>} title="Filters" side="right" footer={<Sheet.Close render={<Button />}>Apply</Sheet.Close>}>
+  …
+</Sheet>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `side` | `'right' \| 'left' \| 'top' \| 'bottom'` | `'right'` |
+| `title`, `description`, `footer` | `ReactNode` | — |
+
+Parts: `Sheet.Root`, `.Trigger`, `.Content` (`side`, `showClose`), `.Header`, `.Title`, `.Description`, `.Body`,
+`.Footer`, `.Close`. Built on Base UI's Dialog.

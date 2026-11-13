@@ -1,0 +1,26 @@
+---
+title: Popover
+description: Floating content anchored to a trigger — filters, quick settings, small forms.
+---
+
+import { PopoverDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <PopoverDemo />
+</Preview>
+
+```tsx
+<Popover trigger={<Button variant="outline">Filters</Button>} title="Filters" description="Narrow down the list.">
+  …
+</Popover>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `trigger` | `ReactElement` | — |
+| `title`, `description` | `ReactNode` | — |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` |
+
+Parts: `Popover.Root`, `Popover.Trigger`, `Popover.Content` (`side`, `align`, `sideOffset`, `showClose`),
+`Popover.Title`, `Popover.Description`, `Popover.Close`.

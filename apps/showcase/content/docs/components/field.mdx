@@ -1,0 +1,36 @@
+---
+title: Field
+description: Label, control, description and error, wired together for accessibility and validation.
+---
+
+import { FieldDemo } from '@/components/demos/forms';
+
+<Preview>
+  <FieldDemo />
+</Preview>
+
+```tsx
+// short form
+<Field label="Hero name" description="Shown in the trainer menu.">
+  <Field.Control placeholder="Nameless hero" />
+</Field>
+
+// compound
+<Field.Root invalid>
+  <Field.Label>Server URL</Field.Label>
+  <Field.Control />
+  <Field.Error match>That doesn't look like a URL.</Field.Error>
+</Field.Root>
+```
+
+`Field.Control` is styled like [Input](/docs/components/input). Any Base UI control (Checkbox, Select, Slider…)
+can sit inside a `Field` too.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `label` | `ReactNode` | — |
+| `description` | `ReactNode` | — |
+| `error` | `ReactNode` | — |
+| `errorMatch` | `boolean \| ValidityState key` | — |
+| `invalid`, `disabled`, `name` | Base UI `Field.Root` props | — |
+| `classNames` | `{ root, label, description, error }` | — |

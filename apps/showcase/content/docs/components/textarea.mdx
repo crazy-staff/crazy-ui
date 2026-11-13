@@ -1,0 +1,21 @@
+---
+title: Textarea
+description: A multi-line text field that grows with its content.
+---
+
+import { TextareaDemo } from '@/components/demos/forms';
+
+<Preview>
+  <TextareaDemo />
+</Preview>
+
+```tsx
+<Textarea placeholder="What happened?" />
+<Textarea resize="none" rows={3} />
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `resize` | `'vertical' \| 'none'` | `'vertical'` |
+
+All other props go to the native `<textarea>`. Like inputs, it has no shadow (squircle polyfill rule).

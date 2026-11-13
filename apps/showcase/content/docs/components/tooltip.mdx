@@ -1,0 +1,26 @@
+---
+title: Tooltip
+description: A short hint on hover or focus.
+---
+
+import { TooltipDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <TooltipDemo />
+</Preview>
+
+```tsx
+<Tooltip content="Copy link">
+  <Button size="icon" aria-label="Copy link"><Copy /></Button>
+</Tooltip>
+```
+
+Wrap a toolbar in `Tooltip.Provider` so the next tooltip opens instantly once one is showing.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `content` | `ReactNode` | — |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` |
+| `delay` | `number` (ms) | `400` |
+
+Parts: `Tooltip.Provider`, `Tooltip.Root`, `Tooltip.Trigger`, `Tooltip.Content`.

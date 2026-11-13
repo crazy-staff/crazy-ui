@@ -1,0 +1,42 @@
+---
+title: Dropdown Menu
+description: A menu opened by a button, with checkbox and radio items, groups, shortcuts and submenus.
+---
+
+import { DropdownMenuDemo } from '@/components/demos/overlays';
+
+<Preview>
+  <DropdownMenuDemo />
+</Preview>
+
+## Simple form
+
+```tsx
+<DropdownMenu
+  trigger={<Button variant="outline">Options</Button>}
+  items={[
+    { type: 'label', label: 'Kit' },
+    { label: 'Rename', icon: <Pencil />, shortcut: 'F2' },
+    { type: 'separator' },
+    { label: 'Delete', icon: <Trash2 />, danger: true, onClick: remove },
+  ]}
+/>
+```
+
+## Compound parts
+
+```tsx
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger render={<Button />}>Account</DropdownMenu.Trigger>
+  <DropdownMenu.Content>
+    <DropdownMenu.CheckboxItem checked={esp} onCheckedChange={setEsp}>Show ESP</DropdownMenu.CheckboxItem>
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item danger>
+      Sign out <DropdownMenu.Shortcut>Ctrl Q</DropdownMenu.Shortcut>
+    </DropdownMenu.Item>
+  </DropdownMenu.Content>
+</DropdownMenu.Root>
+```
+
+Parts: `Root`, `Trigger`, `Content` (`side`, `align`), `Item` (`danger`), `CheckboxItem`, `RadioGroup`, `RadioItem`,
+`Group`, `GroupLabel`, `Separator`, `Shortcut`, `Sub`, `SubTrigger`, `SubContent`.
