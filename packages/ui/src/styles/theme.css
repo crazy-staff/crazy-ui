@@ -121,18 +121,18 @@
   color-scheme: light;
 
   /* colour — crazy-hub light palette */
-  --cui-frame: hsl(0 0% 92.5%);
-  --cui-background: hsl(0 0% 95.5%);
+  --cui-frame: hsl(0 0% 91.5%);
+  --cui-background: hsl(0 0% 95%);
   --cui-foreground: hsl(0 0% 3.9%);
-  --cui-surface: hsl(0 0% 97.5%);
-  --cui-surface-2: hsl(0 0% 91%);
-  --cui-popover: hsl(0 0% 97.5%);
+  --cui-surface: hsl(0 0% 95%);
+  --cui-surface-2: hsl(0 0% 90%);
+  --cui-popover: hsl(0 0% 96%);
   --cui-hover: hsl(0 0% 82% / 0.5);
   --cui-muted: hsl(0 0% 40%);
   /* borders are opaque: transparent greys read as shadcn / old Material */
   --cui-border: hsl(0 0% 86%);
   --cui-border-strong: hsl(0 0% 80%);
-  --cui-input: hsl(0 0% 97.5%);
+  --cui-input: hsl(0 0% 95%);
   --cui-input-border: hsl(0 0% 82%);
   /* light mirrors dark: a lavender fill with dark ink, a deeper purple for accent text */
   --cui-accent: hsl(250 75% 72%);

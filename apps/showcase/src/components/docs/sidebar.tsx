@@ -18,7 +18,7 @@ import { SearchButton } from './search-button';
 /** One look for every row of the sidebar. */
 export const sidebarItem = (active = false) =>
   cn(
-    'squircle relative my-[1.5px] flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
+    'squircle-motion relative my-0.5 flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
     'transition-colors duration-[var(--cui-duration-fast)] ease-ui focus-visible:ring-2 focus-visible:ring-ring',
     '[&_svg]:size-4 [&_svg]:shrink-0',
     active ? 'bg-accent-soft font-medium text-accent-soft-foreground' : 'text-muted hover:text-foreground',

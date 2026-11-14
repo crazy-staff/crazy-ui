@@ -28,7 +28,7 @@ export const sidebarStyles = tv({
     groupLabel: 'mb-1.5 flex items-center gap-2 px-2.5 text-xs font-medium text-muted [&_svg]:size-3.5',
     list: 'flex flex-col gap-0.5',
     item: [
-      'squircle relative flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
+      'squircle-motion relative my-0.5 flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
       'text-muted transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:text-foreground',
       'focus-visible:ring-2 focus-visible:ring-ring',
       'data-[active=true]:bg-accent-soft data-[active=true]:font-medium data-[active=true]:text-accent-soft-foreground',

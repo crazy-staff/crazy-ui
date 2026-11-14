@@ -71,4 +71,6 @@ regress (decision 13).
 - Press feedback is small (`--cui-press-scale` 0.985) with a soft spring, never a jump.
 - Shapes that glide or resize (hover blocks, active fills, indicators, thumbs) use `squircle-motion`,
   not `squircle`: the polyfill can't follow an animation, so where `corner-shape` is unsupported they
-  get a plain radius scaled to match. Static neighbours keep `squircle`.
+  get a plain radius scaled to match. Rows that share a column with a gliding block (sidebar rows,
+  tabs, toggle-group items — their active fill sits where the hover block goes) use
+  `squircle-motion` too, so hover and active always have the same corners.

@@ -10,7 +10,7 @@ export const tabsStyles = tv({
     root: 'flex flex-col gap-4',
     list: 'relative z-0 flex w-fit max-w-full items-center overflow-x-auto',
     tab: [
-      'squircle relative z-10 inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap select-none',
+      'squircle-motion relative z-10 inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap select-none',
       'font-[weight:var(--cui-control-weight)] text-muted outline-none',
       'transition-[color] duration-[var(--cui-duration-fast)] ease-ui',
       'hover:text-foreground',
