@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Command, type CommandGroupData } from './command';
+import * as React from 'react';
+import { Command, type CommandGroupData, highlightParts } from './command';
 
 const make = (onGod = vi.fn(), onTeleport = vi.fn()): CommandGroupData[] => [
   {
@@ -49,5 +50,71 @@ describe('Command', () => {
     await userEvent.click(screen.getByRole('option', { name: /God mode/ }));
     expect(onGod).toHaveBeenCalledOnce();
     await vi.waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
+  it('highlights matches of the typed text', async () => {
+    const { container } = render(<Command groups={make()} />);
+    await userEvent.type(screen.getByRole('combobox'), 'mana');
+    expect(container.querySelector('mark')).toHaveTextContent('mana');
+    expect(highlightParts('Infinite mana', 'MAN')).toEqual([
+      { text: 'Infinite ', match: false },
+      { text: 'man', match: true },
+      { text: 'a', match: false },
+    ]);
+  });
+
+  it('shows the loading state instead of results', () => {
+    render(<Command groups={make()} loading loadingText="Searching posts…" />);
+    expect(screen.getByRole('status')).toHaveTextContent('Searching posts…');
+    expect(screen.queryByRole('option')).not.toBeInTheDocument();
+  });
+
+  it('renders breadcrumbs and a jump item', () => {
+    const rows = [{ id: 'j', label: 'Button' }];
+    render(
+      <Command.Root items={rows} filter={null}>
+        <Command.Input aria-label="Search docs" />
+        <Command.List>
+          {(row: (typeof rows)[number]) => (
+            <Command.JumpItem key={row.id} value={row}>
+              {row.label}
+            </Command.JumpItem>
+          )}
+        </Command.List>
+        <Command.ItemBreadcrumbs items={['Components', 'Button']} />
+      </Command.Root>,
+    );
+    expect(screen.getByRole('option', { name: /Jump to Button/ })).toBeInTheDocument();
+    expect(screen.getByText('Components')).toBeInTheDocument();
+  });
+
+  it('keeps the clear button in place and shows it only when a filter is set', async () => {
+    function Demo() {
+      const [v, setV] = React.useState('all');
+      return (
+        <Command.Filters canClear={v !== 'all'} onClear={() => setV('all')}>
+          <Command.Filter
+            label="Section"
+            options={[
+              { value: 'all', label: 'All' },
+              { value: 'components', label: 'Components' },
+            ]}
+            value={v}
+            onValueChange={setV}
+          />
+        </Command.Filters>
+      );
+    }
+    render(<Demo />);
+    const clear = screen.getByText('Clear filters').closest('button')!;
+    expect(clear).toBeDisabled();
+    expect(clear.className).toContain('invisible');
+    await userEvent.click(screen.getByRole('button', { name: 'Section: All' }));
+    await userEvent.click(await screen.findByRole('menuitemradio', { name: 'Components' }));
+    const trigger = await screen.findByRole('button', { name: 'Section: Components' });
+    expect(trigger).toBeInTheDocument();
+    expect(clear).toBeEnabled();
+    await userEvent.click(clear);
+    expect(screen.getByRole('button', { name: 'Section: All' })).toBeInTheDocument();
   });
 });

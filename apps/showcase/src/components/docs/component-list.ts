@@ -53,6 +53,7 @@ export const components: ComponentEntry[] = [
   entry('Label', 'A label for a form control.', 'ready'),
   entry('Menubar', 'A row of menus.', 'ready'),
   entry('Navigation Menu', 'Site navigation with panels.', 'ready'),
+  entry('Number Field', 'A number input with its own steppers.', 'ready'),
   entry('Pagination', 'Moves between pages of results.', 'ready'),
   entry('Popover', 'Floating content anchored to a trigger.', 'ready'),
   entry('Progress', 'A progress bar.', 'ready'),

@@ -1,5 +1,14 @@
 # @crazy-staff/ui
 
+## 0.1.2
+
+### Patch Changes
+
+- Round 2: NumberField; Calendar/Date Picker redesign; Command gains search parts (breadcrumbs, highlight,
+  jump item, loading, filters); Chart gradients, smooth curves, legend toggles, crosshair tooltip, formats,
+  stacking; ProgressiveBlur; new Pagination; sidebar-style hover glide in Tabs and Toggle Group; stable table
+  columns; borders on every Button/Toggle variant (no layout shift); gentler press; pointer cursor.
+
 ## 0.1.1
 
 ### Patch Changes

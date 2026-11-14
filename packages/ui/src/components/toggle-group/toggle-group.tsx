@@ -3,6 +3,7 @@ import { ToggleGroup as BaseToggleGroup } from '@base-ui/react/toggle-group';
 import { motion, useReducedMotion } from 'motion/react';
 import * as React from 'react';
 import { cn, type VariantProps } from '../../lib/tv';
+import { glideBlockClass, useGlide } from '../sidebar/glide';
 import { toggleGroupStyles } from './toggle-group.styles';
 
 type Styles = VariantProps<typeof toggleGroupStyles>;
@@ -68,7 +69,7 @@ export interface ToggleGroupProps extends Omit<BaseToggleGroup.Props<string>, 'c
   /** Short form: the options. Or pass `<ToggleGroup.Item value="…">` children. */
   items?: ToggleGroupItem[];
   className?: string;
-  classNames?: { root?: string; item?: string; indicator?: string };
+  classNames?: { root?: string; item?: string; indicator?: string; hover?: string };
 }
 
 /**
@@ -85,9 +86,19 @@ function ToggleGroupRoot({
   className,
   classNames,
   children,
+  ref,
   ...props
 }: ToggleGroupProps) {
   const id = React.useId();
+  const glideRef = useGlide<HTMLDivElement>();
+  const mergedRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      glideRef(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
+    },
+    [glideRef, ref],
+  );
   const styles = toggleGroupStyles({ size, variant, iconOnly });
   const ctx = React.useMemo<GroupContextValue>(
     () => ({ id, multiple, size, variant, iconOnly: Boolean(iconOnly), classNames }),
@@ -95,7 +106,8 @@ function ToggleGroupRoot({
   );
   return (
     <GroupContext value={ctx}>
-      <BaseToggleGroup multiple={multiple} className={cn(styles.root(), classNames?.root, className)} {...props}>
+      <BaseToggleGroup ref={mergedRef} multiple={multiple} className={cn(styles.root(), classNames?.root, className)} {...props}>
+        <span data-glide-block aria-hidden className={cn(glideBlockClass, styles.hover(), classNames?.hover)} />
         {items
           ? items.map((i) => (
               <ToggleGroupItem key={i.value} value={i.value} disabled={i.disabled} aria-label={i['aria-label']}>

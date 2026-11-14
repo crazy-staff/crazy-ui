@@ -1,6 +1,6 @@
 {
   "name": "@crazy-staff/ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The design system of crazy-staff: React components on Base UI, Tailwind CSS 4 and tailwind-variants.",
   "license": "MIT",
   "repository": {
