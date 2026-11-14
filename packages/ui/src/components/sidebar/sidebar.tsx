@@ -4,7 +4,6 @@ import { useRender } from '@base-ui/react/use-render';
 import { PanelLeft } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
-import { Button, type ButtonProps } from '../button/button';
 import { glideBlockClass, useGlide } from './glide';
 import { sidebarStyles } from './sidebar.styles';
 
@@ -242,13 +241,12 @@ function SidebarSub({ className, children, ...props }: React.ComponentPropsWithR
   );
 }
 
-/** Opens and closes the sidebar (the drawer on a phone). */
-function SidebarTrigger({ className, onClick, children, ...props }: ButtonProps) {
+/** Opens and closes the sidebar (the drawer on a phone). Looks like the docs sidebar's collapse button. */
+function SidebarTrigger({ className, onClick, children, ...props }: React.ComponentPropsWithRef<'button'>) {
   const { open, openMobile, toggle, id } = useSidebar();
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
+    <button
+      type="button"
       aria-label={open ? 'Collapse sidebar' : 'Open sidebar'}
       aria-controls={id}
       aria-expanded={isMobile() ? openMobile : open}
@@ -260,7 +258,7 @@ function SidebarTrigger({ className, onClick, children, ...props }: ButtonProps)
       {...props}
     >
       {children ?? <PanelLeft />}
-    </Button>
+    </button>
   );
 }
 

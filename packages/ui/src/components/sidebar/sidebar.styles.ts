@@ -20,13 +20,15 @@ export const sidebarStyles = tv({
       'group-data-[state=collapsed]/sidebar:-translate-x-3 group-data-[state=collapsed]/sidebar:opacity-0',
     ],
     area: 'relative flex min-h-0 flex-1 flex-col',
-    header: 'flex shrink-0 items-center gap-2 px-4 pt-4 pb-2',
-    content: 'flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto overscroll-contain px-3 py-3 mask-t-from-[calc(100%-12px)] mask-b-from-[calc(100%-24px)]',
+    // the docs sidebar's title row: 56px tall, 8px above and below
+    header: 'my-2 flex h-14 shrink-0 items-center gap-2 ps-4 pe-3',
+    // 24px between groups and 4px between rows, as in the docs sidebar
+    content: 'flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-3 pt-4 pb-8 mask-t-from-[calc(100%-16px)] mask-b-from-[calc(100%-32px)]',
     footer: 'flex shrink-0 flex-col gap-1 px-3 pt-2 pb-4',
     separator: 'mx-3 h-px shrink-0 bg-border',
     group: 'flex flex-col',
     groupLabel: 'mb-1.5 flex items-center gap-2 px-2.5 text-xs font-medium text-muted [&_svg]:size-3.5',
-    list: 'flex flex-col gap-0.5',
+    list: 'flex flex-col',
     item: [
       'squircle-motion relative my-0.5 flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
       'text-muted transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:text-foreground',
@@ -41,8 +43,12 @@ export const sidebarStyles = tv({
       'squircle relative m-2 flex min-w-0 flex-1 flex-col rounded-panel border border-border bg-background',
       'md:ms-0 md:group-data-[sidebar=collapsed]/provider:ms-2',
     ],
-    // the same 32px button with a 16px icon as the docs sidebar's collapse button
-    trigger: 'size-8 rounded-control-sm text-muted hover:text-foreground [&_svg]:size-4',
+    // the docs sidebar's collapse button: 32px, 16px icon, the neutral hover of the rows, no press scale
+    trigger: [
+      'squircle inline-flex size-8 shrink-0 items-center justify-center rounded-control-sm text-muted outline-none',
+      'transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:bg-hover hover:text-foreground',
+      'focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4',
+    ],
     backdrop: [backdropStyles, 'md:hidden'],
     drawer: [
       'squircle fixed inset-y-2 left-2 z-50 flex w-[min(var(--sidebar-width),calc(100vw-3rem))] flex-col overflow-hidden rounded-card',
