@@ -2,7 +2,8 @@ import { tv } from '../../lib/tv';
 
 export const tableStyles = tv({
   slots: {
-    wrapper: 'squircle w-full overflow-x-auto rounded-card border border-border bg-surface',
+    // rows sliding in on a page change must not flash a scrollbar
+    wrapper: 'squircle w-full overflow-x-auto rounded-card border border-border bg-surface [&:has([data-row-in])]:overflow-x-clip',
     // tabular digits: numbers keep their width when they change (sorting, paging, live counts)
     table: 'w-full border-collapse text-sm tabular-nums',
     caption: 'caption-bottom px-4 py-3 text-start text-xs text-muted',

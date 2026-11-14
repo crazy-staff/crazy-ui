@@ -47,12 +47,16 @@ export function glide(area: HTMLElement) {
   };
   const controller = new AbortController();
   const { signal } = controller;
+  let hide: ReturnType<typeof setTimeout> | undefined;
   area.addEventListener(
     'pointerover',
     (e) => {
+      // crossing the gap between two rows must not hide the block (it would fade in at the next
+      // row instead of gliding): leaving a row hides it only after a short grace period
       const item = rowOf(e.target);
+      clearTimeout(hide);
       if (item && e.pointerType === 'mouse') show(item);
-      else if (!item) show(null);
+      else if (!item) hide = setTimeout(() => show(null), 90);
     },
     { signal },
   );

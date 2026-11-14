@@ -26,6 +26,7 @@ import {
   type TableOptions,
 } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search, Settings2 } from 'lucide-react';
+import { useReducedMotion } from 'motion/react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
 import { Button } from '../button/button';
@@ -236,7 +237,9 @@ function DataTableContent({ empty = 'No results.', onRowClick, hover, style, ...
   if (paging.current.index !== pageIndex) {
     paging.current = { index: pageIndex, dir: Math.sign(pageIndex - paging.current.index) };
   }
-  const { dir } = paging.current;
+  // with reduced motion there is no animation (and no animationend to clear the flag below)
+  const reduce = useReducedMotion();
+  const dir = reduce ? 0 : paging.current.dir;
   // A fixed layout with one <col> per column: widths come from here, never from the rows on screen.
   const columns = table.getVisibleLeafColumns();
   const widthOf = (column: (typeof columns)[number]) =>
@@ -299,6 +302,9 @@ function DataTableContent({ empty = 'No results.', onRowClick, hover, style, ...
               aria-selected={row.getCanSelect() ? row.getIsSelected() : undefined}
               style={dir ? ({ '--row-from': `${dir * 28}px`, animationDelay: `${i * 30}ms` } as React.CSSProperties) : undefined}
               className={cn(row.getIsSelected() && s.selectedRow(), onRowClick && 'cursor-pointer', dir && 'motion-safe:animate-row-in')}
+              // while it slides in, the table clips sideways instead of showing a scrollbar
+              data-row-in={dir ? '' : undefined}
+              onAnimationEnd={(e) => e.currentTarget.removeAttribute('data-row-in')}
               onClick={onRowClick ? (event) => !(event.target as Element).closest('button,a,input,label') && onRowClick(row) : undefined}
             >
               {row.getVisibleCells().map((cell) => (
