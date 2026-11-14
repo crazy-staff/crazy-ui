@@ -4,7 +4,7 @@
   "type": "module",
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
-    "dev": "bun run --filter showcase dev",
+    "dev": "bun --cwd apps/showcase run dev",
     "build": "bun run --filter @crazy-staff/ui build && bun run --filter showcase build",
     "typecheck": "bun run --filter '*' typecheck",
     "test": "bun run --filter @crazy-staff/ui test",
