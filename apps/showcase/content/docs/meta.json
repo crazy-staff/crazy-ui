@@ -9,7 +9,8 @@
     "colors",
     "typography",
     "shape",
-    "motion",
+    "---Effects---",
+    "...effects",
     "---Components---",
     "...components"
   ]

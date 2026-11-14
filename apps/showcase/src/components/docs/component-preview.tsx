@@ -1,4 +1,5 @@
-import { cn } from '@crazy-staff/ui';
+import { Skeleton, cn } from '@crazy-staff/ui';
+import { Suspense, useEffect, useState } from 'react';
 import { getExample } from '@/examples/registry';
 import { CollapsibleCode } from './code';
 
@@ -17,11 +18,19 @@ export function ComponentPreview({
   glow?: boolean;
   className?: string;
 }) {
-  const example = getExample(name);
+  const example = useMemoExample(name);
+  const [source, setSource] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    void example?.loadSource().then((s) => live && setSource(s));
+    return () => {
+      live = false;
+    };
+  }, [example]);
   if (!example) {
     return <p className="text-danger">Missing example: {name}</p>;
   }
-  const { Component, source } = example;
+  const { Component } = example;
   return (
     <div className="not-prose squircle my-6 overflow-hidden rounded-card border border-border bg-surface">
       <div className="relative">
@@ -35,12 +44,19 @@ export function ComponentPreview({
             className,
           )}
         >
-          <Component />
+          <Suspense fallback={<Skeleton className="block h-10 w-48" />}>
+            <Component />
+          </Suspense>
         </div>
       </div>
       <div className="border-t border-border">
-        <CollapsibleCode code={source} flush />
+        {source === null ? <div className="h-28" /> : <CollapsibleCode code={source} flush />}
       </div>
     </div>
   );
+}
+
+function useMemoExample(name: string) {
+  const [example] = useState(() => getExample(name));
+  return example;
 }

@@ -58,7 +58,6 @@ export const components: ComponentEntry[] = [
   entry('Progress', 'A progress bar.', 'ready'),
   entry('Radio Group', 'Pick one option from a set.', 'ready'),
   entry('Resizable', 'Panels split by a draggable handle.', 'ready'),
-  entry('Reveal', 'Motion when content scrolls into view.', 'ready'),
   entry('Scroll Area', 'A styled scroll container.', 'ready'),
   entry('Select', 'Pick one value from a list.', 'ready'),
   entry('Separator', 'A line between content.', 'ready'),

@@ -61,3 +61,11 @@ regress (decision 13).
 - Hover shadows are subtle: low opacity, large blur, negative spread.
 - Things that appear (cards, list rows, sections) animate in with `Reveal`; nothing animates without
   respecting reduced motion.
+
+## No layout shift
+
+- Every variant of a control has the same box: variants without a visible outline still get a
+  `border border-transparent`, so switching variant (e.g. outline → soft on a vote button) never
+  changes the width or height.
+- Clickable things show `cursor: pointer` (global rule in theme.css).
+- Press feedback is small (`--cui-press-scale` 0.985) with a soft spring, never a jump.

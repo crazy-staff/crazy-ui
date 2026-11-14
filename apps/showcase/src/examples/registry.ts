@@ -3,21 +3,29 @@
  * The registry gives docs pages both the component (for the live preview) and its source (for
  * "View code"), so the code shown is always exactly the code that runs.
  */
-import type { ComponentType } from 'react';
+import { type ComponentType, type LazyExoticComponent, lazy } from 'react';
 
-const modules = import.meta.glob<{ default: ComponentType }>('./*/*.tsx', { eager: true });
-const sources = import.meta.glob<string>('./*/*.tsx', { eager: true, query: '?raw', import: 'default' });
+// Lazy: a page loads (and in dev, compiles) only the examples it shows, not all ~300 of them.
+const modules = import.meta.glob<{ default: ComponentType }>('./*/*.tsx');
+const sources = import.meta.glob<string>('./*/*.tsx', { query: '?raw', import: 'default' });
+const components = new Map<string, LazyExoticComponent<ComponentType>>();
 
 export interface Example {
-  Component: ComponentType;
-  source: string;
+  Component: LazyExoticComponent<ComponentType>;
+  loadSource: () => Promise<string>;
 }
 
 export function getExample(name: string): Example | undefined {
   const key = `./${name}.tsx`;
-  const mod = modules[key];
-  if (!mod) return undefined;
-  return { Component: mod.default, source: (sources[key] ?? '').trim() };
+  const load = modules[key];
+  const loadSource = sources[key];
+  if (!load || !loadSource) return undefined;
+  let Component = components.get(key);
+  if (!Component) {
+    Component = lazy(load);
+    components.set(key, Component);
+  }
+  return { Component, loadSource: async () => (await loadSource()).trim() };
 }
 
 /** Source files of a library component, for the manual installation steps. */

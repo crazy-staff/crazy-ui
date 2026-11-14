@@ -2,7 +2,7 @@ import { createFileRoute, notFound } from '@tanstack/react-router';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/spacious/page';
 import { createServerFn } from '@tanstack/react-start';
 import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions';
-import { Suspense, use } from 'react';
+import { Suspense, use, useEffect, useState } from 'react';
 import { docs, source } from '@/lib/source';
 import { useMDXComponents } from '@/components/mdx';
 import { PageTransition } from '@/components/docs/page-transition';
@@ -33,6 +33,12 @@ const loader = createServerFn({ method: 'GET' })
     return { path: page.path, url: page.url, position: order.indexOf(page.url) };
   });
 
+/** Renders nothing; tells the page that everything before it (the MDX) has mounted. */
+function Mounted({ onMount }: { onMount: () => void }) {
+  useEffect(onMount, [onMount]);
+  return null;
+}
+
 function PendingPage() {
   return (
     <DocsPage toc={[]}>
@@ -46,9 +52,14 @@ function Content({ path, url, position }: { path: string; url: string; position:
   if (!page) throw new Error(`unknown page: ${path}`);
   const { toc } = use(page.load());
   const MDX = page.body;
+  // "On this page" watches the headings by id: hand it the list only once they are in the DOM
+  // (after client navigation the MDX can mount a moment after the page, and the scroll spy would
+  // otherwise watch nothing)
+  const [mounted, setMounted] = useState(false);
+  const activeToc = mounted ? toc : [];
 
   return (
-    <DocsPage toc={toc} tableOfContent={{ enabled: true, footer: <TocFooter path={path} empty={toc.length === 0} /> }}>
+    <DocsPage toc={activeToc} tableOfContent={{ enabled: true, footer: <TocFooter path={path} empty={toc.length === 0} /> }}>
       <PageTransition id={url} position={position}>
         <div data-stagger="" className="flex flex-col gap-4">
           <DocsTitle>{page.title}</DocsTitle>
@@ -56,6 +67,7 @@ function Content({ path, url, position }: { path: string; url: string; position:
         </div>
         <DocsBody data-stagger="">
           <MDX components={useMDXComponents()} />
+          <Mounted onMount={() => setMounted(true)} />
         </DocsBody>
       </PageTransition>
     </DocsPage>
@@ -86,7 +98,7 @@ function Page() {
   const data = Route.useLoaderData();
   return (
     <Suspense fallback={<PendingPage />}>
-      <Content {...data} />
+      <Content key={data.path} {...data} />
     </Suspense>
   );
 }

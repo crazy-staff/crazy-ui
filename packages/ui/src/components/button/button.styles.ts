@@ -3,9 +3,9 @@ import { tv } from '../../lib/tv';
 export const buttonStyles = tv({
   base: [
     'inline-flex items-center justify-center gap-2 whitespace-nowrap select-none',
-    'squircle font-[weight:var(--cui-control-weight)]',
+    'squircle border font-[weight:var(--cui-control-weight)]',
     'outline-none transition-[transform,background-color,border-color,box-shadow,color]',
-    'duration-[var(--cui-duration-fast)] ease-ui',
+    'duration-[var(--cui-duration-fast)] ease-spring',
     'focus-visible:ring-[3px] focus-visible:ring-ring',
     'active:scale-[var(--cui-press-scale)]',
     'disabled:pointer-events-none disabled:opacity-50',
@@ -13,12 +13,12 @@ export const buttonStyles = tv({
   ],
   variants: {
     variant: {
-      solid: 'bg-accent text-accent-foreground shadow-button hover:brightness-105',
-      soft: 'bg-accent-soft text-accent-soft-foreground hover:brightness-105',
+      solid: 'border-transparent bg-accent text-accent-foreground shadow-button hover:brightness-105',
+      soft: 'border-transparent bg-accent-soft text-accent-soft-foreground hover:brightness-105',
       outline:
-        'border border-border-strong bg-transparent text-foreground hover:bg-surface-2',
-      ghost: 'bg-transparent text-foreground hover:bg-surface-2',
-      danger: 'bg-danger text-danger-foreground hover:brightness-105',
+        'border-border-strong bg-transparent text-foreground hover:bg-surface-2',
+      ghost: 'border-transparent bg-transparent text-foreground hover:bg-surface-2',
+      danger: 'border-transparent bg-danger text-danger-foreground hover:brightness-105',
     },
     size: {
       sm: 'h-control-sm rounded-control-sm px-3 text-xs [&_svg]:size-3.5',

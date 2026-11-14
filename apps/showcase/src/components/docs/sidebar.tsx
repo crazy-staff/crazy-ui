@@ -80,7 +80,7 @@ function Search() {
     <div className="shrink-0 px-3">
       <slots.searchTrigger.full
         hideIfDisabled
-        className="squircle h-10 w-full gap-3 rounded-control-sm border-border bg-background/60 ps-3 pe-2 text-muted [&_svg]:shrink-0"
+        className="squircle h-10 w-full gap-3 rounded-item border-border bg-background/60 ps-3 pe-2 text-muted [&_svg]:shrink-0"
       />
     </div>
   );

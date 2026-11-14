@@ -1,5 +1,6 @@
 import { cn } from '@crazy-staff/ui';
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 /** The live example box on a docs page. `glow` fills it with the accent gradient. */
 export function Preview({
@@ -31,9 +32,19 @@ export function Preview({
   );
 }
 
-/** The accent gradient across the top of the page panel (fades out, never cut off). */
+/**
+ * The accent gradient across the top of the page panel (fades out, never cut off). Rendered into
+ * the panel itself: inside the page, the enter animation's transform would make it the glow's
+ * frame and cut the glow to the article's width.
+ */
 export function PageGlow() {
-  return <div aria-hidden data-page-glow="" className="glow pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem]" />;
+  const [panel, setPanel] = useState<HTMLElement | null>(null);
+  useEffect(() => setPanel(document.getElementById('nd-page-panel')), []);
+  if (!panel) return null;
+  return createPortal(
+    <div aria-hidden data-page-glow="" className="glow pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem]" />,
+    panel,
+  );
 }
 
 /** A row of examples with a small mono label. */
