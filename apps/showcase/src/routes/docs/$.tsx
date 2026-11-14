@@ -8,6 +8,7 @@ import { useMDXComponents } from '@/components/mdx';
 import { PageTransition } from '@/components/docs/page-transition';
 import { PageSkeleton } from '@/components/docs/page-skeleton';
 import { gitConfig } from '@/lib/shared';
+import { PageGlow, PanelFade } from '@/components/docs/preview';
 import { SquarePen } from 'lucide-react';
 
 export const Route = createFileRoute('/docs/$')({
@@ -60,6 +61,8 @@ function Content({ path, url, position }: { path: string; url: string; position:
 
   return (
     <DocsPage toc={activeToc} tableOfContent={{ enabled: true, footer: <TocFooter path={path} empty={toc.length === 0} /> }}>
+      <PageGlow />
+      <PanelFade />
       <PageTransition id={url} position={position}>
         <div data-stagger="" className="flex flex-col gap-4">
           <DocsTitle>{page.title}</DocsTitle>

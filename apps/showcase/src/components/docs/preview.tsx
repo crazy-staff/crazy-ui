@@ -1,4 +1,4 @@
-import { cn } from '@crazy-staff/ui';
+import { ProgressiveBlur, cn } from '@crazy-staff/ui';
 import { type ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -54,5 +54,45 @@ export function Example({ label, children }: { label: string; children: ReactNod
       <span className="w-24 shrink-0 font-mono text-[0.6875rem] uppercase tracking-wider text-muted">{label}</span>
       <div className="flex flex-wrap items-center gap-2.5">{children}</div>
     </div>
+  );
+}
+
+/**
+ * A progressive blur along the bottom of the page panel while there is more to scroll; it fades
+ * out at the end of the page (the top bar keeps its own fade).
+ */
+export function PanelFade() {
+  const [panel, setPanel] = useState<HTMLElement | null>(null);
+  const [more, setMore] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById('nd-page-panel');
+    setPanel(el);
+    const scroller = el
+      ? Array.from(el.querySelectorAll<HTMLElement>(':scope > div')).find((d) => /(auto|scroll)/.test(getComputedStyle(d).overflowY))
+      : undefined;
+    if (!scroller) return;
+    const update = () => setMore(scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 8);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(scroller);
+    if (scroller.firstElementChild) ro.observe(scroller.firstElementChild);
+    scroller.addEventListener('scroll', update, { passive: true });
+    return () => {
+      ro.disconnect();
+      scroller.removeEventListener('scroll', update);
+    };
+  }, []);
+  if (!panel) return null;
+  return createPortal(
+    <div
+      aria-hidden
+      className={cn(
+        'pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 transition-opacity duration-[var(--cui-duration-normal)] max-md:hidden',
+        more ? 'opacity-100' : 'opacity-0',
+      )}
+    >
+      <ProgressiveBlur side="bottom" size="100%" tint />
+    </div>,
+    panel,
   );
 }

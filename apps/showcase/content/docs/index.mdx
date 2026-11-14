@@ -4,7 +4,6 @@ description: The design system of the Crazy ecosystem — our own twist on Fumad
 icon: Sparkles
 ---
 
-<PageGlow />
 
 crazy-ui is the React component library behind **crazy-hub** and the **Crazy Gothic Trainer**. It is built on
 [Base UI](https://base-ui.com) primitives, styled with Tailwind CSS 4 and tailwind-variants, animated with
@@ -32,4 +31,15 @@ motion, and themed entirely through CSS variables.
 
 ## Where to next
 
-<ComponentGrid />
+<LinkCards
+  items={[
+    { title: 'Installation', description: 'Add the package, the theme and squircles to a React app.', href: '/docs/installation' },
+    { title: 'All components', description: 'Every component, ready and planned, in one grid.', href: '/docs/all-components' },
+    { title: 'Colours', description: 'The palette, the tokens and the contrast rules.', href: '/docs/colors' },
+    { title: 'Shape', description: 'Superellipse corners and the radius scale.', href: '/docs/shape' },
+    { title: 'Effects', description: 'Glow, progressive blur, motion — layered on any component.', href: '/docs/effects' },
+    { title: 'Changelog', description: 'What changed in each version of @crazy-staff/ui.', href: 'https://github.com/crazy-staff/crazy-ui/blob/main/packages/ui/CHANGELOG.md' },
+    { title: 'GitHub', description: 'Source, issues and pull requests of crazy-ui.', href: 'https://github.com/crazy-staff/crazy-ui' },
+    { title: 'crazy-hub', description: 'The ecosystem app built on crazy-ui: ideas, roadmap, docs.', href: 'https://github.com/crazy-staff/crazy-hub' },
+  ]}
+/>
