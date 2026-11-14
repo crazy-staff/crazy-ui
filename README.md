@@ -43,7 +43,6 @@ The theme uses Plus Jakarta Sans and Geist Mono (e.g. `@fontsource-variable/plus
 
 ## Status
 
-Design **round 1b** is on the showcase home page: direction B "Soft" on the crazy-hub palette, with
-squircle corners, accent gradients and the framed app layout (decision 16). See
-[docs/decisions.md](docs/decisions.md) for the roadmap and [docs/guidelines.md](docs/guidelines.md)
-for the component rules.
+**0.2.0** — first public release: 60 components, docs, effects. See
+[docs/decisions.md](docs/decisions.md), [docs/guidelines.md](docs/guidelines.md) and the
+[changelog](packages/ui/CHANGELOG.md).

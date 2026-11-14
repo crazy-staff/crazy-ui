@@ -1,0 +1,55 @@
+name: Release
+
+# On main: if there are pending changesets, open a "Version Packages" PR; otherwise publish any
+# version of @crazy-staff/ui that isn't on npm yet, tag it and create a GitHub release.
+# Publishing needs the repository secret NPM_TOKEN (an npm automation token with access to the
+# @crazy-staff scope). Without it the job only builds and skips publishing.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: bun install --frozen-lockfile
+      - name: Build the library
+        run: bun run --filter @crazy-staff/ui build
+      - name: Version PR or publish
+        if: ${{ env.NPM_TOKEN != '' }}
+        uses: changesets/action@v1
+        with:
+          publish: bun run release
+          version: bunx changeset version
+          createGithubReleases: true
+          commit: 'Version packages'
+          title: 'Version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
+      - name: No NPM_TOKEN
+        if: ${{ env.NPM_TOKEN == '' }}
+        run: echo "::notice::NPM_TOKEN is not set — skipped publishing. Add it in Settings → Secrets and variables → Actions, then re-run this workflow."

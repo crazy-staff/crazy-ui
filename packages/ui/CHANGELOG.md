@@ -1,5 +1,13 @@
 # @crazy-staff/ui
 
+## 0.2.0
+
+### Minor Changes
+
+- First public release. The look is settled (our own twist on Fumadocs, crazy-hub palette, superellipse
+  corners, opaque borders, WCAG-checked colours), 60 components with docs, effects (Glow, Progressive Blur,
+  Reveal) and motion throughout.
+
 ## 0.1.2
 
 ### Patch Changes
