@@ -69,6 +69,9 @@ regress (decision 13).
   changes the width or height.
 - Clickable things show `cursor: pointer` (global rule in theme.css).
 - Press feedback is small (`--cui-press-scale` 0.985) with a soft spring, never a jump.
+- The gliding hover block belongs to the rows of a menu column only. Headers, titles, triggers and
+  pickers next to it keep their own hover and sit in `[data-no-glide-area]`; the block never jumps
+  onto them (owner's feedback on crazy-hub, 2026-11-14).
 - Shapes that glide or resize (hover blocks, active fills, indicators, thumbs) use `squircle-motion`,
   not `squircle`: the polyfill can't follow an animation, so where `corner-shape` is unsupported they
   get a plain radius scaled to match. Rows that share a column with a gliding block (sidebar rows,

@@ -4,7 +4,6 @@ import { useRender } from '@base-ui/react/use-render';
 import { PanelLeft } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
-import { Button, type ButtonProps } from '../button/button';
 import { glideBlockClass, useGlide } from './glide';
 import { sidebarStyles } from './sidebar.styles';
 
@@ -144,7 +143,13 @@ function SidebarRoot({ label = 'Sidebar', className, classNames, children, ...pr
   );
 }
 
-const SidebarHeader = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => <div className={cn(s.header(), className)} {...p} />;
+/**
+ * The top row (title, trigger). Its controls keep their own hover: the gliding block is for the rows
+ * only, it never jumps up onto the title or the trigger (as in the docs sidebar).
+ */
+const SidebarHeader = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => (
+  <div data-no-glide-area="" className={cn(s.header(), className)} {...p} />
+);
 const SidebarFooter = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => <div className={cn(s.footer(), className)} {...p} />;
 const SidebarSeparator = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => (
   <div role="separator" className={cn(s.separator(), className)} {...p} />
@@ -236,13 +241,12 @@ function SidebarSub({ className, children, ...props }: React.ComponentPropsWithR
   );
 }
 
-/** Opens and closes the sidebar (the drawer on a phone). */
-function SidebarTrigger({ className, onClick, children, ...props }: ButtonProps) {
+/** Opens and closes the sidebar (the drawer on a phone). Looks like the docs sidebar's collapse button. */
+function SidebarTrigger({ className, onClick, children, ...props }: React.ComponentPropsWithRef<'button'>) {
   const { open, openMobile, toggle, id } = useSidebar();
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
+    <button
+      type="button"
       aria-label={open ? 'Collapse sidebar' : 'Open sidebar'}
       aria-controls={id}
       aria-expanded={isMobile() ? openMobile : open}
@@ -254,7 +258,7 @@ function SidebarTrigger({ className, onClick, children, ...props }: ButtonProps)
       {...props}
     >
       {children ?? <PanelLeft />}
-    </Button>
+    </button>
   );
 }
 
