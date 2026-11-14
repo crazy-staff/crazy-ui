@@ -13,11 +13,12 @@ import { useSpaciousLayout } from 'fumadocs-ui/layouts/spacious';
 import { SidebarIcon } from 'lucide-react';
 import { Fragment, type ComponentProps } from 'react';
 import { GLIDE_BLOCK_CLASS, glide } from './glide';
+import { SearchButton } from './search-button';
 
 /** One look for every row of the sidebar. */
 export const sidebarItem = (active = false) =>
   cn(
-    'squircle relative flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
+    'squircle relative my-[1.5px] flex w-full items-center gap-3 rounded-item px-2.5 py-2 text-start text-sm wrap-anywhere outline-none',
     'transition-colors duration-[var(--cui-duration-fast)] ease-ui focus-visible:ring-2 focus-visible:ring-ring',
     '[&_svg]:size-4 [&_svg]:shrink-0',
     active ? 'bg-accent-soft font-medium text-accent-soft-foreground' : 'text-muted hover:text-foreground',
@@ -74,14 +75,9 @@ const PageTree = createPageTreeRenderer({
 });
 
 function Search() {
-  const { slots } = useSpaciousLayout();
-  if (!slots.searchTrigger) return null;
   return (
     <div className="shrink-0 px-3">
-      <slots.searchTrigger.full
-        hideIfDisabled
-        className="squircle h-10 w-full gap-3 rounded-item border-border bg-background/60 ps-3 pe-2 text-muted [&_svg]:shrink-0"
-      />
+      <SearchButton />
     </div>
   );
 }

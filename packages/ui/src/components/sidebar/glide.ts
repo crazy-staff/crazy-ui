@@ -7,7 +7,7 @@ import * as React from 'react';
  * slide from there: leaving the active row, the block fades in at the next row instead of sliding.
  */
 export const glideBlockClass = [
-  'squircle pointer-events-none absolute top-0 left-0 z-0 rounded-item bg-hover opacity-0',
+  'squircle-motion pointer-events-none absolute top-0 left-0 z-0 rounded-item bg-hover opacity-0',
   'transition-opacity duration-[var(--cui-duration-normal)] ease-ui motion-safe:transition-[translate,width,height,opacity]',
 ].join(' ');
 

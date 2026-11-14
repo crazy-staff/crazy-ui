@@ -130,3 +130,9 @@ figure.shiki > div[class*='absolute'][class*='top-2'] {
   --corner-shape: round;
   background: var(--cui-surface);
 }
+
+/* The page scroller: examples load lazily and change height on a first visit; Firefox's scroll
+   anchoring would then shift the page down. A page always starts at its top. */
+#nd-page-panel > div {
+  overflow-anchor: none;
+}

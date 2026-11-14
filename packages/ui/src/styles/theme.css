@@ -97,6 +97,18 @@
   }
 }
 
+/* Shapes that glide or resize (hover blocks, active fills, indicators): the native corner-shape
+   only, because the polyfill can't follow an animation. Where it's unsupported they get a plain
+   radius scaled to look like the polyfilled squircles around them. */
+@utility squircle-motion {
+  corner-shape: var(--cui-corner-shape);
+}
+@supports not (corner-shape: squircle) {
+  .squircle-motion {
+    --corner-scale: 0.75;
+  }
+}
+
 /* The accent glow used behind heroes and page tops. */
 @utility glow {
   background-image:
@@ -109,18 +121,18 @@
   color-scheme: light;
 
   /* colour — crazy-hub light palette */
-  --cui-frame: hsl(0 0% 94.7%);
-  --cui-background: hsl(0 0% 97.5%);
+  --cui-frame: hsl(0 0% 92.5%);
+  --cui-background: hsl(0 0% 95.5%);
   --cui-foreground: hsl(0 0% 3.9%);
-  --cui-surface: hsl(0 0% 100%);
-  --cui-surface-2: hsl(0 0% 93.1%);
-  --cui-popover: hsl(0 0% 98%);
+  --cui-surface: hsl(0 0% 97.5%);
+  --cui-surface-2: hsl(0 0% 91%);
+  --cui-popover: hsl(0 0% 97.5%);
   --cui-hover: hsl(0 0% 82% / 0.5);
   --cui-muted: hsl(0 0% 40%);
   /* borders are opaque: transparent greys read as shadcn / old Material */
-  --cui-border: hsl(0 0% 88%);
-  --cui-border-strong: hsl(0 0% 82%);
-  --cui-input: hsl(0 0% 100%);
+  --cui-border: hsl(0 0% 86%);
+  --cui-border-strong: hsl(0 0% 80%);
+  --cui-input: hsl(0 0% 97.5%);
   --cui-input-border: hsl(0 0% 82%);
   /* light mirrors dark: a lavender fill with dark ink, a deeper purple for accent text */
   --cui-accent: hsl(250 75% 72%);

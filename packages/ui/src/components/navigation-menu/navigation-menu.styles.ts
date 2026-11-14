@@ -12,7 +12,7 @@ export const navigationMenuStyles = tv({
     // the block reads like the squircle items of the sidebar and menus instead of a pill.
     indicator: [
       'pointer-events-none absolute top-0 left-0 -z-10 h-full w-(--nav-indicator-width) translate-x-(--nav-indicator-left) bg-hover',
-      'rounded-control-sm [corner-shape:var(--cui-corner-shape)] not-supports-[corner-shape:squircle]:rounded-chip',
+      'rounded-control-sm squircle-motion',
       `transition-[translate,width,opacity] ${duration} data-[hidden]:opacity-0 data-[instant]:transition-opacity motion-reduce:transition-none`,
     ],
     trigger: [

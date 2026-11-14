@@ -69,3 +69,6 @@ regress (decision 13).
   changes the width or height.
 - Clickable things show `cursor: pointer` (global rule in theme.css).
 - Press feedback is small (`--cui-press-scale` 0.985) with a soft spring, never a jump.
+- Shapes that glide or resize (hover blocks, active fills, indicators, thumbs) use `squircle-motion`,
+  not `squircle`: the polyfill can't follow an animation, so where `corner-shape` is unsupported they
+  get a plain radius scaled to match. Static neighbours keep `squircle`.

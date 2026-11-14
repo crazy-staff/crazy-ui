@@ -36,7 +36,7 @@ export const tabsStyles = tv({
       /** A soft fill glides behind the active tab (like a pressed Toggle). */
       pill: {
         list: 'gap-1',
-        indicator: 'top-[var(--active-tab-top)] h-[var(--active-tab-height)] [corner-shape:var(--cui-corner-shape)]',
+        indicator: 'top-[var(--active-tab-top)] h-[var(--active-tab-height)] squircle-motion',
       },
       /** An underline glides under the active tab (page sections, install steps). */
       line: {

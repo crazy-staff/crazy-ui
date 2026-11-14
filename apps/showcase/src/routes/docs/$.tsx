@@ -70,7 +70,18 @@ function Content({ path, url, position }: { path: string; url: string; position:
         </div>
         <DocsBody data-stagger="">
           <MDX components={useMDXComponents()} />
-          <Mounted onMount={() => setMounted(true)} />
+          <Mounted
+            onMount={() => {
+              setMounted(true);
+              // a new page starts at the top (unless the URL points at a section)
+              if (!location.hash) {
+                const scroller = Array.from(document.querySelectorAll<HTMLElement>('#nd-page-panel > div')).find((d) =>
+                  /(auto|scroll)/.test(getComputedStyle(d).overflowY),
+                );
+                scroller?.scrollTo({ top: 0 });
+              }
+            }}
+          />
         </DocsBody>
       </PageTransition>
     </DocsPage>

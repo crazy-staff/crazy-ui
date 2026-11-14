@@ -22,7 +22,7 @@ export const paginationStyles = tv({
     current: 'pointer-events-none absolute top-0 left-0 z-0',
     thumbFill: [
       'block size-full rounded-control-sm bg-accent-soft',
-      '[corner-shape:var(--cui-corner-shape)] not-supports-[corner-shape:squircle]:rounded-chip',
+      'squircle-motion',
     ],
     // the numbers roll through this window; old and new number share one grid cell
     clip: 'grid overflow-hidden',

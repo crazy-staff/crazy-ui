@@ -58,12 +58,13 @@ export function Example({ label, children }: { label: string; children: ReactNod
 }
 
 /**
- * A progressive blur along the bottom of the page panel while there is more to scroll; it fades
- * out at the end of the page (the top bar keeps its own fade).
+ * Progressive blurs along the edges of the page panel: at the bottom while there is more to scroll,
+ * at the top (under the floating top bar) once the page has scrolled.
  */
 export function PanelFade() {
   const [panel, setPanel] = useState<HTMLElement | null>(null);
   const [more, setMore] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const el = document.getElementById('nd-page-panel');
     setPanel(el);
@@ -71,7 +72,10 @@ export function PanelFade() {
       ? Array.from(el.querySelectorAll<HTMLElement>(':scope > div')).find((d) => /(auto|scroll)/.test(getComputedStyle(d).overflowY))
       : undefined;
     if (!scroller) return;
-    const update = () => setMore(scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 8);
+    const update = () => {
+      setMore(scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 8);
+      setScrolled(scroller.scrollTop > 8);
+    };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(scroller);
@@ -83,16 +87,17 @@ export function PanelFade() {
     };
   }, []);
   if (!panel) return null;
+  const edge = 'pointer-events-none absolute inset-x-0 transition-opacity duration-[var(--cui-duration-normal)] max-md:hidden';
   return createPortal(
-    <div
-      aria-hidden
-      className={cn(
-        'pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 transition-opacity duration-[var(--cui-duration-normal)] max-md:hidden',
-        more ? 'opacity-100' : 'opacity-0',
-      )}
-    >
-      <ProgressiveBlur side="bottom" size="100%" tint />
-    </div>,
+    <>
+      {/* under the top bar (z-10), so its buttons stay sharp */}
+      <div aria-hidden className={cn(edge, 'top-0 z-[5] h-20', scrolled ? 'opacity-100' : 'opacity-0')}>
+        <ProgressiveBlur side="top" size="100%" />
+      </div>
+      <div aria-hidden className={cn(edge, 'bottom-0 z-20 h-20', more ? 'opacity-100' : 'opacity-0')}>
+        <ProgressiveBlur side="bottom" size="100%" tint />
+      </div>
+    </>,
     panel,
   );
 }

@@ -4,7 +4,7 @@
  * accent fill, so the block hides on it.
  */
 export const GLIDE_BLOCK_CLASS =
-  'squircle pointer-events-none absolute top-0 left-0 z-0 rounded-item bg-hover opacity-0 transition-opacity duration-200 ease-ui motion-safe:transition-[translate,width,height,opacity]'
+  'squircle-motion pointer-events-none absolute top-0 left-0 z-0 rounded-item bg-hover opacity-0 transition-opacity duration-200 ease-ui motion-safe:transition-[translate,width,height,opacity]'
 
 /**
  * Rows that already show their own fill: the block never goes there. (Not `aria-current`: the

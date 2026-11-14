@@ -21,7 +21,7 @@ export const toggleGroupStyles = tv({
       '[&_svg]:pointer-events-none [&_svg]:shrink-0',
     ],
     // -inset-px: cover the item's (transparent) border too, so the fill has the item's exact outline
-    indicator: 'squircle pointer-events-none absolute -inset-px -z-10 bg-accent-soft',
+    indicator: 'squircle-motion pointer-events-none absolute -inset-px -z-10 bg-accent-soft',
     /** The neutral hover block that glides between items (`glideBlockClass` + the item radius). */
     hover: '',
   },
