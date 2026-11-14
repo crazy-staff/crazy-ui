@@ -230,6 +230,13 @@ export interface DataTableContentProps extends Omit<TableRootProps, 'children' |
 function DataTableContent({ empty = 'No results.', onRowClick, hover, style, ...props }: DataTableContentProps) {
   const table = useDataTableContext();
   const rows = table.getRowModel().rows;
+  // Paging animates: the rows of the new page slide in from the side of the move, one after another.
+  const pageIndex = table.state.pagination.pageIndex;
+  const paging = React.useRef({ index: pageIndex, dir: 0 });
+  if (paging.current.index !== pageIndex) {
+    paging.current = { index: pageIndex, dir: Math.sign(pageIndex - paging.current.index) };
+  }
+  const { dir } = paging.current;
   // A fixed layout with one <col> per column: widths come from here, never from the rows on screen.
   const columns = table.getVisibleLeafColumns();
   const widthOf = (column: (typeof columns)[number]) =>
@@ -285,12 +292,13 @@ function DataTableContent({ empty = 'No results.', onRowClick, hover, style, ...
       </Table.Header>
       <Table.Body>
         {rows.length ? (
-          rows.map((row) => (
+          rows.map((row, i) => (
             <Table.Row
-              key={row.id}
+              key={`${pageIndex}:${row.id}`}
               data-state={row.getIsSelected() ? 'selected' : undefined}
               aria-selected={row.getCanSelect() ? row.getIsSelected() : undefined}
-              className={cn(row.getIsSelected() && s.selectedRow(), onRowClick && 'cursor-pointer')}
+              style={dir ? ({ '--row-from': `${dir * 28}px`, animationDelay: `${i * 30}ms` } as React.CSSProperties) : undefined}
+              className={cn(row.getIsSelected() && s.selectedRow(), onRowClick && 'cursor-pointer', dir && 'motion-safe:animate-row-in')}
               onClick={onRowClick ? (event) => !(event.target as Element).closest('button,a,input,label') && onRowClick(row) : undefined}
             >
               {row.getVisibleCells().map((cell) => (

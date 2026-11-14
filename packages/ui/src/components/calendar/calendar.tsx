@@ -345,9 +345,9 @@ export function Calendar(props: CalendarProps) {
             key={key(month)}
             custom={direction.current}
             variants={{
-              enter: (dir: number) => ({ x: dir * offset, opacity: 0 }),
-              center: { x: 0, opacity: 1 },
-              exit: (dir: number) => ({ x: -dir * offset, opacity: 0 }),
+              enter: (dir: number) => ({ x: dir * offset, opacity: 0, filter: 'blur(3px)' }),
+              center: { x: 0, opacity: 1, filter: 'blur(0px)' },
+              exit: (dir: number) => ({ x: -dir * offset, opacity: 0, filter: 'blur(3px)' }),
             }}
             initial="enter"
             animate="center"

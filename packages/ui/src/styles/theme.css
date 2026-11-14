@@ -89,6 +89,18 @@
   transition-property: color, opacity, transform, translate, scale;
 }
 
+/* Rows of a new page slide in from the side of the move (Data Table). `--row-from` sets the side. */
+@theme {
+  --animate-row-in: cui-row-in var(--cui-duration-normal) var(--cui-ease) both;
+  @keyframes cui-row-in {
+    from {
+      opacity: 0;
+      translate: var(--row-from, 0) 0;
+      filter: blur(2px);
+    }
+  }
+}
+
 /* Everything clickable shows the hand (Tailwind 4 no longer does it for buttons). */
 @layer base {
   :where(button, select, summary, [role='button'], [role='tab'], [role='radio'], [role='checkbox'], [role='switch'], [role='option'], [role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']):not(:disabled, [aria-disabled='true'], [data-disabled]),
