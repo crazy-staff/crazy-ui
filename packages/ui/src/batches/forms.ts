@@ -34,3 +34,6 @@ export { inputGroupStyles } from '../components/input-group/input-group.styles';
 
 export { ButtonGroup, type ButtonGroupProps } from '../components/button-group/button-group';
 export { buttonGroupStyles } from '../components/button-group/button-group.styles';
+
+export { NumberField, type NumberFieldProps, type NumberFieldRootProps } from '../components/number-field/number-field';
+export { numberFieldStyles } from '../components/number-field/number-field.styles';

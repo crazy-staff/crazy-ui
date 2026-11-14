@@ -47,4 +47,10 @@ describe('Pagination', () => {
     expect(screen.getByRole('button', { name: 'Page 20' })).toHaveAttribute('data-current');
     vi.useRealTimers();
   });
+
+  it('keeps the current page out of the hover glide', () => {
+    const { container } = render(<Pagination page={3} total={10} onPageChange={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Page 3' })).toHaveAttribute('data-active', 'true');
+    expect(container.querySelectorAll('[data-glide-block]')).toHaveLength(1);
+  });
 });

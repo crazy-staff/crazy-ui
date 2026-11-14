@@ -1,4 +1,4 @@
 {
   "title": "Effects",
-  "pages": ["motion", "reveal", "..."]
+  "pages": ["index", "glow", "progressive-blur", "motion", "reveal", "..."]
 }

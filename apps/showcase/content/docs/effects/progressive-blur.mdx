@@ -1,0 +1,93 @@
+---
+title: Progressive blur
+description: Blurs content more and more towards an edge, for list ends, headers over scrolling content and captions on images.
+---
+
+<ComponentPreview name="progressive-blur/default" />
+
+## Installation
+
+<InstallTabs component="progressive-blur" />
+
+## Usage
+
+```tsx
+import { ProgressiveBlur } from '@crazy-staff/ui';
+```
+
+```tsx
+<div className="relative overflow-hidden">
+  <ScrollArea className="h-72">{items}</ScrollArea>
+  <ProgressiveBlur side="bottom" size={80} />
+</div>
+```
+
+`ProgressiveBlur` is an overlay: it pins itself to one edge of the nearest positioned parent, so put it next
+to the content inside a `relative` element. It stacks several `backdrop-filter` layers: each one starts a
+step further in from the edge, adds a little more blur and fades in through a mask, so the blur starts
+invisibly and grows towards the edge instead of beginning at a hard line. It is `aria-hidden` and lets the pointer through, so scrolling and clicking
+underneath work as before.
+
+## Examples
+
+### List end
+
+At the bottom of a scroll area the last rows blur out, telling the reader there is more. `tint` adds a fade
+to the container's colour (`var(--cui-surface)` here) so text disappears completely at the edge. Give the
+list some bottom padding so its last row can scroll clear of the blur.
+
+<ComponentPreview name="progressive-blur/default" />
+
+### Header over scrolling content
+
+`side="top"` behind a floating header: rows blur as they slide under the title, like a frosted bar without a
+hard edge.
+
+<ComponentPreview name="progressive-blur/header" />
+
+### Image caption
+
+Over an image, the blur makes a calm surface for a caption without a dark box. A translucent `tint` keeps
+the text readable in light and dark.
+
+<ComponentPreview name="progressive-blur/caption" />
+
+### Both sides
+
+`left` and `right` together fade a horizontal row of chips into its edges.
+
+<ComponentPreview name="progressive-blur/sides" />
+
+## Performance
+
+Each layer is a `backdrop-filter`, which the browser redraws when content behind it moves. Eight layers is a
+good default; use fewer (`layers={4}`) and a smaller `size` on low-end devices or when many blurs are on one
+screen. Firefox, Safari and Chromium all support masked backdrop filters. Chromium currently ignores the
+masks under a parent that clips with `corner-shape` (a `squircle` with `overflow: hidden`); the layers'
+geometry alone still makes the blur progressive there, only in slightly visible steps.
+
+## Accessibility
+
+- The overlay is `aria-hidden` and has `pointer-events: none`: screen readers and the pointer reach the
+  content underneath.
+- Blurred text is still in the document; make sure it can be scrolled into the clear area (bottom padding in
+  lists) so nothing is only readable through the blur.
+- The effect doesn't move, so it needs no reduced-motion handling.
+
+## API Reference
+
+### ProgressiveBlur
+
+Renders an absolutely positioned `div` with the stacked blur layers. Takes all `div` props.
+
+<TypeTable
+  type={{
+    side: { description: 'The edge the blur grows towards.', type: "'top' | 'bottom' | 'left' | 'right'", default: "'bottom'" },
+    size: { description: 'How far the blur reaches in from the edge: pixels or any CSS length.', type: 'number | string', default: '64' },
+    strength: { description: 'Blur at the edge in pixels; it fades out inwards.', type: 'number', default: '8' },
+    layers: { description: 'Number of stacked layers; more is smoother and costs more.', type: 'number', default: '8' },
+    tint: { description: 'Also fade to a colour at the edge; true uses the page background.', type: 'boolean | string', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ layer?: string; tint?: string }' },
+  }}
+/>

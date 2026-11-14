@@ -78,7 +78,7 @@ Pass `value` and `onValueChange` to drive the tabs from outside — here a step-
 - <kbd>←</kbd> <kbd>→</kbd> move between tabs (<kbd>↑</kbd> <kbd>↓</kbd> with `orientation="vertical"`),
   <kbd>Home</kbd> and <kbd>End</kbd> jump to the ends, disabled tabs are skipped.
 - With `activateOnFocus` on `Tabs.List`, moving the focus also switches the panel.
-- The panel animation and the gliding fill turn off with `prefers-reduced-motion`.
+- The panel animation, the gliding fill and the gliding hover block turn off with `prefers-reduced-motion`.
 - Tabs with only an icon need an `aria-label`.
 
 ## API Reference
@@ -96,7 +96,7 @@ The one-line form. Renders `Tabs.Root` with a list and a panel per item; other p
     defaultValue: { description: 'The tab that is active at first.', type: 'string', default: 'first item' },
     classNames: {
       description: 'Classes per slot.',
-      type: '{ list?: string; tab?: string; indicator?: string; panel?: string }',
+      type: '{ list?: string; tab?: string; indicator?: string; hover?: string; panel?: string }',
     },
   }}
 />
@@ -132,7 +132,9 @@ Holds the state and the look of the tabs. Renders a `<div>`; Base UI `Tabs.Root`
 
 ### Tabs.List
 
-The row of tabs, with the gliding indicator inside. Renders a `<div>`.
+The row of tabs. Two blocks glide in it: the active fill follows the selected tab, and one neutral hover
+block follows the mouse or keyboard focus. The hover block hides on the active tab and never slides out of
+it. Renders a `<div>`.
 
 <TypeTable
   type={{
@@ -143,7 +145,10 @@ The row of tabs, with the gliding indicator inside. Renders a `<div>`.
     },
     loopFocus: { description: 'Arrow keys wrap from the last tab to the first.', type: 'boolean', default: 'true' },
     className: { description: 'Classes for the list, merged last.', type: 'string' },
-    classNames: { description: 'Classes per slot.', type: '{ list?: string; indicator?: string }' },
+    classNames: {
+      description: 'Classes per slot. `indicator` is the active fill or underline, `hover` the neutral block that glides under the mouse.',
+      type: '{ list?: string; indicator?: string; hover?: string }',
+    },
   }}
 />
 

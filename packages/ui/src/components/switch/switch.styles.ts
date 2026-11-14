@@ -17,7 +17,7 @@ export const switchStyles = tv({
       'data-[checked]:bg-accent-foreground',
     ],
     label: [
-      'flex cursor-pointer items-center justify-between gap-4 text-sm text-foreground',
+      'flex cursor-pointer items-center justify-between gap-4 text-sm text-foreground select-none',
       'has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50',
     ],
     text: 'flex flex-col gap-0.5',

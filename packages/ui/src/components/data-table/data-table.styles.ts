@@ -12,7 +12,7 @@ export const dataTableStyles = tv({
       'data-[sorted]:text-foreground [&_svg]:size-3.5 [&_svg]:shrink-0',
     ],
     sortIcon: 'text-muted/70 transition-transform duration-[var(--cui-duration-fast)] ease-ui',
-    selectCell: 'w-10 pe-0 [&+*]:border-s-0!',
+    selectCell: 'pe-0 [&+*]:border-s-0!',
     selectedRow: 'bg-accent-soft hover:bg-accent-soft',
     empty: 'h-24 text-center text-muted',
     footer: 'flex flex-wrap items-center justify-between gap-x-4 gap-y-2',

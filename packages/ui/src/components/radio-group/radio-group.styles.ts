@@ -15,7 +15,7 @@ export const radioGroupStyles = tv({
       'transition-transform duration-[var(--cui-duration-normal)] ease-spring',
       'data-[unchecked]:scale-0 data-[starting-style]:scale-0',
     ],
-    item: 'flex cursor-pointer items-start gap-2.5 text-sm text-foreground has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50',
+    item: 'flex cursor-pointer items-start gap-2.5 text-sm text-foreground select-none has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50',
     text: 'flex flex-col gap-0.5 leading-[1.125rem]',
     description: 'text-xs text-muted',
   },

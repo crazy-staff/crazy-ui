@@ -18,17 +18,18 @@ export default function TableCustomCells() {
       rowKey={(r) => r.name}
       columns={[
         { key: 'name', header: 'Feature', className: 'font-medium' },
-        { key: 'area', header: 'Area', className: 'text-muted' },
+        { key: 'area', header: 'Area', width: 130, className: 'text-muted' },
         {
           key: 'status',
           header: 'Status',
+          width: 140,
           cell: (r) => (
             <Chip size="sm" variant={tone[r.status]}>
               {r.status}
             </Chip>
           ),
         },
-        { key: 'tests', header: 'Tests', className: 'text-end tabular-nums' },
+        { key: 'tests', header: 'Tests', width: 88, className: 'text-end' },
       ]}
       rows={features}
     />

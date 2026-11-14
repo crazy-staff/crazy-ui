@@ -7,8 +7,8 @@ export default function TableHover() {
       className="min-w-md"
       columns={[
         { key: 'title', header: 'Idea', className: 'font-medium' },
-        { key: 'author', header: 'Author', className: 'text-muted' },
-        { key: 'votes', header: 'Votes', className: 'text-end tabular-nums' },
+        { key: 'author', header: 'Author', width: 130, className: 'text-muted' },
+        { key: 'votes', header: 'Votes', width: 88, className: 'text-end' },
       ]}
       rows={[
         { title: 'Save teleport markers between sessions', author: 'Diego', votes: 128 },

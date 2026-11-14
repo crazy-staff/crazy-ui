@@ -101,6 +101,7 @@ export interface CalendarRangeProps extends CalendarBaseProps {
 export type CalendarProps = CalendarSingleProps | CalendarRangeProps;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+const SLIDE = 28;
 
 /**
  * A month grid for picking a day or a range of days.
@@ -241,12 +242,31 @@ export function Calendar(props: CalendarProps) {
 
   const prevDisabled = disabled || (min !== undefined && monthsBetween(monthStart(min), month) <= 0);
   const nextDisabled = disabled || (max !== undefined && monthsBetween(lastMonth, monthStart(max)) <= 0);
-  const offset = reduceMotion ? 0 : 24;
+  const offset = reduceMotion ? 0 : SLIDE;
+
+  const inShown = (d: Date, m: Date) =>
+    d.getMonth() === m.getMonth() && !!shown && cmp(d, shown.from) >= 0 && cmp(d, shown.to) <= 0;
+
+  /** The part of the range band that falls on one week row: one rounded strip from its first to last day. */
+  const renderBand = (week: Date[], m: Date) => {
+    if (!shown || sameDay(shown.from, shown.to)) return null;
+    const cols = week.flatMap((d, i) => (inShown(d, m) ? [i] : []));
+    if (!cols.length) return null;
+    const from = cols[0]!;
+    const span = cols[cols.length - 1]! - from + 1;
+    return (
+      <div
+        aria-hidden
+        className={cn(styles.band(), classNames?.band)}
+        style={{ '--band-from': from, '--band-span': span } as React.CSSProperties}
+      />
+    );
+  };
 
   const renderDay = (d: Date, m: Date, present: boolean) => {
     const outside = d.getMonth() !== m.getMonth();
     const off = isDisabled(d);
-    const inRange = !outside && shown && cmp(d, shown.from) >= 0 && cmp(d, shown.to) <= 0;
+    const inRange = inShown(d, m);
     const isStart = !!shown && sameDay(d, shown.from);
     const isEnd = !!shown && sameDay(d, shown.to);
     const edge = !outside && (isStart || isEnd);
@@ -296,7 +316,7 @@ export function Calendar(props: CalendarProps) {
     >
       <div className={cn(styles.nav(), classNames?.nav)}>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon-sm"
           aria-label="Previous month"
           disabled={prevDisabled}
@@ -306,7 +326,7 @@ export function Calendar(props: CalendarProps) {
           <ChevronLeft />
         </Button>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon-sm"
           aria-label="Next month"
           disabled={nextDisabled}
@@ -332,7 +352,7 @@ export function Calendar(props: CalendarProps) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: reduceMotion ? 0 : 0.25, ease: EASE }}
+            transition={{ duration: reduceMotion ? 0 : 0.32, ease: EASE }}
             className={cn(styles.months(), classNames?.months)}
           >
             <MonthGrids>
@@ -340,7 +360,21 @@ export function Calendar(props: CalendarProps) {
                 months.map((m) => (
                   <div key={key(m)} className={cn(styles.month(), classNames?.month)}>
                     <div aria-hidden className={cn(styles.caption(), classNames?.caption)}>
-                      {fmt.caption.format(m)}
+                      {/* parts keep the locale's order (e.g. year first in Japanese) */}
+                      {fmt.caption.formatToParts(m).map((part, i) =>
+                        part.type === 'literal' ? null : (
+                          <span
+                            key={i}
+                            className={
+                              part.type === 'year'
+                                ? cn(styles.captionYear(), classNames?.captionYear)
+                                : cn(styles.captionMonth(), classNames?.captionMonth)
+                            }
+                          >
+                            {part.value}
+                          </span>
+                        ),
+                      )}
                     </div>
                     <div
                       role="grid"
@@ -362,6 +396,7 @@ export function Calendar(props: CalendarProps) {
                       </div>
                       {monthDays(m, weekStartsOn).map((week) => (
                         <div key={key(week[0]!)} role="row" className={cn(styles.week(), classNames?.week)}>
+                          {renderBand(week, m)}
                           {week.map((d) => renderDay(d, m, present))}
                         </div>
                       ))}

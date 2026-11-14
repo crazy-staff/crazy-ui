@@ -34,6 +34,10 @@ import { Table } from '@crazy-staff/ui';
 
 <ComponentPreview name="table/custom-cells" />
 
+Give short columns (status, numbers) a `width`: the table then uses a fixed layout, so columns keep their
+width whatever the rows show, and the columns without a width share the rest. Digits are tabular, so
+changing numbers never move a column either.
+
 ### Row hover
 
 `hover` highlights the row under the mouse. Use it when rows open something.
@@ -79,8 +83,8 @@ The one-line form. Other props (`hover`, `dense`, `className`…) go to `Table.R
 <TypeTable
   type={{
     columns: {
-      description: 'The columns: `key` reads the row, `header` is the title, `cell` renders a custom cell, `className` goes to the header and the cells.',
-      type: '{ key: string; header: ReactNode; cell?: (row) => ReactNode; className?: string }[]',
+      description: 'The columns: `key` reads the row, `header` is the title, `cell` renders a custom cell, `className` goes to the header and the cells, `width` fixes the width (and switches the table to the fixed layout).',
+      type: '{ key: string; header: ReactNode; cell?: (row) => ReactNode; className?: string; width?: number | string }[]',
     },
     rows: { description: 'The data, one object per row.', type: 'Row[]' },
     rowKey: { description: 'A stable key per row.', type: '(row, index) => Key', default: 'index' },
@@ -96,6 +100,11 @@ The frame and the table. Renders a `<div>` around a `<table>`; other props go to
   type={{
     hover: { description: 'Highlight the row under the mouse.', type: 'boolean', default: 'false' },
     dense: { description: 'Tighter rows.', type: 'boolean', default: 'false' },
+    layout: {
+      description: '`fixed`: widths come from `<col>` widths or the first row, never from the content, so they don\'t jump when rows change. `auto`: sized to the content.',
+      type: "'auto' | 'fixed'",
+      default: "'auto'",
+    },
     className: { description: 'Classes for the `<table>`, merged last.', type: 'string' },
     classNames: { description: 'Classes for the scrolling frame.', type: '{ wrapper?: string }' },
   }}

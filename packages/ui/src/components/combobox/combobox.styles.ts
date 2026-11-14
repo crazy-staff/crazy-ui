@@ -9,7 +9,9 @@ export const comboboxStyles = tv({
       'focus-within:border-accent has-[input:disabled]:cursor-not-allowed has-[input:disabled]:opacity-50',
       'has-[[aria-invalid=true]]:border-danger',
     ],
-    input: 'h-full min-w-12 flex-1 bg-transparent outline-none placeholder:text-muted disabled:cursor-not-allowed',
+    // no h-full: a percentage of the min-height group doesn't resolve and blocks the stretch, which left
+    // the text at the top; self-stretch (single) or h-6 (chips) sizes it instead
+    input: 'min-w-12 flex-1 self-center bg-transparent outline-none placeholder:text-muted disabled:cursor-not-allowed',
     actions: 'flex shrink-0 items-center gap-0.5',
     action: [
       'flex size-6 shrink-0 cursor-default items-center justify-center rounded-chip text-muted outline-none',

@@ -1,26 +1,28 @@
 import { Chart } from '@crazy-staff/ui';
 
-const months = [
-  { month: 'Jun', votes: 120, ideas: 14, comments: 40 },
-  { month: 'Jul', votes: 180, ideas: 22, comments: 64 },
-  { month: 'Aug', votes: 150, ideas: 18, comments: 58 },
-  { month: 'Sep', votes: 260, ideas: 31, comments: 90 },
-  { month: 'Oct', votes: 310, ideas: 35, comments: 120 },
-  { month: 'Nov', votes: 290, ideas: 40, comments: 104 },
+const weeks = [
+  { week: 'W32', votes: 84, comments: 31 },
+  { week: 'W33', votes: 112, comments: 46 },
+  { week: 'W34', votes: 98, comments: 52 },
+  { week: 'W35', votes: 146, comments: 61 },
+  { week: 'W36', votes: 171, comments: 88 },
+  { week: 'W37', votes: 160, comments: 74 },
+  { week: 'W38', votes: 214, comments: 95 },
+  { week: 'W39', votes: 238, comments: 120 },
 ];
 
 export default function ChartArea() {
   return (
     <Chart
       className="w-full max-w-2xl"
-      data={months}
-      x="month"
       type="area"
+      data={weeks}
+      x="week"
       series={[
         { key: 'votes', label: 'Votes' },
         { key: 'comments', label: 'Comments' },
       ]}
-      ariaLabel="Votes and comments per month"
+      ariaLabel="Votes and comments per week"
     />
   );
 }

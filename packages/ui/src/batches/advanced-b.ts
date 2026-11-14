@@ -2,7 +2,23 @@
 export { Carousel, useCarousel, type CarouselProps, type CarouselRootProps, type CarouselContentProps, type CarouselItemProps, type CarouselDotsProps, type CarouselApi, type CarouselOptions } from '../components/carousel/carousel';
 export { carouselStyles } from '../components/carousel/carousel.styles';
 
-export { Chart, chartColor, chartPalette, chartVariables, type ChartProps, type ChartRootProps, type ChartSeries, type ChartLegendProps } from '../components/chart/chart';
+export {
+  Chart,
+  chartColor,
+  chartPalette,
+  chartVariables,
+  curveLinear,
+  curveSmooth,
+  type ChartProps,
+  type ChartRootProps,
+  type ChartSeries,
+  type ChartLegendProps,
+  type ChartLegendItem,
+  type ChartReferenceLine,
+  type ChartCurveName,
+  type ChartValueFormat,
+  type ChartXFormat,
+} from '../components/chart/chart';
 export { chartStyles } from '../components/chart/chart.styles';
 
 export { CodeBlock, highlightCode, type CodeBlockProps, type CodeBlockCopyProps, type CodeThemes, type HighlightOptions } from '../components/code-block/code-block';
@@ -37,3 +53,6 @@ export { typographyStyles, proseStyles } from '../components/typography/typograp
 
 export { Item, ItemGroup, ItemSeparator, type ItemProps, type ItemRootProps, type ItemMediaProps, type ItemGroupProps } from '../components/item/item';
 export { itemStyles, itemMediaStyles, itemGroupStyles } from '../components/item/item.styles';
+
+export { ProgressiveBlur, type ProgressiveBlurProps } from '../components/progressive-blur/progressive-blur';
+export { progressiveBlurStyles } from '../components/progressive-blur/progressive-blur.styles';

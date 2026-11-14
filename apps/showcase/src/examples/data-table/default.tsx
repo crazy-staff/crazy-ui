@@ -24,9 +24,9 @@ const tone = { released: 'success', planned: 'soft', 'in progress': 'warning', o
 const col = createDataTableColumns<Post>();
 const columns = col.columns([
   col.accessor('title', { header: 'Idea', cell: (info) => <span className="font-medium">{info.getValue()}</span> }),
-  col.accessor('status', { header: 'Status', cell: (info) => <Chip variant={tone[info.getValue()]}>{info.getValue()}</Chip> }),
-  col.accessor('votes', { header: 'Votes', cell: (info) => <span className="tabular-nums">{info.getValue()}</span> }),
-  col.accessor('author', { header: 'Author' }),
+  col.accessor('status', { header: 'Status', meta: { width: 150 }, cell: (info) => <Chip variant={tone[info.getValue()]}>{info.getValue()}</Chip> }),
+  col.accessor('votes', { header: 'Votes', meta: { width: 104 } }),
+  col.accessor('author', { header: 'Author', meta: { width: 150 } }),
 ]);
 
 export default function DataTableDefault() {

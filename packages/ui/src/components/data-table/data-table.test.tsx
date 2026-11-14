@@ -57,4 +57,10 @@ describe('DataTable', () => {
     render(<DataTable columns={columns} data={[]} empty="No ideas yet." />);
     expect(screen.getByText('No ideas yet.')).toBeInTheDocument();
   });
+
+  it('keeps column widths in a fixed layout', () => {
+    const { container } = render(<DataTable columns={columns} data={data} getRowId={(r) => r.id} selectable />);
+    expect(screen.getByRole('table')).toHaveClass('table-fixed');
+    expect(container.querySelectorAll('col')).toHaveLength(columns.length + 1);
+  });
 });

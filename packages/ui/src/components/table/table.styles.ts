@@ -3,7 +3,8 @@ import { tv } from '../../lib/tv';
 export const tableStyles = tv({
   slots: {
     wrapper: 'squircle w-full overflow-x-auto rounded-card border border-border bg-surface',
-    table: 'w-full border-collapse text-sm',
+    // tabular digits: numbers keep their width when they change (sorting, paging, live counts)
+    table: 'w-full border-collapse text-sm tabular-nums',
     caption: 'caption-bottom px-4 py-3 text-start text-xs text-muted',
     header: 'bg-surface-2/70',
     body: '',
@@ -17,6 +18,11 @@ export const tableStyles = tv({
     hover: { true: { row: 'hover:bg-hover/50' }, false: {} },
     /** Tighter rows. */
     dense: { true: { head: 'h-8 px-3', cell: 'px-3 py-2' }, false: {} },
+    /**
+     * `fixed`: column widths come from the first row / `<col>` widths, not from the content, so they
+     * never jump when the rows change. `auto`: the browser sizes columns to their content.
+     */
+    layout: { auto: { table: 'table-auto' }, fixed: { table: 'table-fixed', cell: 'break-words' } },
   },
-  defaultVariants: { hover: false, dense: false },
+  defaultVariants: { hover: false, dense: false, layout: 'auto' },
 });

@@ -7,13 +7,16 @@ export const navigationMenuStyles = tv({
   slots: {
     root: 'relative w-fit max-w-full',
     list: 'relative z-0 flex items-center gap-0.5',
-    // no `squircle`: it glides by translate/width, which the squircle polyfill would not animate
+    // No `squircle`: it glides by translate/width, which the squircle polyfill would not animate. It takes
+    // the native `corner-shape`; where that's missing (Firefox/Zen) a smaller plain radius stands in, so
+    // the block reads like the squircle items of the sidebar and menus instead of a pill.
     indicator: [
-      'pointer-events-none absolute top-0 left-0 -z-10 h-full w-(--nav-indicator-width) translate-x-(--nav-indicator-left) rounded-item bg-hover',
+      'pointer-events-none absolute top-0 left-0 -z-10 h-full w-(--nav-indicator-width) translate-x-(--nav-indicator-left) bg-hover',
+      'rounded-control-sm [corner-shape:var(--cui-corner-shape)] not-supports-[corner-shape:squircle]:rounded-chip',
       `transition-[translate,width,opacity] ${duration} data-[hidden]:opacity-0 data-[instant]:transition-opacity motion-reduce:transition-none`,
     ],
     trigger: [
-      'inline-flex h-control-sm cursor-default items-center gap-1 rounded-item px-3 text-sm whitespace-nowrap',
+      'inline-flex h-control-sm cursor-default items-center gap-1 rounded-control-sm px-3 text-sm whitespace-nowrap',
       'font-[weight:var(--cui-control-weight)] text-muted no-underline outline-none select-none',
       'transition-colors duration-[var(--cui-duration-fast)] hover:text-foreground focus-visible:text-foreground',
       'data-[popup-open]:text-foreground data-[active]:text-foreground aria-[current=page]:text-foreground',

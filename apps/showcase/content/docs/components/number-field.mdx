@@ -1,0 +1,159 @@
+---
+title: Number Field
+description: A field for numbers with minus and plus buttons — amounts, levels, rates and other trainer values.
+---
+
+<ComponentPreview name="number-field/default" />
+
+## Installation
+
+<InstallTabs component="number-field" />
+
+## Usage
+
+```tsx
+import { NumberField } from '@crazy-staff/ui';
+```
+
+```tsx
+<NumberField label="Ore amount" defaultValue={50} min={0} max={999} />
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg` match the [Input](/docs/components/input) heights. The buttons sit inside the
+field with a radius that follows the field's corner.
+
+<ComponentPreview name="number-field/sizes" />
+
+### Min, max and step
+
+`min` and `max` clamp the value and disable the button at the limit. `step` is the size of one click or
+arrow key; **Shift** uses `largeStep` (default 10) and **Alt** uses `smallStep` (default 0.1).
+
+<ComponentPreview name="number-field/steps" />
+
+### Formatting
+
+`format` takes `Intl.NumberFormat` options — percent, fixed decimals, units, currency. `locale` sets the
+separators. The value stays a plain number.
+
+<ComponentPreview name="number-field/format" />
+
+### Scrubbing
+
+With `scrub`, dragging horizontally over the label changes the value, like in design tools. Without a label
+a small handle appears at the start of the field. `hideButtons` leaves only the input.
+
+<ComponentPreview name="number-field/scrub" />
+
+### Disabled and read-only
+
+`disabled` dims the field and its buttons. `readOnly` keeps the value selectable on a slightly darker fill.
+
+<ComponentPreview name="number-field/states" />
+
+### Inside a Field
+
+Put it in a [Field](/docs/components/field) for a label, a description and validation; `Field.Label`
+names the input and an invalid field turns the border red.
+
+<ComponentPreview name="number-field/field" />
+
+### Controlled
+
+`value` and `onValueChange` control the number. It is `null` while the field is empty.
+
+<ComponentPreview name="number-field/controlled" />
+
+### Compound parts
+
+Build the field yourself with `NumberField.Root`, `NumberField.Group`, `NumberField.Input`,
+`NumberField.Decrement` and `NumberField.Increment` — here both buttons on the end with chevrons.
+
+<ComponentPreview name="number-field/compound" />
+
+## Accessibility
+
+- Built on Base UI Number Field: the input is a text input with `inputmode="decimal"` (a numeric keyboard on
+  phones and no native spinner buttons) and `aria-roledescription="Number field"`.
+- **Arrow Up/Down** step the value, **Shift** and **Alt** change the step, **Home/End** jump to `min`/`max`.
+- The buttons are named "Decrease" and "Increase" and are skipped by **Tab**; give your own buttons an
+  `aria-label` in the compound form.
+- Name the field with `label`, a `Field.Label`, or `aria-label`.
+
+## API Reference
+
+### NumberField
+
+The short form. All Base UI `NumberField.Root` props pass through (`value`, `defaultValue`, `onValueChange`,
+`onValueCommitted`, `min`, `max`, `step`, `smallStep`, `largeStep`, `format`, `locale`, `allowWheelScrub`,
+`snapOnStep`, `allowOutOfRange`, `name`, `required`, `disabled`, `readOnly` …).
+
+<TypeTable
+  type={{
+    label: { description: 'A label above the field. With `scrub`, dragging it changes the value.', type: 'ReactNode' },
+    scrub: { description: 'Change the value by dragging horizontally over the label (or a handle).', type: 'boolean', default: 'false' },
+    hideButtons: { description: 'Hide the minus and plus buttons.', type: 'boolean', default: 'false' },
+    placeholder: { description: 'Shown while the field is empty.', type: 'string' },
+    size: { description: 'Height, radius and text size.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    min: { description: 'The smallest value.', type: 'number' },
+    max: { description: 'The largest value.', type: 'number' },
+    step: { description: 'The amount one click or arrow key changes the value by.', type: "number | 'any'", default: '1' },
+    format: { description: 'Number formatting options.', type: 'Intl.NumberFormatOptions' },
+    'aria-label': { description: 'Name of the input when there is no label.', type: 'string' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?; label?; group?; input?; button?; scrubArea?; scrubHandle?; scrubCursor? }',
+    },
+  }}
+/>
+
+### NumberField.Root
+
+Base UI `NumberField.Root`. Renders a `<div>` and gives its size to the parts inside.
+
+<TypeTable
+  type={{
+    size: { description: 'Size for the group and buttons inside.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    id: { description: 'The id of the input, for a `<label htmlFor>`.', type: 'string' },
+  }}
+/>
+
+### NumberField.Group
+
+The bordered box (Base UI `NumberField.Group`). Renders a `<div>` with `role="group"`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### NumberField.Input
+
+The text input (Base UI `NumberField.Input`). Centered by default; add `text-start` to align it left.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### NumberField.Decrement and NumberField.Increment
+
+The minus and plus buttons. Children replace the icon. Holding a button repeats the step.
+
+<TypeTable
+  type={{
+    children: { description: 'The icon.', type: 'ReactNode', default: 'Minus / Plus' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### NumberField.ScrubArea and NumberField.ScrubAreaCursor
+
+A `<span>` that changes the value while dragged over, and the cursor shown during the drag (the real pointer
+is locked). Base UI props such as `direction` and `pixelSensitivity` pass through.
+
+<TypeTable
+  type={{
+    direction: { description: 'Which drag direction changes the value.', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    pixelSensitivity: { description: 'Pixels of movement per step.', type: 'number', default: '2' },
+  }}
+/>

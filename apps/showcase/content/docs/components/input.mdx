@@ -1,6 +1,6 @@
 ---
 title: Input
-description: A single-line text field — search boxes, names, numbers. Works on its own or inside a Field.
+description: A single-line text field — search boxes, names, links. Works on its own or inside a Field.
 ---
 
 <ComponentPreview name="input/default" />
@@ -37,7 +37,9 @@ error text as well, use a [Field](/docs/components/field) instead.
 
 ### Types
 
-Every native `type` works: `email`, `password`, `number`, `search`, `url`…
+Every native `type` works: `email`, `password`, `search`, `url`… For numbers use
+[Number Field](/docs/components/number-field): it has our own minus and plus buttons. With `type="number"`
+the input hides the browser's spinner buttons.
 
 <ComponentPreview name="input/types" />
 

@@ -23,6 +23,14 @@ export {
   type CommandItemData,
   type CommandGroupData,
   type CommandDialogProps,
+  type CommandItemBreadcrumbsProps,
+  type CommandHighlightProps,
+  type CommandJumpItemProps,
+  type CommandHintProps,
+  type CommandFilterOption,
+  type CommandFilterProps,
+  type CommandFiltersProps,
+  highlightParts,
 } from '../components/command/command';
 export { commandStyles } from '../components/command/command.styles';
 

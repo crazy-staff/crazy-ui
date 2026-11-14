@@ -41,7 +41,8 @@ picks which validity error the message is for.
 ### Custom validation
 
 `validate` gets the value and returns an error message (or `null`). With `validationMode="onChange"` it runs on
-every keystroke; an empty `Field.Error` shows the returned message.
+every keystroke; an empty `Field.Error` shows the returned message. Any Base UI control works inside a field —
+here a [Number Field](/docs/components/number-field), whose value reaches `validate` as a number.
 
 <ComponentPreview name="field/validation" />
 

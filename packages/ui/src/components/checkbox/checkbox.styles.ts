@@ -17,7 +17,7 @@ export const checkboxStyles = tv({
     check: 'group-data-[indeterminate]/checkbox:hidden',
     dash: 'hidden group-data-[indeterminate]/checkbox:block',
     label: [
-      'inline-flex cursor-pointer items-start gap-2.5 text-sm text-foreground',
+      'inline-flex cursor-pointer items-start gap-2.5 text-sm text-foreground select-none',
       'has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50',
     ],
     text: 'flex flex-col gap-0.5 leading-[1.125rem]',

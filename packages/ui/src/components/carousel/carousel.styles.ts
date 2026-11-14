@@ -8,7 +8,8 @@ import { tv } from '../../lib/tv';
 export const carouselStyles = tv({
   slots: {
     root: 'relative flex w-full flex-col gap-4 outline-none',
-    viewport: 'overflow-hidden',
+    // `data-dragging` is set from pointer down to pointer up (see carousel.tsx)
+    viewport: 'overflow-hidden data-[dragging]:cursor-grabbing data-[dragging]:select-none',
     container: 'flex touch-pan-y touch-pinch-zoom',
     item: 'min-w-0 shrink-0 grow-0 basis-full',
     card: 'squircle flex size-full flex-col overflow-hidden rounded-card border border-border bg-surface text-foreground',

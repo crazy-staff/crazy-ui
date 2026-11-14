@@ -38,6 +38,20 @@ import { dataTableStyles } from './data-table.styles';
 
 const s = dataTableStyles();
 
+/** What a column can tell the data table through `meta`. */
+export interface DataTableColumnMeta {
+  /**
+   * A fixed width (px number or any CSS length). The table uses a fixed layout, so widths never jump
+   * when sorting, paging or selecting; columns without a width share the space that's left.
+   * Give one to short columns (status, numbers, dates).
+   */
+  width?: number | string;
+}
+
+/** Room a column without a width keeps before the table starts to scroll sideways. */
+const MIN_FLEX_WIDTH = 140;
+const SELECT_WIDTH = 48;
+
 /**
  * The TanStack Table v9 features a data table uses: sorting, column + global filtering, column
  * visibility, row selection and pagination (client side). Pass it to `createColumnHelper` so column
@@ -55,6 +69,7 @@ export const dataTableFeatures = tableFeatures({
   rowSelectionFeature,
   rowPaginationFeature,
   paginatedRowModel: createPaginatedRowModel(),
+  columnMeta: {} as DataTableColumnMeta,
 });
 
 export type DataTableFeatures = typeof dataTableFeatures;
@@ -204,7 +219,7 @@ function DataTableColumnToggle({ label = 'View', className }: { label?: React.Re
   );
 }
 
-export interface DataTableContentProps extends Omit<TableRootProps, 'children'> {
+export interface DataTableContentProps extends Omit<TableRootProps, 'children' | 'layout'> {
   /** Shown in one row when no rows match. @default 'No results.' */
   empty?: React.ReactNode;
   /** Called when a row is clicked (open a post, a tester). */
@@ -212,11 +227,25 @@ export interface DataTableContentProps extends Omit<TableRootProps, 'children'> 
 }
 
 /** The table: sortable headers, selectable rows, an empty row when nothing matches. */
-function DataTableContent({ empty = 'No results.', onRowClick, hover, ...props }: DataTableContentProps) {
+function DataTableContent({ empty = 'No results.', onRowClick, hover, style, ...props }: DataTableContentProps) {
   const table = useDataTableContext();
   const rows = table.getRowModel().rows;
+  // A fixed layout with one <col> per column: widths come from here, never from the rows on screen.
+  const columns = table.getVisibleLeafColumns();
+  const widthOf = (column: (typeof columns)[number]) =>
+    column.id === 'select' ? SELECT_WIDTH : (column.columnDef.meta as DataTableColumnMeta | undefined)?.width;
+  const minWidth = columns
+    .map((c) => widthOf(c))
+    .map((w) => (w === undefined ? `${MIN_FLEX_WIDTH}px` : typeof w === 'number' ? `${w}px` : w))
+    .join(' + ');
   return (
-    <Table.Root hover={hover ?? Boolean(onRowClick)} {...props}>
+    <Table.Root layout="fixed" hover={hover ?? Boolean(onRowClick)} style={{ minWidth: `calc(${minWidth})`, ...style }} {...props}>
+      <colgroup>
+        {columns.map((c) => {
+          const width = widthOf(c);
+          return <col key={c.id} style={width === undefined ? undefined : { width }} />;
+        })}
+      </colgroup>
       <Table.Header>
         {table.getHeaderGroups().map((group) => (
           <Table.Row key={group.id}>

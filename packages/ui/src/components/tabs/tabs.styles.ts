@@ -2,8 +2,8 @@ import { tv } from '../../lib/tv';
 
 /**
  * Tabs look like our Toggle: quiet ghost buttons, and the active one sits on a soft squircle fill
- * that glides between tabs. The `line` variant keeps the same hover fill and underlines the active
- * tab instead.
+ * that glides between tabs. Hover is one neutral block that glides on its own (glide.ts) and never
+ * sits on the active tab. The `line` variant keeps the same hover block and underlines the active tab.
  */
 export const tabsStyles = tv({
   slots: {
@@ -12,11 +12,13 @@ export const tabsStyles = tv({
     tab: [
       'squircle relative z-10 inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap select-none',
       'font-[weight:var(--cui-control-weight)] text-muted outline-none',
-      'transition-[background-color,color] duration-[var(--cui-duration-fast)] ease-ui',
-      'hover:bg-hover hover:text-foreground data-[active]:hover:bg-transparent',
+      'transition-[color] duration-[var(--cui-duration-fast)] ease-ui',
+      'hover:text-foreground',
       'focus-visible:ring-[3px] focus-visible:ring-ring',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
     ],
+    // The neutral hover block (glide.ts) takes the tab's radius.
+    hover: '',
     // The indicator moves by width/translate. The squircle polyfill can't animate that in Firefox,
     // so it takes the native `corner-shape` only (a plain rounded box where unsupported).
     indicator: [
@@ -56,10 +58,10 @@ export const tabsStyles = tv({
     },
   },
   compoundVariants: [
-    { variant: 'pill', size: 'sm', class: { tab: 'h-control-sm rounded-control-sm px-3', indicator: 'rounded-control-sm' } },
-    { variant: 'pill', size: 'md', class: { tab: 'h-control rounded-control px-4', indicator: 'rounded-control' } },
-    { variant: 'line', size: 'sm', class: { tab: 'h-[calc(var(--cui-control-height)*0.7)] rounded-chip px-2.5' } },
-    { variant: 'line', size: 'md', class: { tab: 'h-control-sm rounded-control-sm px-2.5' } },
+    { variant: 'pill', size: 'sm', class: { tab: 'h-control-sm rounded-control-sm px-3', indicator: 'rounded-control-sm', hover: 'rounded-control-sm' } },
+    { variant: 'pill', size: 'md', class: { tab: 'h-control rounded-control px-4', indicator: 'rounded-control', hover: 'rounded-control' } },
+    { variant: 'line', size: 'sm', class: { tab: 'h-[calc(var(--cui-control-height)*0.7)] rounded-chip px-2.5', hover: 'rounded-chip' } },
+    { variant: 'line', size: 'md', class: { tab: 'h-control-sm rounded-control-sm px-2.5', hover: 'rounded-control-sm' } },
     { variant: 'pill', accent: true, class: { indicator: 'bg-accent-soft' } },
     { variant: 'pill', accent: false, class: { indicator: 'bg-hover' } },
     { variant: 'line', accent: true, class: { indicator: 'bg-accent' } },

@@ -54,4 +54,11 @@ describe('Tabs', () => {
     expect(screen.getByRole('tab', { name: 'Two' })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Second')).toBeVisible();
   });
+
+  it('has one gliding hover block in the list and no hover fill on the tabs', () => {
+    render(<Tabs items={items} />);
+    const list = screen.getByRole('tablist');
+    expect(list.querySelectorAll(':scope > [data-glide-block]')).toHaveLength(1);
+    expect(screen.getByRole('tab', { name: 'Beta' }).className).not.toContain('hover:bg-hover');
+  });
 });

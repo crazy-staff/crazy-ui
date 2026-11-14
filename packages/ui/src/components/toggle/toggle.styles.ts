@@ -2,7 +2,8 @@ import { tv } from '../../lib/tv';
 
 export const toggleStyles = tv({
   base: [
-    'squircle inline-flex items-center justify-center gap-2 whitespace-nowrap select-none',
+    // every variant has a border (transparent when not shown), so switching variant never shifts layout
+    'squircle inline-flex items-center justify-center gap-2 whitespace-nowrap select-none border border-transparent',
     'font-[weight:var(--cui-control-weight)] text-muted outline-none',
     'transition-[background-color,color,transform] duration-[var(--cui-duration-fast)] ease-ui',
     'hover:bg-hover hover:text-foreground',
@@ -17,7 +18,7 @@ export const toggleStyles = tv({
   variants: {
     variant: {
       ghost: '',
-      outline: 'border border-border-strong data-[pressed]:border-transparent',
+      outline: 'border-border-strong data-[pressed]:border-transparent',
     },
     size: {
       sm: 'h-control-sm rounded-control-sm px-2.5 text-xs [&_svg]:size-3.5',

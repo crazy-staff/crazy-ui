@@ -9,7 +9,7 @@ export const toggleGroupStyles = tv({
   slots: {
     root: 'squircle inline-flex items-center gap-1 p-1 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch',
     item: [
-      'squircle relative isolate inline-flex items-center justify-center gap-2 whitespace-nowrap select-none',
+      'squircle relative isolate inline-flex items-center justify-center gap-2 whitespace-nowrap select-none border border-transparent',
       'font-[weight:var(--cui-control-weight)] text-muted outline-none',
       'transition-[background-color,color,transform] duration-[var(--cui-duration-fast)] ease-ui',
       'hover:bg-hover hover:text-foreground',
@@ -19,7 +19,8 @@ export const toggleGroupStyles = tv({
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       '[&_svg]:pointer-events-none [&_svg]:shrink-0',
     ],
-    indicator: 'squircle pointer-events-none absolute inset-0 -z-10 bg-accent-soft',
+    // -inset-px: cover the item's (transparent) border too, so the fill has the item's exact outline
+    indicator: 'squircle pointer-events-none absolute -inset-px -z-10 bg-accent-soft',
   },
   variants: {
     variant: {

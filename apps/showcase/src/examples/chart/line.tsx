@@ -1,27 +1,28 @@
 import { Chart } from '@crazy-staff/ui';
 
-const months = [
-  { month: 'Jun', votes: 120, ideas: 14, comments: 40 },
-  { month: 'Jul', votes: 180, ideas: 22, comments: 64 },
-  { month: 'Aug', votes: 150, ideas: 18, comments: 58 },
-  { month: 'Sep', votes: 260, ideas: 31, comments: 90 },
-  { month: 'Oct', votes: 310, ideas: 35, comments: 120 },
-  { month: 'Nov', votes: 290, ideas: 40, comments: 104 },
+const weeks = [
+  { week: 'W32', active: 18, joined: 6 },
+  { week: 'W33', active: 22, joined: 5 },
+  { week: 'W34', active: 21, joined: 3 },
+  { week: 'W35', active: 29, joined: 9 },
+  { week: 'W36', active: 34, joined: 7 },
+  { week: 'W37', active: 31, joined: 4 },
+  { week: 'W38', active: 38, joined: 8 },
+  { week: 'W39', active: 44, joined: 10 },
 ];
 
 export default function ChartLine() {
   return (
     <Chart
       className="w-full max-w-2xl"
-      data={months}
-      x="month"
-      series={[
-        { key: 'votes', label: 'Votes' },
-        { key: 'comments', label: 'Comments' },
-        { key: 'ideas', label: 'Ideas' },
-      ]}
+      data={weeks}
+      x="week"
       points
-      ariaLabel="Votes, comments and ideas per month"
+      series={[
+        { key: 'active', label: 'Active testers' },
+        { key: 'joined', label: 'New testers' },
+      ]}
+      ariaLabel="Active and new testers per week"
     />
   );
 }

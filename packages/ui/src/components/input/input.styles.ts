@@ -8,6 +8,8 @@ export const inputStyles = tv({
     'outline-none transition-[border-color] duration-[var(--cui-duration-fast)] ease-ui',
     'focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-50',
     'read-only:bg-surface-2/60',
+    // no native spinner buttons on type=number: use NumberField for steppers
+    '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
     'aria-[invalid=true]:border-danger data-[invalid]:border-danger',
   ],
   variants: {

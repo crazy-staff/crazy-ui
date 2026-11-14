@@ -1,6 +1,7 @@
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import * as React from 'react';
 import { cn, type VariantProps } from '../../lib/tv';
+import { glideBlockClass, useGlide } from '../sidebar/glide';
 import { tabsStyles } from './tabs.styles';
 
 type Options = Pick<VariantProps<typeof tabsStyles>, 'variant' | 'size' | 'accent'>;
@@ -26,14 +27,28 @@ function TabsRoot({ className, variant = 'pill', size = 'md', accent = true, ...
 }
 
 export interface TabsListProps extends React.ComponentPropsWithRef<typeof BaseTabs.List> {
-  classNames?: { list?: string; indicator?: string };
+  classNames?: { list?: string; indicator?: string; hover?: string };
 }
 
-/** The tab row; includes the gliding indicator. */
-function TabsList({ className, classNames, children, ...props }: TabsListProps) {
+/**
+ * The tab row. Two blocks glide in it: the active fill (or underline) follows the selected tab, and
+ * one neutral hover block follows the mouse or keyboard focus. The hover block hides on the active tab
+ * and never starts its slide from it (same behaviour as the sidebar).
+ */
+function TabsList({ className, classNames, children, ref, ...props }: TabsListProps) {
   const s = useStyles();
+  const glideRef = useGlide<HTMLDivElement>();
+  const refs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      glideRef(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+    },
+    [glideRef, ref],
+  );
   return (
-    <BaseTabs.List className={cn(s.list(), classNames?.list, className)} {...props}>
+    <BaseTabs.List ref={refs} className={cn(s.list(), classNames?.list, className)} {...props}>
+      <span data-glide-block aria-hidden className={cn(glideBlockClass, s.hover(), classNames?.hover)} />
       {children}
       <BaseTabs.Indicator className={cn(s.indicator(), classNames?.indicator)} />
     </BaseTabs.List>
@@ -58,14 +73,14 @@ export interface TabItem {
 
 export interface TabsProps extends Omit<TabsRootProps, 'children'> {
   items: TabItem[];
-  classNames?: { list?: string; tab?: string; indicator?: string; panel?: string };
+  classNames?: { list?: string; tab?: string; indicator?: string; hover?: string; panel?: string };
 }
 
 /** One-line form: `<Tabs items={[{ value, label, content }]} />`. */
 function TabsSimple({ items, classNames, defaultValue, ...props }: TabsProps) {
   return (
     <TabsRoot defaultValue={defaultValue ?? items[0]?.value} {...props}>
-      <TabsList classNames={{ list: classNames?.list, indicator: classNames?.indicator }}>
+      <TabsList classNames={{ list: classNames?.list, indicator: classNames?.indicator, hover: classNames?.hover }}>
         {items.map((i) => (
           <TabsTab key={i.value} value={i.value} disabled={i.disabled} className={classNames?.tab}>
             {i.label}

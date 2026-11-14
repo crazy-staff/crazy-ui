@@ -11,10 +11,11 @@ export interface TableRootProps extends React.ComponentPropsWithRef<'table'>, Op
 }
 
 /** The table in a rounded, horizontally scrolling frame (like the docs tables of crazy-hub). */
-function TableRoot({ className, classNames, hover, dense, ...props }: TableRootProps) {
-  const s = tableStyles({ hover, dense });
+function TableRoot({ className, classNames, hover, dense, layout, ...props }: TableRootProps) {
+  const s = tableStyles({ hover, dense, layout });
+  const options = React.useMemo(() => ({ hover, dense, layout }), [hover, dense, layout]);
   return (
-    <OptionsContext.Provider value={{ hover, dense }}>
+    <OptionsContext.Provider value={options}>
       <div className={cn(s.wrapper(), classNames?.wrapper)}>
         <table className={cn(s.table(), className)} {...props} />
       </div>
@@ -34,6 +35,11 @@ export interface TableColumn<Row> {
   header: React.ReactNode;
   cell?: (row: Row) => React.ReactNode;
   className?: string;
+  /**
+   * A fixed width (px number or CSS length). When any column has one the table switches to a fixed
+   * layout, so widths don't follow the content; columns without a width share the rest.
+   */
+  width?: number | string;
 }
 
 export interface TableProps<Row> extends Omit<TableRootProps, 'children'> {
@@ -45,10 +51,18 @@ export interface TableProps<Row> extends Omit<TableRootProps, 'children'> {
 }
 
 /** One-line form for simple data: `<Table columns={…} rows={…} />`. For sorting/filtering see Data Table. */
-function TableSimple<Row extends Record<string, unknown>>({ columns, rows, rowKey, caption, ...props }: TableProps<Row>) {
+function TableSimple<Row extends Record<string, unknown>>({ columns, rows, rowKey, caption, layout, ...props }: TableProps<Row>) {
+  const sized = columns.some((c) => c.width !== undefined);
   return (
-    <TableRoot {...props}>
+    <TableRoot layout={layout ?? (sized ? 'fixed' : 'auto')} {...props}>
       {caption && <TableCaption>{caption}</TableCaption>}
+      {sized && (
+        <colgroup>
+          {columns.map((c) => (
+            <col key={c.key} style={c.width === undefined ? undefined : { width: c.width }} />
+          ))}
+        </colgroup>
+      )}
       <TableHeader>
         <TableRow>
           {columns.map((c) => (

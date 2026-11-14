@@ -1,7 +1,8 @@
 import { ChevronLeft, ChevronRight, Ellipsis } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
+import { glideBlockClass, useGlide } from '../sidebar/glide';
 import { paginationStyles } from './pagination.styles';
 
 const s = paginationStyles();
@@ -25,94 +26,47 @@ export function paginationRange(page: number, total: number, siblings = 1): Slot
   return out;
 }
 
-/** How the numbers on the bar move: glide to the clicked slot, roll the numbers, settle. */
-const GLIDE_MS = 200;
-const rollDuration = (distance: number) => Math.min(240 + distance * 22, 900);
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
-const glide = { type: 'tween', duration: GLIDE_MS / 1000, ease: [0.22, 1, 0.36, 1] } as const;
+/** The thumb slides with a soft spring; the numbers roll with a slightly stiffer one. */
+const thumbSpring = { type: 'spring', stiffness: 520, damping: 38, mass: 0.9 } as const;
+const rollSpring = { type: 'spring', stiffness: 420, damping: 34 } as const;
+const instant = { duration: 0 } as const;
 
-interface View {
-  /** What each slot shows right now (rolls during a jump). */
-  slots: Slot[];
-  /** The slot under the highlight. */
-  active: number;
-  /** +1 when the numbers roll forward, -1 backward, 0 when still. */
-  roll: number;
-}
-
-/** Plays the jump from one page to another on the slots of the bar. */
-function usePaginationView(page: number, total: number, siblings: number): View {
-  const reduce = useReducedMotion();
-  const target = React.useMemo(() => paginationRange(page, total, siblings), [page, total, siblings]);
-  const [view, setView] = React.useState<View>(() => ({ slots: target, active: target.indexOf(page), roll: 0 }));
-  const viewRef = React.useRef(view);
-  React.useLayoutEffect(() => {
-    viewRef.current = view;
-  });
-  const pageRef = React.useRef(page);
-
+/** Remembers the previous value of each slot, to know which way its number rolls. */
+function usePrevious<T>(value: T) {
+  const ref = React.useRef(value);
+  const prev = ref.current;
   React.useEffect(() => {
-    const from = pageRef.current;
-    pageRef.current = page;
-    const start = viewRef.current;
-    const settled: View = { slots: target, active: target.indexOf(page), roll: 0 };
-    const sameSlots = start.slots.length === target.length && start.slots.every((v, i) => v === target[i]);
-    if (reduce || sameSlots || start.slots.length !== target.length) {
-      setView(settled);
-      return;
-    }
-    const dir = page > from ? 1 : -1;
-    // 1. the highlight glides to the clicked number (or towards the gap the page hides in)
-    const clicked = start.slots.indexOf(page);
-    const pivot = clicked >= 0 ? clicked : dir > 0 ? start.slots.length - 2 : 1;
-    setView({ ...start, active: pivot, roll: 0 });
-
-    let frame = 0;
-    const duration = rollDuration(Math.abs(page - from));
-    const timer = window.setTimeout(() => {
-      // 2. the numbers roll from their old values to the new ones, like a fast scroll
-      const t0 = performance.now();
-      const tick = (now: number) => {
-        const t = Math.min((now - t0) / duration, 1);
-        if (t >= 1) {
-          // 3. the highlight settles on the new current page
-          setView(settled);
-          return;
-        }
-        const e = easeInOut(t);
-        const slots = start.slots.map((old, i) => {
-          const next = target[i]!;
-          if (old === 'ellipsis' || next === 'ellipsis') return e < 0.5 ? old : next;
-          return Math.round(old + (next - old) * e);
-        });
-        setView({ slots, active: pivot, roll: dir });
-        frame = requestAnimationFrame(tick);
-      };
-      frame = requestAnimationFrame(tick);
-    }, GLIDE_MS);
-    return () => {
-      window.clearTimeout(timer);
-      cancelAnimationFrame(frame);
-    };
-    // the view is read through a ref: a jump starts from whatever the bar shows at that moment
-  }, [page, target, reduce]);
-
-  return view;
+    ref.current = value;
+  });
+  return prev;
 }
 
-/** A number that slides in from the side it rolls from. */
-function RollingNumber({ value, roll }: { value: number; roll: number }) {
-  if (!roll) return <span className={s.number()}>{value}</span>;
+/**
+ * The content of one slot. When its number changes it rolls like an odometer: the old number leaves
+ * upwards and the new one comes from below when the window moves forward (the other way backward).
+ */
+function RollingSlot({ value, dir, delay, reduce }: { value: Slot; dir: number; delay: number; reduce: boolean }) {
   return (
-    <motion.span
-      key={value}
-      className={s.number()}
-      initial={{ x: `${roll * 45}%`, opacity: 0.2 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.08, ease: 'linear' }}
-    >
-      {value}
-    </motion.span>
+    <span aria-hidden className={s.clip()}>
+      <AnimatePresence initial={false} custom={dir}>
+        <motion.span
+          key={String(value)}
+          custom={dir}
+          className={s.number()}
+          variants={{
+            enter: (d: number) => ({ y: `${d * 110}%`, opacity: 0 }),
+            center: { y: '0%', opacity: 1 },
+            exit: (d: number) => ({ y: `${d * -110}%`, opacity: 0 }),
+          }}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={reduce ? instant : { ...rollSpring, delay, opacity: { duration: 0.16, delay } }}
+        >
+          {value === 'ellipsis' ? <Ellipsis /> : value}
+        </motion.span>
+      </AnimatePresence>
+    </span>
   );
 }
 
@@ -126,13 +80,14 @@ export interface PaginationProps extends Omit<React.ComponentPropsWithRef<'nav'>
   siblings?: number;
   /** Show the words "Previous" and "Next" next to the arrows (from the `sm` breakpoint). @default true */
   labels?: boolean;
-  classNames?: { list?: string; page?: string; current?: string; ellipsis?: string; nav?: string };
+  classNames?: { list?: string; page?: string; current?: string; hover?: string; ellipsis?: string; nav?: string };
 }
 
 /**
- * Moves between pages of results. On a jump the highlight glides to the clicked number, the bar
- * rolls through the pages in between (faster the further it goes) and the highlight settles on
- * the new page. With reduced motion it changes at once.
+ * Moves between pages of results. The current page sits on a soft accent thumb that slides between
+ * slots with a spring; when the window of pages moves, the numbers roll through their slots like an
+ * odometer, in a small wave from the current page outwards. Hover is one neutral block that glides
+ * between buttons (never over the current one). With reduced motion everything changes at once.
  */
 export function Pagination({
   page,
@@ -144,77 +99,118 @@ export function Pagination({
   classNames,
   ...props
 }: PaginationProps) {
-  const id = React.useId();
+  const reduce = useReducedMotion() ?? false;
   const go = (p: number) => onPageChange(Math.min(Math.max(p, 1), total));
-  const target = paginationRange(page, total, siblings);
-  const view = usePaginationView(page, total, siblings);
+  const slots = paginationRange(page, total, siblings);
+  const prevSlots = usePrevious(slots);
+  const pageDir = page >= usePrevious(page) ? 1 : -1;
+  const active = slots.indexOf(page);
+  // every slot is as wide as the widest page number, so rolling 9 → 10 never changes the bar's width
+  const digits = String(total).length;
+  const slotStyle = { minWidth: `max(var(--spacing-control-sm), calc(${digits}ch + 1.25rem))` };
 
-  const highlight = (i: number) =>
-    i === view.active && (
-      <motion.span layoutId={`pagination-${id}`} transition={glide} aria-hidden className={cn(s.current(), classNames?.current)} />
-    );
+  const areaRef = React.useRef<HTMLDivElement>(null);
+  const glideRef = useGlide<HTMLDivElement>();
+  const setArea = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      areaRef.current = node;
+      glideRef(node);
+    },
+    [glideRef],
+  );
+
+  // the thumb follows the current page's slot (measured, so it also follows wrapping and resizes)
+  const [thumb, setThumb] = React.useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const measure = React.useCallback(() => {
+    const area = areaRef.current;
+    const el = area?.querySelector<HTMLElement>('[data-current]');
+    if (!area || !el) return setThumb(null);
+    const a = area.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    setThumb({ x: r.left - a.left, y: r.top - a.top, width: r.width, height: r.height });
+  }, []);
+  React.useLayoutEffect(measure, [measure, active, total, siblings, labels]);
+  React.useEffect(() => {
+    const area = areaRef.current;
+    if (!area || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(area);
+    return () => ro.disconnect();
+  }, [measure]);
+  const placed = React.useRef(false);
+  React.useEffect(() => {
+    if (thumb) placed.current = true;
+  }, [thumb]);
+
+  const navButton = (dir: -1 | 1) => (
+    <li>
+      <button
+        type="button"
+        className={cn(s.page(), s.nav(), classNames?.page, classNames?.nav)}
+        disabled={dir < 0 ? page <= 1 : page >= total}
+        onClick={() => go(page + dir)}
+        aria-label={dir < 0 ? 'Previous page' : 'Next page'}
+      >
+        {dir < 0 && <ChevronLeft aria-hidden />}
+        {labels && <span className="max-sm:sr-only">{dir < 0 ? 'Previous' : 'Next'}</span>}
+        {dir > 0 && <ChevronRight aria-hidden />}
+      </button>
+    </li>
+  );
 
   return (
     <nav aria-label="Pagination" className={cn(s.root(), className)} {...props}>
-      <ul className={cn(s.list(), classNames?.list)}>
-        <li>
-          <button
-            type="button"
-            className={cn(s.page(), s.nav(), classNames?.page, classNames?.nav)}
-            disabled={page <= 1}
-            onClick={() => go(page - 1)}
-            aria-label="Previous page"
+      <div ref={setArea} className={s.area()}>
+        <span data-glide-block aria-hidden className={cn(glideBlockClass, s.hover(), classNames?.hover)} />
+        {thumb && (
+          <motion.span
+            aria-hidden
+            className={cn(s.current(), classNames?.current)}
+            initial={false}
+            animate={thumb}
+            transition={reduce || !placed.current ? instant : thumbSpring}
           >
-            <ChevronLeft aria-hidden />
-            {labels && <span className="max-sm:sr-only">Previous</span>}
-          </button>
-        </li>
-        {target.map((p, i) => {
-          const shown = view.slots[i] ?? p;
-          // the slots keep their position while numbers roll through them
-          return p === 'ellipsis' ? (
-            <li
-              key={`slot-${i}`}
-              aria-hidden
-              data-current={i === view.active ? '' : undefined}
-              className={cn(s.ellipsis(), classNames?.ellipsis)}
-            >
-              {highlight(i)}
-              <span className={s.clip()}>
-                {shown === 'ellipsis' ? <Ellipsis /> : <RollingNumber value={shown} roll={view.roll} />}
-              </span>
-            </li>
-          ) : (
-            <li key={`slot-${i}`}>
-              <button
-                type="button"
-                className={cn(s.page(), classNames?.page)}
-                aria-current={p === page ? 'page' : undefined}
-                data-current={i === view.active ? '' : undefined}
-                aria-label={`Page ${p}`}
-                onClick={() => go(p)}
-              >
-                {highlight(i)}
-                <span aria-hidden className={s.clip()}>
-                  {shown === 'ellipsis' ? <Ellipsis /> : <RollingNumber value={shown} roll={view.roll} />}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-        <li>
-          <button
-            type="button"
-            className={cn(s.page(), s.nav(), classNames?.page, classNames?.nav)}
-            disabled={page >= total}
-            onClick={() => go(page + 1)}
-            aria-label="Next page"
-          >
-            {labels && <span className="max-sm:sr-only">Next</span>}
-            <ChevronRight aria-hidden />
-          </button>
-        </li>
-      </ul>
+            {/* a small squash on every page change, so the thumb answers even when the numbers move instead */}
+            <motion.span
+              key={page}
+              className={s.thumbFill()}
+              initial={reduce ? false : { scale: 0.86 }}
+              animate={{ scale: 1 }}
+              transition={reduce ? instant : { type: 'spring', stiffness: 600, damping: 22 }}
+            />
+          </motion.span>
+        )}
+        <ul className={cn(s.list(), classNames?.list)}>
+          {navButton(-1)}
+          {slots.map((p, i) => {
+            const prev = prevSlots.length === slots.length ? prevSlots[i] : p;
+            const dir = typeof p === 'number' && typeof prev === 'number' ? Math.sign(p - prev) || pageDir : pageDir;
+            const delay = reduce ? 0 : Math.abs(i - Math.max(active, 0)) * 0.025;
+            const content = <RollingSlot value={p} dir={dir} delay={delay} reduce={reduce} />;
+            return p === 'ellipsis' ? (
+              <li key={`slot-${i}`} aria-hidden style={slotStyle} className={cn(s.ellipsis(), classNames?.ellipsis)}>
+                {content}
+              </li>
+            ) : (
+              <li key={`slot-${i}`}>
+                <button
+                  type="button"
+                  style={slotStyle}
+                  className={cn(s.page(), classNames?.page)}
+                  aria-current={p === page ? 'page' : undefined}
+                  data-current={p === page ? '' : undefined}
+                  data-active={p === page ? 'true' : undefined}
+                  aria-label={`Page ${p}`}
+                  onClick={() => go(p)}
+                >
+                  {content}
+                </button>
+              </li>
+            );
+          })}
+          {navButton(1)}
+        </ul>
+      </div>
     </nav>
   );
 }

@@ -29,7 +29,7 @@ export default function CommandDialogExample() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key.toLowerCase() === 'j' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((o) => !o);
       }
@@ -47,7 +47,7 @@ export default function CommandDialogExample() {
           Search commands…
           <KbdGroup>
             <Kbd>Ctrl</Kbd>
-            <Kbd>K</Kbd>
+            <Kbd>J</Kbd>
           </KbdGroup>
         </Button>
       }

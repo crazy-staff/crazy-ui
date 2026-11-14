@@ -83,6 +83,35 @@ function CarouselRoot({
     };
   }, [api, setApi]);
 
+  // While a slide is dragged nothing gets selected: not the text on the cards, and not the page the
+  // pointer passes over. The block only lives from pointer down to pointer up, so selecting text
+  // elsewhere (or on a resting card) works as usual.
+  React.useEffect(() => {
+    if (!api) return;
+    const viewport = api.rootNode();
+    const block = (event: Event) => event.preventDefault();
+    const end = () => {
+      viewport.removeAttribute('data-dragging');
+      document.removeEventListener('selectstart', block);
+      window.removeEventListener('pointerup', end);
+      window.removeEventListener('pointercancel', end);
+    };
+    const start = () => {
+      viewport.setAttribute('data-dragging', '');
+      document.addEventListener('selectstart', block);
+      window.addEventListener('pointerup', end);
+      window.addEventListener('pointercancel', end);
+    };
+    api.on('pointerDown', start).on('pointerUp', end);
+    // images and links on slides would start a native drag instead of moving the carousel
+    viewport.addEventListener('dragstart', block);
+    return () => {
+      end();
+      api.off('pointerDown', start).off('pointerUp', end);
+      viewport.removeEventListener('dragstart', block);
+    };
+  }, [api]);
+
   const prev = React.useCallback(() => api?.scrollPrev(reduced), [api, reduced]);
   const next = React.useCallback(() => api?.scrollNext(reduced), [api, reduced]);
   const goTo = React.useCallback((i: number) => api?.scrollTo(i, reduced), [api, reduced]);

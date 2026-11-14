@@ -75,4 +75,25 @@ describe('Calendar', () => {
     render(<Calendar />);
     expect(document.querySelector('[aria-current="date"]')).toHaveAttribute('data-today');
   });
+
+  it('draws the range as one band per week row', () => {
+    const { container } = render(
+      <Calendar mode="range" defaultMonth={nov} defaultValue={{ from: new Date(2026, 10, 12), to: new Date(2026, 10, 18) }} />,
+    );
+    const bands = container.querySelectorAll('[aria-hidden][style*="--band-span"]');
+    expect(bands).toHaveLength(2);
+    expect((bands[0] as HTMLElement).style.getPropertyValue('--band-from')).toBe('3');
+    expect((bands[0] as HTMLElement).style.getPropertyValue('--band-span')).toBe('4');
+    expect((bands[1] as HTMLElement).style.getPropertyValue('--band-span')).toBe('3');
+  });
+
+  it('keeps today on the selection colours when it is in a range', () => {
+    const today = new Date();
+    render(<Calendar mode="range" defaultValue={{ from: today, to: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3) }} />);
+    const el = document.querySelector('[aria-current="date"]')!;
+    expect(el).toHaveAttribute('data-range-edge');
+    // the today accent text only applies outside a selection, so it never sits on the accent fill
+    expect(el.className).toContain('[&[data-today]:not([data-selected],[data-range-edge],[data-range-middle])]:text-accent-soft-foreground');
+    expect(el.className).not.toMatch(/(^|\s)data-\[today\]:text-/);
+  });
 });

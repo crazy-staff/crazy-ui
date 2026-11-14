@@ -1,6 +1,6 @@
 ---
 title: Pagination
-description: Moves between pages of results. On a jump the bar rolls through the pages in between.
+description: Moves between pages of results. A sliding thumb marks the page and the numbers roll as the window moves.
 ---
 
 <ComponentPreview name="pagination/default" />
@@ -25,10 +25,12 @@ const [page, setPage] = useState(1);
 
 ### Jumping far
 
-The bar always has the same number of slots, so it can move like a strip of numbers. When the page jumps,
-the highlight first glides to the number you clicked, then the numbers roll from their old values to the
-new ones — faster the more pages they pass — and the highlight settles on the new page. With
-`prefers-reduced-motion` the page changes at once.
+The bar always has the same number of slots, and every slot is as wide as the widest page number, so it
+never changes width. The accent thumb slides to the new page with a spring (with a small squash on every
+change). When the window of pages moves, the numbers roll through their slots like an odometer — up when
+you go forward, down when you go back — in a short wave from the current page outwards. Hover is one
+neutral block that glides between the buttons and never covers the current page. With
+`prefers-reduced-motion` everything changes at once.
 
 <ComponentPreview name="pagination/jump" />
 
@@ -96,8 +98,8 @@ Renders a `<nav>`; other props go to it.
     },
     className: { description: 'Classes for the `<nav>`, merged last.', type: 'string' },
     classNames: {
-      description: 'Classes per slot. `current` is the gliding highlight.',
-      type: '{ list?: string; page?: string; current?: string; ellipsis?: string; nav?: string }',
+      description: 'Classes per slot. `current` is the sliding thumb, `hover` the gliding hover block.',
+      type: '{ list?: string; page?: string; current?: string; hover?: string; ellipsis?: string; nav?: string }',
     },
   }}
 />
