@@ -1,26 +1,175 @@
 ---
 title: Tooltip
-description: A short hint on hover or focus.
+description: A short hint that appears when a control is hovered or focused.
 ---
 
-import { TooltipDemo } from '@/components/demos/overlays';
+<ComponentPreview name="tooltip/default" />
 
-<Preview>
-  <TooltipDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="tooltip" />
+
+## Usage
 
 ```tsx
-<Tooltip content="Copy link">
-  <Button size="icon" aria-label="Copy link"><Copy /></Button>
+import { Tooltip } from '@crazy-staff/ui';
+```
+
+```tsx
+<Tooltip content="Copy invite link">
+  <Button size="icon" aria-label="Copy invite link">
+    <Copy />
+  </Button>
 </Tooltip>
 ```
 
-Wrap a toolbar in `Tooltip.Provider` so the next tooltip opens instantly once one is showing.
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `content` | `ReactNode` | — |
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` |
-| `delay` | `number` (ms) | `400` |
+### Sides
 
-Parts: `Tooltip.Provider`, `Tooltip.Root`, `Tooltip.Trigger`, `Tooltip.Content`.
+`side` puts the tooltip above (default), to the right, below or to the left. It flips when there is no room.
+
+<ComponentPreview name="tooltip/sides" />
+
+### Alignment
+
+`align` lines the tooltip up with the start, centre (default) or end of the trigger.
+
+<ComponentPreview name="tooltip/align" />
+
+### Toolbar
+
+Wrap a group in `Tooltip.Provider`: once one tooltip is showing, the next one opens without the delay, so you
+can sweep along a row of icon buttons.
+
+<ComponentPreview name="tooltip/toolbar" />
+
+### Rich content
+
+`content` takes any node — here a keyboard shortcut. Keep it short; for anything interactive use a
+[Popover](/docs/components/popover).
+
+<ComponentPreview name="tooltip/rich-content" />
+
+### Controlled
+
+Pass `open` and `onOpenChange` to drive it from state.
+
+<ComponentPreview name="tooltip/controlled" />
+
+### On a disabled button
+
+A disabled button gets no pointer or focus events. Wrap it in a focusable `<span>` to still explain why it's off.
+
+<ComponentPreview name="tooltip/disabled-trigger" />
+
+## Accessibility
+
+- Opens on hover and on keyboard focus; <kbd>Esc</kbd> closes it.
+- The tooltip text becomes the trigger's accessible description (`aria-describedby`), not its name. Icon-only
+  triggers still need an `aria-label`.
+- Never put the only copy of important information in a tooltip — touch screens can't hover.
+- Opening is delayed by 400 ms so tooltips don't flash while the pointer crosses the page.
+
+## API Reference
+
+### Tooltip
+
+The short form: wraps a trigger element and shows `content` next to it. Other props go to Base UI's
+[`Tooltip.Root`](https://base-ui.com/react/components/tooltip) (`open`, `defaultOpen`, `onOpenChange`,
+`disabled`, `trackCursorAxis`, `disableHoverablePopup` …).
+
+<TypeTable
+  type={{
+    content: { description: 'The hint.', type: 'ReactNode' },
+    children: {
+      description: 'The trigger. It must be one element that can hold a ref (a Button, a link …).',
+      type: 'ReactElement',
+    },
+    side: {
+      description: 'Which side of the trigger it appears on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'top'",
+    },
+    align: {
+      description: 'How it lines up with the trigger along that side.',
+      type: "'start' | 'center' | 'end'",
+      default: "'center'",
+    },
+    delay: { description: 'Milliseconds before it opens on hover.', type: 'number', default: '400' },
+    closeDelay: { description: 'Milliseconds before it closes once the pointer leaves.', type: 'number', default: '0' },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render, when uncontrolled.', type: 'boolean', default: 'false' },
+    onOpenChange: {
+      description: 'Called when it opens or closes.',
+      type: '(open: boolean, details) => void',
+    },
+    disabled: { description: 'Never show the tooltip.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### Tooltip.Provider
+
+Shares timing between the tooltips inside it, so neighbours open instantly once one is showing. Renders nothing.
+
+<TypeTable
+  type={{
+    delay: {
+      description: 'Opening delay for triggers that set none. The short form always sets its own `delay`.',
+      type: 'number',
+    },
+    closeDelay: { description: 'Closing delay for triggers that set none.', type: 'number' },
+    timeout: {
+      description: 'Milliseconds after one tooltip closes during which the next opens without delay.',
+      type: 'number',
+      default: '400',
+    },
+  }}
+/>
+
+### Tooltip.Root
+
+Holds the open state when you build a tooltip from parts. Base UI's `Tooltip.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    disabled: { description: 'Never show the tooltip.', type: 'boolean', default: 'false' },
+  }}
+/>
+
+### Tooltip.Trigger
+
+The element that opens the tooltip. Base UI's `Tooltip.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable
+  type={{
+    render: { description: 'Use your own element as the trigger.', type: 'ReactElement' },
+    delay: { description: 'Milliseconds before it opens on hover.', type: 'number', default: '600' },
+    closeDelay: { description: 'Milliseconds before it closes.', type: 'number', default: '0' },
+    closeOnClick: { description: 'Close the tooltip when the trigger is clicked.', type: 'boolean', default: 'true' },
+  }}
+/>
+
+### Tooltip.Content
+
+The floating hint: positioner and popup in a portal. Renders a `<div>`; other props go to Base UI's
+`Tooltip.Popup`.
+
+<TypeTable
+  type={{
+    side: {
+      description: 'Which side of the trigger it appears on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'top'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'center'" },
+    sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '8' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>

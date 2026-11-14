@@ -12,7 +12,7 @@ export const menuStyles = tv({
     ],
     item: [
       'squircle relative flex min-h-9 w-full cursor-default select-none items-center gap-2.5 rounded-item px-2.5 py-1.5 text-start outline-none',
-      'transition-colors duration-100 data-[highlighted]:bg-hover data-[highlighted]:text-foreground',
+      'transition-colors duration-[var(--cui-duration-fast)] ease-ui data-[highlighted]:bg-hover data-[highlighted]:text-foreground',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       '[&_svg]:size-4 [&_svg]:shrink-0 [&>svg]:text-muted',
     ],

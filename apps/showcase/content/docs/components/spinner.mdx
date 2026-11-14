@@ -1,26 +1,72 @@
 ---
 title: Spinner
-description: An indeterminate loading indicator.
+description: An indeterminate loading indicator for buttons, rows and short waits.
 ---
 
-import { SpinnerDemo } from '@/components/demos/display';
+<ComponentPreview name="spinner/default" />
 
-<Preview align="start">
-  <SpinnerDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="spinner" />
+
+## Usage
 
 ```tsx
-<Button disabled>
-  <Spinner size="sm" tone="current" /> Saving…
-</Button>
+import { Spinner } from '@crazy-staff/ui';
 ```
 
-## Props
+```tsx
+<Spinner />
+```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
-| `tone` | `'accent' \| 'muted' \| 'current'` | `'accent'` |
-| `label` | `string` | `'Loading'` |
+## Examples
 
-With reduced motion it keeps turning, slowly — a frozen spinner would look like a hang.
+### Sizes
+
+`sm` fits in buttons and small text, `md` (default) next to body text, `lg` for a whole panel.
+
+<ComponentPreview name="spinner/sizes" />
+
+### Tones
+
+`accent` (default), `muted`, or `current` to take the text colour of its parent.
+
+<ComponentPreview name="spinner/tones" />
+
+### In a button
+
+Disable the button while it works and put a small spinner with `tone="current"` before the label.
+
+<ComponentPreview name="spinner/button" />
+
+### With a message
+
+For longer waits, say what is happening next to it.
+
+<ComponentPreview name="spinner/status" />
+
+When you know how far along the work is, use [Progress](/docs/components/progress) instead.
+
+## Accessibility
+
+- Renders `role="status"` with `aria-label` (“Loading” by default). Change `label` to say what loads.
+- With `prefers-reduced-motion` it keeps turning, slowly, so it still shows that something happens.
+
+## API Reference
+
+### Spinner
+
+Renders an `<svg>`; other props go to it.
+
+<TypeTable
+  type={{
+    size: { description: 'The diameter.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    tone: {
+      description: 'The colour: the accent ink, the muted grey, or the parent’s text colour.',
+      type: "'accent' | 'muted' | 'current'",
+      default: "'accent'",
+    },
+    label: { description: 'What screen readers announce.', type: 'string', default: "'Loading'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

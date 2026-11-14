@@ -1,7 +1,7 @@
 // Components of the display batch.
 export { Tabs, type TabsProps, type TabsRootProps, type TabsListProps, type TabItem } from '../components/tabs/tabs';
 export { tabsStyles } from '../components/tabs/tabs.styles';
-export { Accordion, type AccordionProps, type AccordionItemData, type AccordionTriggerProps, type AccordionPanelProps } from '../components/accordion/accordion';
+export { Accordion, type AccordionProps, type AccordionRootProps, type AccordionItemData, type AccordionTriggerProps, type AccordionPanelProps } from '../components/accordion/accordion';
 export { accordionStyles } from '../components/accordion/accordion.styles';
 export { Collapsible, type CollapsibleProps, type CollapsibleTriggerProps } from '../components/collapsible/collapsible';
 export { collapsibleStyles } from '../components/collapsible/collapsible.styles';

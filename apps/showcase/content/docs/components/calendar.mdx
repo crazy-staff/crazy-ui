@@ -1,0 +1,107 @@
+---
+title: Calendar
+description: A month grid for picking a day or a range of days — release dates, test weeks, tester calls.
+---
+
+<ComponentPreview name="calendar/default" />
+
+## Installation
+
+<InstallTabs component="calendar" />
+
+## Usage
+
+```tsx
+import { Calendar } from '@crazy-staff/ui';
+```
+
+```tsx
+const [date, setDate] = useState<Date | null>(new Date());
+
+<Calendar value={date} onValueChange={setDate} />
+```
+
+## Examples
+
+### Range
+
+Set `mode="range"`: the first click picks the start, the second the end (in either order). While you
+choose the end, the band follows the pointer. `numberOfMonths` shows months side by side.
+
+<ComponentPreview name="calendar/range" />
+
+### Disabled dates
+
+`min` and `max` limit the range, `disabledDates` takes a list of days or a function. Disabled days can
+still be focused with the keyboard, so screen reader users hear why they are skipped.
+
+<ComponentPreview name="calendar/disabled-dates" />
+
+### Locale and week start
+
+Month and weekday names come from `Intl`, so any `locale` works without a date library. The week starts
+on Monday; set `weekStartsOn={0}` for Sunday. `showOutsideDays={false}` hides the neighbouring months.
+
+<ComponentPreview name="calendar/locale" />
+
+## Accessibility
+
+- Each month is a `grid` labelled with its name; weekday headers carry the full day name.
+- Days are buttons with the full date as their name (`Friday, November 13, 2026`). Today has
+  `aria-current="date"`, picked days `aria-selected`, unavailable days `aria-disabled`.
+- One day is in the tab order. **Arrow keys** move by day and week, **Home** / **End** to the start and
+  end of the week, **Page Up** / **Page Down** by month, with **Shift** by year. **Enter** or **Space**
+  picks the day.
+- The month change is announced through a polite live region. The slide animation is skipped with
+  reduced motion.
+- The root is a `group` named "Calendar"; pass `aria-label` to say what the date is for.
+
+## API Reference
+
+### Calendar
+
+Renders a `<div>` with the month navigation and one grid per month.
+
+<TypeTable
+  type={{
+    mode: { description: 'Pick one day or a range.', type: "'single' | 'range'", default: "'single'" },
+    value: {
+      description: 'The picked day (single) or range (range). Controlled.',
+      type: 'Date | null | DateRange',
+    },
+    defaultValue: { description: 'The value at start, when uncontrolled.', type: 'Date | null | DateRange' },
+    onValueChange: {
+      description: 'Called with the new day, or the new range (`to` is `null` after the first click).',
+      type: '(value) => void',
+    },
+    month: { description: 'The first month shown. Controlled.', type: 'Date' },
+    defaultMonth: { description: 'The first month shown at start.', type: 'Date', default: 'the value, or today' },
+    onMonthChange: { description: 'Called when the shown month changes.', type: '(month: Date) => void' },
+    min: { description: 'The earliest day that can be picked.', type: 'Date' },
+    max: { description: 'The latest day that can be picked.', type: 'Date' },
+    disabledDates: { description: 'Days that cannot be picked.', type: 'Date[] | ((date: Date) => boolean)' },
+    disabled: { description: 'Disable the whole calendar.', type: 'boolean', default: 'false' },
+    locale: { description: 'BCP 47 locale for month and weekday names.', type: 'string', default: "'en'" },
+    weekStartsOn: { description: 'First day of the week, 0 = Sunday.', type: '0 | 1 | 2 | 3 | 4 | 5 | 6', default: '1' },
+    numberOfMonths: { description: 'How many months to show side by side.', type: 'number', default: '1' },
+    showOutsideDays: { description: 'Show the days of the neighbouring months.', type: 'boolean', default: 'true' },
+    autoFocus: { description: 'Move focus to the grid on mount.', type: 'boolean', default: 'false' },
+    'aria-label': { description: 'Name of the calendar group.', type: 'string', default: "'Calendar'" },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?; nav?; navButton?; viewport?; months?; month?; caption?; grid?; weekdays?; weekday?; week?; cell?; day? }',
+    },
+  }}
+/>
+
+### DateRange
+
+The value in range mode.
+
+<TypeTable
+  type={{
+    from: { description: 'The first day.', type: 'Date' },
+    to: { description: 'The last day; `null` or missing until the second click.', type: 'Date | null' },
+  }}
+/>

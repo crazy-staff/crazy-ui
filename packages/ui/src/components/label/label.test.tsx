@@ -11,4 +11,17 @@ describe('Label', () => {
     );
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
   });
+
+  it('adds a hidden required marker', () => {
+    render(
+      <>
+        <Label htmlFor="r" required>
+          Title
+        </Label>
+        <input id="r" />
+      </>,
+    );
+    expect(screen.getByText('*')).toHaveAttribute('aria-hidden');
+    expect(screen.getByLabelText(/Title/)).toBeInTheDocument();
+  });
 });

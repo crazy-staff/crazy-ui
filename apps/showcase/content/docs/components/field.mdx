@@ -1,36 +1,181 @@
 ---
 title: Field
-description: Label, control, description and error, wired together for accessibility and validation.
+description: Label, control, description and error wired together for accessibility and validation.
 ---
 
-import { FieldDemo } from '@/components/demos/forms';
+<ComponentPreview name="field/default" />
 
-<Preview>
-  <FieldDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="field" />
+
+## Usage
 
 ```tsx
-// short form
+import { Field } from '@crazy-staff/ui';
+```
+
+```tsx
 <Field label="Hero name" description="Shown in the trainer menu.">
   <Field.Control placeholder="Nameless hero" />
 </Field>
-
-// compound
-<Field.Root invalid>
-  <Field.Label>Server URL</Field.Label>
-  <Field.Control />
-  <Field.Error match>That doesn't look like a URL.</Field.Error>
-</Field.Root>
 ```
 
-`Field.Control` is styled like [Input](/docs/components/input). Any Base UI control (Checkbox, Select, Slider…)
-can sit inside a `Field` too.
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `label` | `ReactNode` | — |
-| `description` | `ReactNode` | — |
-| `error` | `ReactNode` | — |
-| `errorMatch` | `boolean \| ValidityState key` | — |
-| `invalid`, `disabled`, `name` | Base UI `Field.Root` props | — |
-| `classNames` | `{ root, label, description, error }` | — |
+### Compound parts
+
+`Field.Root`, `Field.Label`, `Field.Control`, `Field.Description` and `Field.Error` let you order and style each
+part yourself. The short form above renders the same thing.
+
+<ComponentPreview name="field/compound" />
+
+### Required
+
+`required` on the field marks the label; `required` on the control makes it required. With
+`validationMode="onBlur"`, the error shows when the user leaves the empty field. `errorMatch="valueMissing"`
+picks which validity error the message is for.
+
+<ComponentPreview name="field/required" />
+
+### Custom validation
+
+`validate` gets the value and returns an error message (or `null`). With `validationMode="onChange"` it runs on
+every keystroke; an empty `Field.Error` shows the returned message.
+
+<ComponentPreview name="field/validation" />
+
+### Invalid from the server
+
+Set `invalid` yourself (for example after the server rejects a value) and `errorMatch` to always show the error.
+
+<ComponentPreview name="field/invalid" />
+
+### Disabled
+
+`disabled` on the field turns off the control and dims the label.
+
+<ComponentPreview name="field/disabled" />
+
+### Other controls
+
+Any of our form controls can sit in a field: [Select](/docs/components/select),
+[Slider](/docs/components/slider), [Switch](/docs/components/switch), [Checkbox](/docs/components/checkbox).
+For a [Textarea](/docs/components/textarea), pass it to `Field.Control` as `render`, so the field still
+handles its value and validity.
+
+<ComponentPreview name="field/other-controls" />
+
+### A complete form
+
+An idea form for crazy-hub: a required title, a category, an auto-growing description and a checkbox, posted
+with a native `<form>`.
+
+<ComponentPreview name="field/form" />
+
+## Accessibility
+
+- `Field.Label` is linked to the control, and `Field.Description` and `Field.Error` are added to its
+  `aria-describedby`. You don't need ids.
+- When the field is invalid, the control gets `aria-invalid` and the error is announced with the description.
+- The required asterisk is decorative; the control's `required` attribute is what screen readers announce.
+
+## API Reference
+
+### Field
+
+The short form: a `Field.Root` with an optional label, description and error around its children. Other props
+go to `Field.Root`.
+
+<TypeTable
+  type={{
+    label: { description: 'The label above the control.', type: 'ReactNode' },
+    required: { description: 'Adds a required marker to the label.', type: 'boolean', default: 'false' },
+    description: { description: 'Help text under the control.', type: 'ReactNode' },
+    error: { description: 'The error message, shown when the field is invalid.', type: 'ReactNode' },
+    errorMatch: {
+      description: 'Which validity state shows the error: a `ValidityState` key, or `true` to always show it.',
+      type: "boolean | 'valueMissing' | 'typeMismatch' | 'tooShort' | 'rangeOverflow' | …",
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?: string; label?: string; description?: string; error?: string }',
+    },
+  }}
+/>
+
+### Field.Root
+
+Groups the parts and holds the validation state. Renders a `<div>`. A styled Base UI `Field.Root`.
+
+<TypeTable
+  type={{
+    name: { description: 'Field name, used by forms and by `Form` errors.', type: 'string' },
+    disabled: { description: 'Disables the control and dims the label.', type: 'boolean', default: 'false' },
+    invalid: { description: 'Marks the field invalid from outside (e.g. a server error).', type: 'boolean' },
+    validate: {
+      description: 'Returns an error message, several, or `null` when the value is fine. May be async.',
+      type: '(value: unknown, formValues) => string | string[] | null | Promise<…>',
+    },
+    validationMode: {
+      description: 'When `validate` and the native constraints run.',
+      type: "'onSubmit' | 'onBlur' | 'onChange'",
+      default: "'onSubmit'",
+    },
+    validationDebounceTime: {
+      description: 'Debounce for `onChange` validation, in milliseconds.',
+      type: 'number',
+      default: '0',
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Field.Label
+
+The label. Renders a `<label>` linked to the control.
+
+<TypeTable
+  type={{
+    required: { description: 'Adds a red asterisk after the text.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Field.Control
+
+The text input, styled like [Input](/docs/components/input). Renders an `<input>`; native input props pass
+through.
+
+<TypeTable
+  type={{
+    render: {
+      description: 'Render another control instead, e.g. `<Textarea />`. It then keeps its own styles.',
+      type: 'ReactElement | (props, state) => ReactElement',
+    },
+    onValueChange: { description: 'Called with the new value.', type: '(value: string, details) => void' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Field.Description
+
+Help text. Renders a `<p>` that the control's `aria-describedby` points at.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Field.Error
+
+The error message. Renders a `<div>` only while it matches; without children it shows the message from
+`validate` or the browser.
+
+<TypeTable
+  type={{
+    match: {
+      description: 'Which validity state shows it: a `ValidityState` key, or `true` to always show.',
+      type: "boolean | keyof ValidityState | 'customError'",
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

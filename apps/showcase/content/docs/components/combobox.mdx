@@ -1,0 +1,142 @@
+---
+title: Combobox
+description: A select you can type into — filter a long list of features, labels or testers, pick one or many.
+---
+
+<ComponentPreview name="combobox/default" />
+
+## Installation
+
+<InstallTabs component="combobox" />
+
+## Usage
+
+```tsx
+import { Combobox } from '@crazy-staff/ui';
+```
+
+```tsx
+<Combobox items={['God mode', 'Infinite mana', 'Teleport']} placeholder="Find a feature…" aria-label="Feature" />
+```
+
+## Examples
+
+### Multiple
+
+With `multiple`, picked values become chips inside the field. Click the × on a chip, or move to it with
+**Left Arrow** from the start of the input and press **Backspace**, to remove it.
+
+<ComponentPreview name="combobox/multiple" />
+
+### Groups and icons
+
+Pass groups (`{ label, items }`) instead of a flat list. Items can carry an `icon` and be `disabled`.
+
+<ComponentPreview name="combobox/groups" />
+
+### Empty state
+
+`emptyText` is shown when nothing matches the typed text.
+
+<ComponentPreview name="combobox/empty" />
+
+### Compound parts
+
+Build the field yourself with `Combobox.Root`, `Combobox.InputGroup`, `Combobox.Input`, `Combobox.Content`
+and `Combobox.Item` when you need custom rows (here: post titles with their votes).
+
+<ComponentPreview name="combobox/compound" />
+
+## Accessibility
+
+- Built on Base UI Combobox: the input has `role="combobox"`, the list `role="listbox"`, items
+  `role="option"` with `aria-selected`.
+- **Arrow keys** move through the list, **Enter** picks, **Esc** closes. The empty state is announced
+  politely.
+- Give the input a name: a `<label htmlFor>` with `id`, a `Field`, or `aria-label`. The clear, open and
+  chip remove buttons have their own labels (`Clear`, `Open list`, `Remove …`).
+
+## API Reference
+
+### Combobox
+
+The short form: field, popup and list in one.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Options as strings, `{ value, label, icon?, disabled? }` objects, or groups `{ label, items }`.',
+      type: '(string | ComboboxOption)[] | ComboboxGroupData[]',
+    },
+    multiple: { description: 'Pick several values, shown as chips.', type: 'boolean', default: 'false' },
+    value: { description: 'The picked value(s). Controlled.', type: 'string | null | string[]' },
+    defaultValue: { description: 'The value at start, when uncontrolled.', type: 'string | null | string[]' },
+    onValueChange: { description: 'Called with the new value(s).', type: '(value) => void' },
+    placeholder: { description: 'Hint in the empty input.', type: 'string' },
+    emptyText: { description: 'Shown when nothing matches.', type: 'ReactNode', default: "'No results.'" },
+    clearable: { description: 'Show the clear button.', type: 'boolean', default: 'true (single), false (multiple)' },
+    size: { description: 'Height and padding, like Input.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    disabled: { description: 'Disable the field.', type: 'boolean', default: 'false' },
+    name: { description: 'Submit the value with a form.', type: 'string' },
+    id: { description: 'Id of the input.', type: 'string' },
+    'aria-label': { description: 'Name of the input when there is no visible label.', type: 'string' },
+    className: { description: 'Classes for the field, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ inputGroup?; input?; popup?; item?; chip? }' },
+  }}
+/>
+
+### Combobox.Root
+
+Base UI `Combobox.Root`; renders no element. All its props pass through (`items`, `multiple`, `filter`,
+`itemToStringLabel`, `limit`, `open` …).
+
+<TypeTable type={{ items: { description: 'The items to filter and render with `Combobox.List`.', type: 'any[] | Group[]' } }} />
+
+### Combobox.InputGroup
+
+The field around the input and buttons; the popup is anchored to it. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    size: { description: 'Height and padding.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    multiple: { description: 'Lets the field grow for chips.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Combobox.Input, Actions, Trigger, Clear
+
+The text input, the end-of-field button row, the open button (chevron) and the clear button (×).
+Trigger and Clear take children to replace their icon.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Combobox.Chips and Combobox.Chip
+
+The chip row (put the input inside it) and one picked value with its remove button.
+
+<TypeTable
+  type={{
+    removeLabel: { description: 'Accessible name of the remove button.', type: 'string', default: "'Remove'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Combobox.Content
+
+Portal, positioner and popup in one. Put `Combobox.Empty` and `Combobox.List` inside.
+
+<TypeTable
+  type={{
+    sideOffset: { description: 'Gap to the field in px.', type: 'number', default: '6' },
+    align: { description: 'Alignment to the field.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>
+
+### Combobox.List, Item, Empty, Group, GroupLabel, Collection, Separator
+
+The styled Base UI parts. `List` and `Collection` take a render function for each item; `Item` adds a
+check mark when picked.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

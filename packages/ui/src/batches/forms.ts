@@ -23,7 +23,7 @@ export { sliderStyles } from '../components/slider/slider.styles';
 export { Toggle, type ToggleProps } from '../components/toggle/toggle';
 export { toggleStyles } from '../components/toggle/toggle.styles';
 
-export { ToggleGroup, toggleGroupItemClass, type ToggleGroupProps, type ToggleGroupItem } from '../components/toggle-group/toggle-group';
+export { ToggleGroup, type ToggleGroupProps, type ToggleGroupItem, type ToggleGroupItemProps } from '../components/toggle-group/toggle-group';
 export { toggleGroupStyles } from '../components/toggle-group/toggle-group.styles';
 
 export { Kbd, KbdGroup, type KbdProps } from '../components/kbd/kbd';

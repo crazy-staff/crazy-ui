@@ -11,6 +11,10 @@ export const chipStyles = tv({
       solid: 'bg-accent text-accent-foreground',
       outline: 'border border-border-strong text-muted',
       neutral: 'bg-surface-2 text-muted',
+      /** Status chips: a faint tint of the status colour with the colour itself as ink. */
+      success: 'bg-success/12 text-success',
+      warning: 'bg-warning/12 text-warning',
+      danger: 'bg-danger/12 text-danger',
     },
     size: {
       sm: 'h-5 px-1.5 text-[0.6875rem] [&_svg]:size-3',

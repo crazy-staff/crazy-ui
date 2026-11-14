@@ -1,42 +1,284 @@
 ---
 title: Dropdown Menu
-description: A menu opened by a button, with checkbox and radio items, groups, shortcuts and submenus.
+description: A menu opened by a button, with icons, shortcuts, checkbox and radio items, groups and submenus.
 ---
 
-import { DropdownMenuDemo } from '@/components/demos/overlays';
+<ComponentPreview name="dropdown-menu/default" />
 
-<Preview>
-  <DropdownMenuDemo />
-</Preview>
+## Installation
 
-## Simple form
+<InstallTabs component="dropdown-menu" />
+
+## Usage
+
+```tsx
+import { DropdownMenu } from '@crazy-staff/ui';
+```
 
 ```tsx
 <DropdownMenu
-  trigger={<Button variant="outline">Options</Button>}
+  trigger={<Button variant="outline">Kit options</Button>}
   items={[
-    { type: 'label', label: 'Kit' },
-    { label: 'Rename', icon: <Pencil />, shortcut: 'F2' },
+    { label: 'Rename', shortcut: 'F2' },
     { type: 'separator' },
-    { label: 'Delete', icon: <Trash2 />, danger: true, onClick: remove },
+    { label: 'Delete', danger: true, onClick: remove },
   ]}
 />
 ```
 
-## Compound parts
+## Examples
 
-```tsx
-<DropdownMenu.Root>
-  <DropdownMenu.Trigger render={<Button />}>Account</DropdownMenu.Trigger>
-  <DropdownMenu.Content>
-    <DropdownMenu.CheckboxItem checked={esp} onCheckedChange={setEsp}>Show ESP</DropdownMenu.CheckboxItem>
-    <DropdownMenu.Separator />
-    <DropdownMenu.Item danger>
-      Sign out <DropdownMenu.Shortcut>Ctrl Q</DropdownMenu.Shortcut>
-    </DropdownMenu.Item>
-  </DropdownMenu.Content>
-</DropdownMenu.Root>
-```
+### Groups and labels
 
-Parts: `Root`, `Trigger`, `Content` (`side`, `align`), `Item` (`danger`), `CheckboxItem`, `RadioGroup`, `RadioItem`,
-`Group`, `GroupLabel`, `Separator`, `Shortcut`, `Sub`, `SubTrigger`, `SubContent`.
+In the short form, a `label` entry starts a group that runs until the next separator or label. `disabled` greys
+out an item.
+
+<ComponentPreview name="dropdown-menu/groups" />
+
+### Checkbox items
+
+`DropdownMenu.CheckboxItem` toggles a setting without closing the menu.
+
+<ComponentPreview name="dropdown-menu/checkbox-items" />
+
+### Radio items
+
+`DropdownMenu.RadioGroup` with `DropdownMenu.RadioItem` picks one value from a few.
+
+<ComponentPreview name="dropdown-menu/radio-items" />
+
+### Submenus
+
+`DropdownMenu.Sub` with `SubTrigger` and `SubContent` nests a menu. It opens on hover or with
+<kbd>→</kbd>.
+
+<ComponentPreview name="dropdown-menu/submenu" />
+
+### Account menu
+
+The compound parts take any content — a header with the signed-in user, items with icons, a danger item at the
+bottom.
+
+<ComponentPreview name="dropdown-menu/account" />
+
+### Side and alignment
+
+`side` and `align` place the menu around the trigger. It flips when there is no room.
+
+<ComponentPreview name="dropdown-menu/side-align" />
+
+### Open on hover
+
+`openOnHover` on the trigger makes a navigation-style menu. Clicking still works, so touch screens are fine.
+
+<ComponentPreview name="dropdown-menu/open-on-hover" />
+
+## Accessibility
+
+- The trigger gets `aria-haspopup="menu"` and `aria-expanded`; the popup is a `menu` with `menuitem`,
+  `menuitemcheckbox` and `menuitemradio` entries.
+- <kbd>Enter</kbd>, <kbd>Space</kbd> or <kbd>↓</kbd> on the trigger opens the menu; arrow keys move, typing a
+  letter jumps to the matching item, <kbd>Esc</kbd> closes and returns focus.
+- Shortcuts are shown as text only. Bind the keys yourself.
+- Icons are decorative; the label carries the meaning.
+
+## API Reference
+
+### DropdownMenu
+
+The short form: a trigger and a list of entries. Other props go to Base UI's
+[`Menu.Root`](https://base-ui.com/react/components/menu) (`open`, `defaultOpen`, `onOpenChange`, `modal` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The button that opens the menu.', type: 'ReactElement' },
+    items: {
+      description:
+        'The entries: items, separators and labels. A label starts a group that runs until the next separator or label.',
+      type: 'DropdownMenuEntry[]',
+    },
+    side: {
+      description: 'Which side of the trigger it opens on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>
+
+### DropdownMenuEntry
+
+One entry of `items`.
+
+<TypeTable
+  type={{
+    "type: 'item'": {
+      description:
+        'An action (the default when `type` is left out): `label`, `icon`, `shortcut`, `danger`, `disabled`, `onClick`.',
+      type: '{ label: ReactNode; icon?: ReactNode; shortcut?: string; danger?: boolean; disabled?: boolean; onClick?: () => void }',
+    },
+    "type: 'separator'": { description: 'A thin line between groups.', type: "{ type: 'separator' }" },
+    "type: 'label'": { description: 'A small muted heading that starts a group.', type: "{ type: 'label'; label: ReactNode }" },
+  }}
+/>
+
+### DropdownMenu.Root
+
+Holds the open state. Base UI's `Menu.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: { description: 'Block the page while open.', type: 'boolean', default: 'true' },
+    loopFocus: { description: 'Arrow keys wrap from the last item to the first.', type: 'boolean', default: 'true' },
+  }}
+/>
+
+### DropdownMenu.Trigger
+
+The button that opens the menu. Base UI's `Menu.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable
+  type={{
+    render: { description: 'Use your own element, e.g. `<Button variant="outline" />`.', type: 'ReactElement' },
+    openOnHover: { description: 'Also open when hovered.', type: 'boolean', default: 'false' },
+    delay: { description: 'Hover delay in ms (with `openOnHover`).', type: 'number', default: '100' },
+  }}
+/>
+
+### DropdownMenu.Content
+
+The floating list: portal, positioner and popup. Renders a `<div>`; other props go to Base UI's `Menu.Popup`.
+
+<TypeTable
+  type={{
+    side: {
+      description: 'Which side of the trigger it opens on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '6' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### DropdownMenu.Item
+
+An action. Renders a `<div role="menuitem">`; other props go to Base UI's `Menu.Item`.
+
+<TypeTable
+  type={{
+    danger: { description: 'Paint it in the danger colour (delete, sign out …).', type: 'boolean', default: 'false' },
+    onClick: { description: 'Runs the action; the menu closes after it.', type: '(event) => void' },
+    disabled: { description: 'Grey it out and skip it with the keyboard.', type: 'boolean', default: 'false' },
+    closeOnClick: { description: 'Close the menu when it is clicked.', type: 'boolean', default: 'true' },
+    label: { description: 'Text used for type-ahead when the children are not plain text.', type: 'string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DropdownMenu.CheckboxItem
+
+An item that toggles on and off, with a check mark. Base UI's `Menu.CheckboxItem`.
+
+<TypeTable
+  type={{
+    checked: { description: 'Controlled state.', type: 'boolean' },
+    defaultChecked: { description: 'State on first render.', type: 'boolean', default: 'false' },
+    onCheckedChange: { description: 'Called with the new state.', type: '(checked: boolean, details) => void' },
+    closeOnClick: { description: 'Close the menu when toggled.', type: 'boolean', default: 'false' },
+    disabled: { description: 'Grey it out.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DropdownMenu.RadioGroup
+
+Groups radio items that share one value. Base UI's `Menu.RadioGroup`; renders a `<div role="group">`.
+
+<TypeTable
+  type={{
+    value: { description: 'Controlled value.', type: 'any' },
+    defaultValue: { description: 'Value on first render.', type: 'any' },
+    onValueChange: { description: 'Called with the new value.', type: '(value, details) => void' },
+  }}
+/>
+
+### DropdownMenu.RadioItem
+
+One choice in a radio group, with a dot. Base UI's `Menu.RadioItem`.
+
+<TypeTable
+  type={{
+    value: { description: 'The value this item picks.', type: 'any' },
+    closeOnClick: { description: 'Close the menu when picked.', type: 'boolean', default: 'false' },
+    disabled: { description: 'Grey it out.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DropdownMenu.Group
+
+Groups related items; put a `GroupLabel` first. Base UI's `Menu.Group`; renders a `<div role="group">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### DropdownMenu.GroupLabel
+
+A small muted heading that labels a group. Must be inside a `Group`. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### DropdownMenu.Separator
+
+A thin line between groups. Renders a `<div role="separator">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### DropdownMenu.Shortcut
+
+A keyboard hint at the end of an item, e.g. `Ctrl D`. Renders a `<kbd>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### DropdownMenu.Sub
+
+Wraps a nested menu. Base UI's `Menu.SubmenuRoot`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state of the submenu.', type: 'boolean' },
+    onOpenChange: { description: 'Called when the submenu opens or closes.', type: '(open: boolean, details) => void' },
+  }}
+/>
+
+### DropdownMenu.SubTrigger
+
+The item that opens a submenu, with a chevron. Base UI's `Menu.SubmenuTrigger`.
+
+<TypeTable
+  type={{
+    disabled: { description: 'Grey it out.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DropdownMenu.SubContent
+
+The nested list. Same as `Content`, opening to the side (`inline-end`) of its trigger.
+
+<TypeTable
+  type={{
+    side: { description: 'Which side it opens on.', type: 'Side', default: "'inline-end'" },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '4' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>

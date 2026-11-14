@@ -1,16 +1,90 @@
 ---
 title: Reveal
-description: Motion for content that scrolls into view.
+description: Motion for content that scrolls into view — a fade and a small lift, once.
 ---
 
-import { MotionDemo } from '@/components/demos/foundations';
+<ComponentPreview name="reveal/default" />
 
-<MotionDemo />
+## Installation
 
-See [Motion](/docs/motion) for the tokens. `Reveal` respects `prefers-reduced-motion`.
+<InstallTabs component="reveal" />
 
-| Component | Props |
-| --- | --- |
-| `Reveal` | `delay?: number`, `once?: boolean` (default `true`) |
-| `Reveal.Group` | `stagger?: number` (default `0.06`), `once?: boolean` |
-| `Reveal.Item` | motion `div` props |
+## Usage
+
+```tsx
+import { Reveal } from '@crazy-staff/ui';
+```
+
+```tsx
+<Reveal>
+  <Card title="Build 0.9 is out" />
+</Reveal>
+```
+
+## Examples
+
+### Staggered group
+
+`Reveal.Group` reveals its `Reveal.Item` children one after another — cards in a grid, rows in a list. `stagger`
+sets the gap between two items in seconds.
+
+<ComponentPreview name="reveal/group" />
+
+### Delay
+
+`delay` holds an element back, so a heading, its text and a button arrive in order.
+
+<ComponentPreview name="reveal/delay" />
+
+### Every time it scrolls in
+
+By default an element animates only the first time. `once={false}` plays it again whenever it comes back into
+view — scroll the box.
+
+<ComponentPreview name="reveal/on-scroll" />
+
+## Accessibility
+
+- With `prefers-reduced-motion: reduce`, `Reveal` renders a plain `motion.div` with no animation: content is
+  there at once.
+- Content is in the DOM from the start (only its opacity and position change), so screen readers and search
+  read it right away.
+
+## API Reference
+
+### Reveal
+
+Fades and lifts its content in when it enters the viewport. Renders a `motion.div`; other
+[motion props](https://motion.dev/docs/react-motion-component) go to it.
+
+<TypeTable
+  type={{
+    delay: { description: 'Seconds to wait before it starts.', type: 'number', default: '0' },
+    once: {
+      description: 'Animate only the first time it scrolls into view.',
+      type: 'boolean',
+      default: 'true',
+    },
+    transition: { description: 'A motion transition merged over the default one.', type: 'Transition' },
+    className: { description: 'Classes for the wrapper.', type: 'string' },
+  }}
+/>
+
+### Reveal.Group
+
+Starts the reveal of its items when the group enters the viewport. Renders a `motion.div`.
+
+<TypeTable
+  type={{
+    stagger: { description: 'Seconds between two items.', type: 'number', default: '0.06' },
+    once: { description: 'Animate only the first time.', type: 'boolean', default: 'true' },
+    className: { description: 'Classes for the wrapper (often a grid or a flex column).', type: 'string' },
+  }}
+/>
+
+### Reveal.Item
+
+One element inside a `Reveal.Group`; it takes its timing from the group. Renders a `motion.div` and accepts
+its props.
+
+<TypeTable type={{ className: { description: 'Classes for the item.', type: 'string' } }} />

@@ -7,34 +7,61 @@ import { checkboxStyles } from './checkbox.styles';
 
 const styles = checkboxStyles();
 
-export interface CheckboxProps extends Omit<React.ComponentPropsWithRef<typeof BaseCheckbox.Root>, 'className'> {
-  /** Text next to the box; the whole row becomes clickable. */
-  label?: React.ReactNode;
-  className?: string;
-  classNames?: { root?: string; indicator?: string; label?: string };
+type RootProps = Omit<React.ComponentPropsWithRef<typeof BaseCheckbox.Root>, 'className'> & { className?: string };
+
+/** The box itself, without the label row. Renders a `<span role="checkbox">` and a hidden input. */
+function CheckboxRoot({ className, ...props }: RootProps) {
+  return <BaseCheckbox.Root className={cn(styles.root(), className)} {...props} />;
 }
 
-/** A box to tick. `indeterminate` shows a dash. */
-function CheckboxSimple({ label, className, classNames, indeterminate, ...props }: CheckboxProps) {
+type IndicatorProps = Omit<React.ComponentPropsWithRef<typeof BaseCheckbox.Indicator>, 'className'> & {
+  className?: string;
+};
+
+/** The tick (or the dash when indeterminate). Without children it draws the default icons. */
+function CheckboxIndicator({ className, children, ...props }: IndicatorProps) {
+  return (
+    <BaseCheckbox.Indicator keepMounted className={cn(styles.indicator(), className)} {...props}>
+      {children ?? (
+        <>
+          <Check className={styles.check()} />
+          <Minus className={styles.dash()} />
+        </>
+      )}
+    </BaseCheckbox.Indicator>
+  );
+}
+
+export interface CheckboxProps extends RootProps {
+  /** Text next to the box; the whole row becomes clickable. */
+  label?: React.ReactNode;
+  /** A muted line under the label. */
+  description?: React.ReactNode;
+  /** Classes for the row (or the box, without a label), merged last. */
+  className?: string;
+  /** Classes per slot. */
+  classNames?: { root?: string; indicator?: string; label?: string; description?: string };
+}
+
+/** A box to tick. `indeterminate` (or a `parent` box in a group) shows a dash. */
+function CheckboxSimple({ label, description, className, classNames, ...props }: CheckboxProps) {
   const box = (
-    <BaseCheckbox.Root
-      indeterminate={indeterminate}
-      className={cn(styles.root(), classNames?.root, !label && className)}
-      {...props}
-    >
-      <BaseCheckbox.Indicator
-        keepMounted
-        className={cn(styles.indicator(), !indeterminate && 'data-[unchecked]:hidden', classNames?.indicator)}
-      >
-        {indeterminate ? <Minus /> : <Check />}
-      </BaseCheckbox.Indicator>
-    </BaseCheckbox.Root>
+    <CheckboxRoot className={cn(classNames?.root, !label && className)} {...props}>
+      <CheckboxIndicator className={classNames?.indicator} />
+    </CheckboxRoot>
   );
   if (!label) return box;
   return (
     <label className={cn(styles.label(), classNames?.label, className)}>
       {box}
-      {label}
+      {description ? (
+        <span className={styles.text()}>
+          {label}
+          <span className={cn(styles.description(), classNames?.description)}>{description}</span>
+        </span>
+      ) : (
+        label
+      )}
     </label>
   );
 }
@@ -49,6 +76,6 @@ export function CheckboxGroup({ className, ...props }: CheckboxGroupProps) {
 }
 
 export const Checkbox = Object.assign(CheckboxSimple, {
-  Root: BaseCheckbox.Root,
-  Indicator: BaseCheckbox.Indicator,
+  Root: CheckboxRoot,
+  Indicator: CheckboxIndicator,
 });

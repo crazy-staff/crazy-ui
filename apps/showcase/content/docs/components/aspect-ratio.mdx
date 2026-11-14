@@ -1,23 +1,69 @@
 ---
 title: Aspect Ratio
-description: Keeps media at a fixed ratio.
+description: Keeps media — a screenshot, a video, a map — at a fixed ratio while its width changes.
 ---
 
-import { AspectRatioDemo } from '@/components/demos/display';
+<ComponentPreview name="aspect-ratio/default" />
 
-<Preview align="stretch">
-  <AspectRatioDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="aspect-ratio" />
+
+## Usage
+
+```tsx
+import { AspectRatio } from '@crazy-staff/ui';
+```
 
 ```tsx
 <AspectRatio ratio={16 / 9} rounded>
-  <img src={screenshot} alt="" />
+  <img src={screenshot} alt="The valley at dusk" />
 </AspectRatio>
 ```
 
-## Props
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `ratio` | `number` | `1` |
-| `rounded` | `boolean` (card radius) | `false` |
+### Ratios
+
+`ratio` is width divided by height: `16 / 9` for screenshots and video, `4 / 3` for older captures, `1`
+for squares. An `<img>` or `<video>` directly inside fills the box and is cropped to it.
+
+<ComponentPreview name="aspect-ratio/ratios" />
+
+### Video
+
+Overlay a play button on a poster image; the box keeps its shape before and after the player loads.
+
+<ComponentPreview name="aspect-ratio/video" />
+
+### Placeholder
+
+While media loads (or before someone adds it), fill the box with the accent glow and say what goes there.
+
+<ComponentPreview name="aspect-ratio/placeholder" />
+
+### Inside a card
+
+Without `rounded`, the box has square corners and the card around it clips them.
+
+<ComponentPreview name="aspect-ratio/plain" />
+
+## Accessibility
+
+- The box is a plain `<div>` with no role. The media inside carries the meaning: give images an `alt`
+  (empty `alt=""` when they are decoration) and videos captions.
+- Controls laid over media (like a play button) need an accessible name.
+
+## API Reference
+
+### AspectRatio
+
+Renders a `<div>` with `aspect-ratio` set; other props go to it.
+
+<TypeTable
+  type={{
+    ratio: { description: 'Width divided by height, e.g. `16 / 9`.', type: 'number', default: '1' },
+    rounded: { description: 'Card corners (squircle) that clip the media.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

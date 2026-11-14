@@ -23,10 +23,10 @@ export const toastStyles = tv({
       'data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))]',
       '[&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)]',
       "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
-      'transition-[transform,opacity,height] duration-500 ease-ui',
+      'transition-[transform,opacity,height] duration-[calc(var(--cui-duration-normal)*2)] ease-ui',
     ],
     content: [
-      'flex items-start gap-3 overflow-hidden transition-opacity duration-250',
+      'flex items-start gap-3 overflow-hidden transition-opacity duration-[var(--cui-duration-normal)] ease-ui',
       'data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100',
     ],
     icon: 'mt-0.5 size-4 shrink-0',

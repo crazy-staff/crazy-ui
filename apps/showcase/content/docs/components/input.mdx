@@ -1,21 +1,97 @@
 ---
 title: Input
-description: A single-line text field. Works on its own or inside a Base UI Field.
+description: A single-line text field — search boxes, names, numbers. Works on its own or inside a Field.
 ---
 
-import { InputExamples } from '@/components/demos/basics';
+<ComponentPreview name="input/default" />
 
-<Preview>
-  <InputExamples />
-</Preview>
+## Installation
+
+<InstallTabs component="input" />
+
+## Usage
+
+```tsx
+import { Input } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Input placeholder="Search features…" />
-<Input size="sm" placeholder="Filter…" />
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+## Examples
 
-Inputs have no shadow: the squircle polyfill can't draw one on replaced elements.
+### Sizes
+
+Three heights from the control scale: `sm`, `md` (default) and `lg`. The corner radius follows the size, so a
+small input never looks like a pill.
+
+<ComponentPreview name="input/sizes" />
+
+### With a label
+
+Give the input an `id` and point a [Label](/docs/components/label) at it with `htmlFor`. For description and
+error text as well, use a [Field](/docs/components/field) instead.
+
+<ComponentPreview name="input/with-label" />
+
+### Types
+
+Every native `type` works: `email`, `password`, `number`, `search`, `url`…
+
+<ComponentPreview name="input/types" />
+
+### Disabled and read-only
+
+`disabled` dims the input and blocks focus. `readOnly` keeps it focusable and selectable, on a slightly darker
+fill, for values the user can copy but not change.
+
+<ComponentPreview name="input/disabled" />
+
+### Invalid
+
+Inside an invalid [Field](/docs/components/field) (or with `aria-invalid`) the border turns red. Focus and
+errors are shown on the border only: inputs have no ring and no shadow (the squircle polyfill can't paint
+them on an `<input>`).
+
+<ComponentPreview name="input/invalid" />
+
+### Controlled
+
+Pass `value` and `onChange` like a native input.
+
+<ComponentPreview name="input/controlled" />
+
+## Accessibility
+
+- Renders a native `<input>`, so the keyboard, autofill and form submission work as usual.
+- Every input needs a name for screen readers: a `<Label htmlFor>`, a `Field` label, or `aria-label` when there
+  is no visible label (a search box with an icon, for example).
+- Inside a `Field`, Base UI links the label, the description (`aria-describedby`) and the invalid state
+  (`aria-invalid`) for you.
+
+## API Reference
+
+### Input
+
+A styled Base UI `Input`, which renders an `<input>`. All native input props (`type`, `value`, `onChange`,
+`placeholder`, `disabled`, `readOnly`…) and Base UI's `onValueChange` pass through.
+
+<TypeTable
+  type={{
+    size: {
+      description: 'Height, padding and corner radius.',
+      type: "'sm' | 'md' | 'lg'",
+      default: "'md'",
+    },
+    value: { description: 'The text (controlled).', type: 'string | number' },
+    defaultValue: { description: 'The text at first (uncontrolled).', type: 'string | number' },
+    onValueChange: {
+      description: 'Base UI callback with the new value, besides the native `onChange`.',
+      type: '(value: string, event) => void',
+    },
+    disabled: { description: 'Dims the input and blocks interaction.', type: 'boolean', default: 'false' },
+    readOnly: { description: 'Focusable and selectable, but not editable.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the input, merged last.', type: 'string' },
+  }}
+/>

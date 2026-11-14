@@ -1,36 +1,175 @@
 ---
 title: Dialog
-description: A modal window for a focused task.
+description: A modal window for a focused task — editing a kit, posting an idea, reading a changelog.
 ---
 
-import { DialogDemo } from '@/components/demos/overlays';
+<ComponentPreview name="dialog/default" />
 
-<Preview>
-  <DialogDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="dialog" />
+
+## Usage
+
+```tsx
+import { Dialog } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Dialog
   trigger={<Button>Edit kit</Button>}
   title="Edit kit"
-  description="Rename the kit and choose what it spawns."
-  footer={
-    <>
-      <Dialog.Close render={<Button variant="outline" />}>Cancel</Dialog.Close>
-      <Dialog.Close render={<Button />}>Save</Dialog.Close>
-    </>
-  }
+  footer={<Dialog.Close render={<Button />}>Save</Dialog.Close>}
 >
-  <Input defaultValue="Warrior starter" />
+  …
 </Dialog>
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `trigger` | `ReactElement` | — |
-| `title`, `description` | `ReactNode` | — |
-| `footer` | `ReactNode` | — |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+## Examples
 
-Parts: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content` (`size`, `showClose`), `Dialog.Header`, `Dialog.Title`,
-`Dialog.Description`, `Dialog.Body`, `Dialog.Footer`, `Dialog.Close`.
+### Sizes
+
+`sm`, `md` (default) and `lg` set the maximum width. On a phone every size fills the screen minus a small margin.
+
+<ComponentPreview name="dialog/sizes" />
+
+### With a form
+
+Control the dialog with `open` and `onOpenChange`, put a `<form>` inside `Dialog.Content`, and close it on
+submit. The submit button is a plain `Button`; Cancel is a `Dialog.Close`.
+
+<ComponentPreview name="dialog/form" />
+
+### Compound parts
+
+`Dialog.Root`, `Trigger`, `Content`, `Header`, `Title`, `Description`, `Body`, `Footer` and `Close` give you full
+control. `showClose={false}` hides the corner close button.
+
+<ComponentPreview name="dialog/compound" />
+
+### Long content
+
+The panel never grows past the window: the content scrolls inside it.
+
+<ComponentPreview name="dialog/scrollable" />
+
+### Nested dialogs
+
+Open a dialog from a dialog — here a confirmation when you close with unsaved changes. The parent stays
+behind, dimmed, and focus comes back to it.
+
+<ComponentPreview name="dialog/nested" />
+
+## Accessibility
+
+- The popup has `role="dialog"` and `aria-modal`, labelled by `Dialog.Title` and described by
+  `Dialog.Description`. Always give a dialog a title.
+- Focus moves into the dialog on open, stays trapped inside it, and returns to the trigger on close.
+- <kbd>Esc</kbd> and a click on the backdrop close it; the page behind can't be scrolled.
+- The corner close button has `aria-label="Close"`.
+
+## API Reference
+
+### Dialog
+
+The short form: trigger, header, body and footer in one. Other props go to Base UI's
+[`Dialog.Root`](https://base-ui.com/react/components/dialog) (`open`, `defaultOpen`, `onOpenChange`, `modal`,
+`disablePointerDismissal` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The element that opens the dialog. Leave it out for a controlled dialog.', type: 'ReactElement' },
+    title: { description: 'The heading; labels the dialog.', type: 'ReactNode' },
+    description: { description: 'Text under the title; describes the dialog.', type: 'ReactNode' },
+    children: { description: 'The body, rendered in `Dialog.Body`.', type: 'ReactNode' },
+    footer: {
+      description: 'Buttons at the bottom. Wrap the ones that should close it in `Dialog.Close render={…}`.',
+      type: 'ReactNode',
+    },
+    size: { description: 'Maximum width.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    disablePointerDismissal: {
+      description: 'Ignore clicks on the backdrop; only buttons and Esc close it.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>
+
+### Dialog.Root
+
+Holds the open state. Base UI's `Dialog.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: {
+      description: '`true` locks scroll and blocks the page; `trap-focus` only traps focus.',
+      type: "boolean | 'trap-focus'",
+      default: 'true',
+    },
+    disablePointerDismissal: { description: 'Ignore clicks outside.', type: 'boolean', default: 'false' },
+  }}
+/>
+
+### Dialog.Trigger
+
+Opens the dialog. Base UI's `Dialog.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button />`.', type: 'ReactElement' } }} />
+
+### Dialog.Content
+
+The backdrop and the centred panel, in a portal. Renders a `<div>`; other props go to Base UI's `Dialog.Popup`.
+
+<TypeTable
+  type={{
+    size: { description: 'Maximum width.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    showClose: { description: 'The close button in the top corner.', type: 'boolean', default: 'true' },
+    initialFocus: { description: 'Element to focus when it opens (defaults to the first focusable one).', type: 'RefObject<HTMLElement>' },
+    finalFocus: { description: 'Element to focus when it closes (defaults to the trigger).', type: 'RefObject<HTMLElement>' },
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ backdrop?: string; popup?: string }' },
+  }}
+/>
+
+### Dialog.Header
+
+A column for the title and description, with room for the close button. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Dialog.Title
+
+The heading; labels the dialog. Renders an `<h2>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Dialog.Description
+
+Muted text under the title; describes the dialog. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Dialog.Body
+
+The main content, spaced from the header. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Dialog.Footer
+
+A row of actions, right-aligned; stacked with the main action on top on phones. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Dialog.Close
+
+Closes the dialog. Base UI's `Dialog.Close`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button variant="outline" />`.', type: 'ReactElement' } }} />

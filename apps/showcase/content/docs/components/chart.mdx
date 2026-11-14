@@ -1,0 +1,115 @@
+---
+title: Chart
+description: "Line, area and bar charts (TanStack Charts) in our colours, with a popover-style tooltip."
+---
+
+<ComponentPreview name="chart/default" />
+
+## Installation
+
+<InstallTabs component="chart" />
+
+## Usage
+
+```tsx
+import { Chart } from '@crazy-staff/ui';
+```
+
+```tsx
+<Chart type="area" data={months} x="month" series={[{ key: 'votes', label: 'Votes' }]} ariaLabel="Votes per month" />
+```
+
+## Examples
+
+### Line
+
+Several series share the palette: the accent first, then calmer colours derived from it. `points` adds dots.
+
+<ComponentPreview name="chart/line" />
+
+### Area
+
+Areas overlap with a soft fill and a line on top.
+
+<ComponentPreview name="chart/area" />
+
+### Bar
+
+Grouped bars. `legendPosition="bottom"` moves the legend under the chart.
+
+<ComponentPreview name="chart/bar" />
+
+### Stacked
+
+`stacked` stacks bars (or areas).
+
+<ComponentPreview name="chart/stacked" />
+
+### Formatting values
+
+`valueFormat` formats the y axis and the tooltip.
+
+<ComponentPreview name="chart/format" />
+
+### Palette
+
+Six colours, each overridable with a `--cui-chart-N` variable; after six they repeat.
+
+<ComponentPreview name="chart/palette" />
+
+## Accessibility
+
+- `ariaLabel` (required) names the chart; add `ariaDescription` for the takeaway.
+- The chart is focusable; arrow keys move between points and the tooltip follows, like the pointer.
+- Colour is not the only cue: the legend and tooltip name each series. Offer a table for exact values.
+- Animations respect reduced motion.
+
+## API Reference
+
+### Chart
+
+The short form for category data (one row per month, build…).
+
+<TypeTable
+  type={{
+    type: { description: 'Chart type.', type: "'line' | 'area' | 'bar'", default: "'line'" },
+    data: { description: 'The rows.', type: 'readonly Row[]' },
+    x: { description: 'Field with the category.', type: 'keyof Row' },
+    series: { description: 'Series to draw.', type: '{ key: string; label?: string; color?: string }[]' },
+    ariaLabel: { description: 'Accessible name.', type: 'string' },
+    ariaDescription: { description: 'Accessible description.', type: 'string' },
+    height: { description: 'Height in pixels; width follows the container.', type: 'number', default: '280' },
+    stacked: { description: 'Stack areas or bars.', type: 'boolean', default: 'false' },
+    points: { description: 'Dots on lines.', type: 'boolean', default: 'false' },
+    legend: { description: 'Show the legend.', type: 'boolean', default: 'more than one series' },
+    legendPosition: { description: 'Where the legend goes.', type: "'top' | 'bottom'", default: "'top'" },
+    grid: { description: 'Horizontal grid lines.', type: 'boolean', default: 'true' },
+    valueFormat: { description: 'Formats values.', type: '(value: number) => string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ chart?: string; legend?: string }' },
+  }}
+/>
+
+### Chart.Root
+
+Our frame (palette, ink, tooltip surface) around the TanStack `Chart` for your own `definition`. Takes all props of `@tanstack/react-charts` `Chart`; use `chartColor(i)` in marks.
+
+<TypeTable
+  type={{
+    definition: { description: 'A TanStack Charts definition.', type: 'ChartDefinition' },
+    ariaLabel: { description: 'Accessible name.', type: 'string' },
+    height: { description: 'Height in pixels.', type: 'number', default: '280' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Chart.Legend
+
+The HTML legend.
+
+<TypeTable
+  type={{
+    items: { description: 'Swatches.', type: '{ label: string; color: string }[]' },
+    position: { description: 'Placement.', type: "'top' | 'bottom'", default: "'top'" },
+  }}
+/>

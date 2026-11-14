@@ -31,6 +31,9 @@ function DrawerTitle({ className, ...props }: React.ComponentPropsWithRef<typeof
 function DrawerDescription({ className, ...props }: React.ComponentPropsWithRef<typeof BaseDrawer.Description>) {
   return <BaseDrawer.Description className={cn(styles.description(), className)} {...props} />;
 }
+const DrawerBody = ({ className, ...props }: React.ComponentPropsWithRef<'div'>) => (
+  <div className={cn(styles.body(), className)} {...props} />
+);
 const DrawerFooter = ({ className, ...props }: React.ComponentPropsWithRef<'div'>) => (
   <div className={cn(styles.footer(), className)} {...props} />
 );
@@ -47,6 +50,7 @@ export interface DrawerProps extends Omit<React.ComponentProps<typeof BaseDrawer
 /**
  * A panel that slides up from the bottom and closes with a swipe down.
  *   <Drawer trigger={<Button>Details</Button>} title="Kit details">…</Drawer>
+ * or compound: Drawer.Root / Trigger / Content / Title / Description / Body / Footer / Close.
  */
 function DrawerSimple({ trigger, title, description, footer, className, children, ...root }: DrawerProps) {
   return (
@@ -55,7 +59,7 @@ function DrawerSimple({ trigger, title, description, footer, className, children
       <DrawerContent className={className}>
         <DrawerTitle>{title}</DrawerTitle>
         {description && <DrawerDescription>{description}</DrawerDescription>}
-        {children && <div className="mt-4 text-sm">{children}</div>}
+        {children && <DrawerBody>{children}</DrawerBody>}
         {footer && <DrawerFooter>{footer}</DrawerFooter>}
       </DrawerContent>
     </BaseDrawer.Root>
@@ -68,6 +72,7 @@ export const Drawer = Object.assign(DrawerSimple, {
   Content: DrawerContent,
   Title: DrawerTitle,
   Description: DrawerDescription,
+  Body: DrawerBody,
   Footer: DrawerFooter,
   Close: BaseDrawer.Close,
 });

@@ -22,4 +22,10 @@ describe('Checkbox', () => {
     await userEvent.click(screen.getByText('B'));
     expect(onValueChange.mock.calls[0]?.[0]).toEqual(['b']);
   });
+
+  it('shows a description under the label', () => {
+    render(<Checkbox label="ESP" description="Names over NPCs." />);
+    expect(screen.getByText('Names over NPCs.')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /ESP/ })).toBeInTheDocument();
+  });
 });

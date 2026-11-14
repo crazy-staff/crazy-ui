@@ -1,41 +1,176 @@
 ---
 title: Tabs
-description: Switch between views. The indicator glides to the active tab.
+description: Switch between views of the same place. A soft fill glides to the active tab and the new panel fades in.
 ---
 
-import { TabsDemo } from '@/components/demos/display';
+<ComponentPreview name="tabs/default" />
 
-<Preview align="start">
-  <TabsDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="tabs" />
+
+## Usage
+
+```tsx
+import { Tabs } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Tabs
   items={[
-    { value: 'overview', label: 'Overview', content: <Overview /> },
-    { value: 'cheats', label: 'Cheats', content: <Cheats /> },
+    { value: 'character', label: 'Character', content: <CharacterCheats /> },
+    { value: 'world', label: 'World', content: <WorldCheats /> },
   ]}
 />
-
-// compound parts
-<Tabs.Root defaultValue="overview" variant="line">
-  <Tabs.List>
-    <Tabs.Tab value="overview">Overview</Tabs.Tab>
-    <Tabs.Tab value="cheats">Cheats</Tabs.Tab>
-  </Tabs.List>
-  <Tabs.Panel value="overview">…</Tabs.Panel>
-  <Tabs.Panel value="cheats">…</Tabs.Panel>
-</Tabs.Root>
 ```
 
-## Props
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `items` | `{ value, label, content, disabled? }[]` | — |
-| `variant` | `'pill' \| 'line'` | `'pill'` |
-| `defaultValue` / `value` / `onValueChange` | Base UI Tabs | first item |
-| `classNames` | `{ list, tab, indicator, panel }` | — |
+### Line
 
-Parts: `Tabs.Root`, `Tabs.List` (includes the indicator), `Tabs.Tab`, `Tabs.Panel`. Keyboard: arrow keys move
-between tabs.
+`variant="line"` underlines the active tab instead of filling it. Use it for sections of a page, like
+the Command / Manual switch under Installation above. Tabs still get a soft hover fill.
+
+<ComponentPreview name="tabs/line" />
+
+### Sizes
+
+`md` (default) matches the height of a button; `sm` fits toolbars and card headers.
+
+<ComponentPreview name="tabs/sizes" />
+
+### Neutral
+
+The active tab uses the soft accent, like a pressed Toggle. Pass `accent={false}` for a neutral fill
+when the accent is already busy elsewhere on the screen.
+
+<ComponentPreview name="tabs/neutral" />
+
+### With icons
+
+Labels can hold any node. Icons get the right size from the tab.
+
+<ComponentPreview name="tabs/icons" />
+
+### Disabled
+
+Set `disabled` on an item. Keyboard navigation skips it.
+
+<ComponentPreview name="tabs/disabled" />
+
+### Compound parts
+
+Build the tabs from `Tabs.Root`, `Tabs.List`, `Tabs.Tab` and `Tabs.Panel` when a tab needs more than a
+label (a counter here) or the panels live somewhere else in the layout.
+
+<ComponentPreview name="tabs/compound" />
+
+### Controlled
+
+Pass `value` and `onValueChange` to drive the tabs from outside — here a step-by-step install guide.
+
+<ComponentPreview name="tabs/controlled" />
+
+## Accessibility
+
+- Built on Base UI Tabs: the list has `role="tablist"`, each tab `role="tab"` with `aria-selected`, and each
+  panel `role="tabpanel"` linked to its tab.
+- <kbd>←</kbd> <kbd>→</kbd> move between tabs (<kbd>↑</kbd> <kbd>↓</kbd> with `orientation="vertical"`),
+  <kbd>Home</kbd> and <kbd>End</kbd> jump to the ends, disabled tabs are skipped.
+- With `activateOnFocus` on `Tabs.List`, moving the focus also switches the panel.
+- The panel animation and the gliding fill turn off with `prefers-reduced-motion`.
+- Tabs with only an icon need an `aria-label`.
+
+## API Reference
+
+### Tabs
+
+The one-line form. Renders `Tabs.Root` with a list and a panel per item; other props go to `Tabs.Root`.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'The tabs: `value` identifies it, `label` is shown in the list, `content` in the panel.',
+      type: '{ value: string; label: ReactNode; content: ReactNode; disabled?: boolean }[]',
+    },
+    defaultValue: { description: 'The tab that is active at first.', type: 'string', default: 'first item' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ list?: string; tab?: string; indicator?: string; panel?: string }',
+    },
+  }}
+/>
+
+### Tabs.Root
+
+Holds the state and the look of the tabs. Renders a `<div>`; Base UI `Tabs.Root` props pass through.
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'A soft fill behind the active tab, or an underline under it.',
+      type: "'pill' | 'line'",
+      default: "'pill'",
+    },
+    size: { description: 'Height and text size of the tabs.', type: "'sm' | 'md'", default: "'md'" },
+    accent: {
+      description: 'Mark the active tab with the soft accent. `false` uses a neutral fill (or a foreground underline).',
+      type: 'boolean',
+      default: 'true',
+    },
+    value: { description: 'The active tab, when controlled.', type: 'string | number | null' },
+    defaultValue: { description: 'The active tab at first, when uncontrolled.', type: 'string | number | null', default: '0' },
+    onValueChange: { description: 'Called when the active tab changes.', type: '(value, details) => void' },
+    orientation: {
+      description: 'Which arrow keys move between tabs.',
+      type: "'horizontal' | 'vertical'",
+      default: "'horizontal'",
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+  }}
+/>
+
+### Tabs.List
+
+The row of tabs, with the gliding indicator inside. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    activateOnFocus: {
+      description: 'Switch the panel as soon as a tab gets keyboard focus.',
+      type: 'boolean',
+      default: 'false',
+    },
+    loopFocus: { description: 'Arrow keys wrap from the last tab to the first.', type: 'boolean', default: 'true' },
+    className: { description: 'Classes for the list, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ list?: string; indicator?: string }' },
+  }}
+/>
+
+### Tabs.Tab
+
+One tab. Renders a `<button>`.
+
+<TypeTable
+  type={{
+    value: { description: 'Links the tab to the panel with the same value.', type: 'string | number' },
+    disabled: { description: 'The tab can’t be selected; keyboard focus skips it.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Tabs.Panel
+
+The content of one tab. Renders a `<div>` and fades and rises in when its tab becomes active.
+
+<TypeTable
+  type={{
+    value: { description: 'The tab this panel belongs to.', type: 'string | number' },
+    keepMounted: {
+      description: 'Keep the panel in the DOM while it is hidden (e.g. to keep a form’s state).',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

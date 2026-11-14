@@ -3,18 +3,80 @@ title: Chip
 description: A small label or status — verified, new, a tag, a count.
 ---
 
-import { ChipExamples } from '@/components/demos/basics';
+<ComponentPreview name="chip/default" />
 
-<Preview align="start">
-  <ChipExamples />
-</Preview>
+## Installation
+
+<InstallTabs component="chip" />
+
+## Usage
+
+```tsx
+import { Chip } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Chip>verified</Chip>
-<Chip variant="neutral" size="sm">4 pages</Chip>
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `variant` | `'soft' \| 'solid' \| 'outline' \| 'neutral'` | `'soft'` |
-| `size` | `'sm' \| 'md'` | `'md'` |
+## Examples
+
+### Variants
+
+`soft` (default) carries the accent, `solid` is the loudest, `outline` and `neutral` are for tags that shouldn't
+draw the eye.
+
+<ComponentPreview name="chip/variants" />
+
+### Status
+
+`success`, `warning` and `danger` tint the chip with a status colour — the same flags the trainer uses for test
+results: verified, works badly, crashes. New features use the default `soft` chip.
+
+<ComponentPreview name="chip/status" />
+
+### Sizes
+
+`sm` fits inside list rows and next to titles; `md` (default) is for standalone labels.
+
+<ComponentPreview name="chip/sizes" />
+
+### With an icon
+
+Icons go inside the chip and are sized for you.
+
+<ComponentPreview name="chip/with-icon" />
+
+### Counts
+
+A neutral small chip makes a quiet counter next to a tab or a heading.
+
+<ComponentPreview name="chip/counts" />
+
+## Accessibility
+
+- A chip is plain text in a `<span>`; screen readers read it in line with what's around it.
+- Don't rely on colour alone: the label says the status (“crashes”), the colour only supports it.
+- A chip is not interactive. For a removable tag or a filter, put a `Button` next to it or use `Toggle`.
+
+## API Reference
+
+### Chip
+
+Renders a `<span>`; other props go to it.
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'Colour. The status variants tint the chip with that status colour.',
+      type: "'soft' | 'solid' | 'outline' | 'neutral' | 'success' | 'warning' | 'danger'",
+      default: "'soft'",
+    },
+    size: {
+      description: 'Height, padding, text and icon size.',
+      type: "'sm' | 'md'",
+      default: "'md'",
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

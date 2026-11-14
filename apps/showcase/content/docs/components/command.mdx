@@ -1,0 +1,138 @@
+---
+title: Command
+description: A command palette — type to filter grouped actions, run one with Enter. Also as a Ctrl/Cmd+K dialog.
+---
+
+<ComponentPreview name="command/default" />
+
+## Installation
+
+<InstallTabs component="command" />
+
+## Usage
+
+```tsx
+import { Command } from '@crazy-staff/ui';
+```
+
+```tsx
+<Command
+  groups={[{ label: 'Player', items: [{ value: 'god', label: 'God mode', shortcut: 'F1', onSelect: toggleGod }] }]}
+/>
+```
+
+## Examples
+
+### Dialog
+
+`Command.Dialog` puts the palette in a modal near the top of the screen and closes it after an item runs.
+Open it with a `trigger`, or control `open` yourself — here with **Ctrl/Cmd + K**.
+
+<ComponentPreview name="command/dialog" />
+
+### Compound parts
+
+Use `Command.Root` with your own items and render the rows yourself. `Command.Footer` holds hints or a
+count.
+
+<ComponentPreview name="command/compound" />
+
+## Accessibility
+
+- Built on Base UI Autocomplete in inline mode: the input is a `combobox` controlling an always-visible
+  `listbox`; the first match is highlighted.
+- **Arrow keys** move, **Enter** runs the highlighted item, **Esc** closes the dialog.
+- Items also match their `keywords`. Shortcuts are hints only (`aria-hidden`); wire the keys yourself.
+- The dialog is named by `title` (default "Command palette"); the input by `aria-label`
+  (default "Search commands").
+
+## API Reference
+
+### Command
+
+The short form.
+
+<TypeTable
+  type={{
+    groups: { description: 'Groups of commands.', type: 'CommandGroupData[]' },
+    placeholder: { description: 'Hint in the search input.', type: 'string', default: "'Type a command or search…'" },
+    emptyText: { description: 'Shown when nothing matches.', type: 'ReactNode', default: "'No results.'" },
+    footer: { description: 'Content under the list.', type: 'ReactNode' },
+    search: { description: 'The typed text. Controlled.', type: 'string' },
+    defaultSearch: { description: 'The typed text at start.', type: 'string', default: "''" },
+    onSearchChange: { description: 'Called when the text changes.', type: '(search: string) => void' },
+    filter: { description: 'Custom match function.', type: '(item, query) => boolean', default: 'label + keywords' },
+    'aria-label': { description: 'Name of the palette and its input.', type: 'string' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?; input?; list?; item? }' },
+  }}
+/>
+
+### CommandItemData
+
+One command in `groups[].items`.
+
+<TypeTable
+  type={{
+    value: { description: 'Unique id.', type: 'string' },
+    label: { description: 'Text shown and searched.', type: 'string' },
+    icon: { description: 'Icon before the label.', type: 'ReactNode' },
+    shortcut: { description: "Keys shown at the end, e.g. `'Ctrl+T'`.", type: 'string | string[]' },
+    keywords: { description: 'Extra words that match.', type: 'string[]' },
+    disabled: { description: 'Cannot be run.', type: 'boolean' },
+    onSelect: { description: 'Runs on click or Enter.', type: '() => void' },
+  }}
+/>
+
+### Command.Dialog
+
+The palette in a modal. Takes every `Command` prop plus:
+
+<TypeTable
+  type={{
+    open: { description: 'Whether it is open. Controlled.', type: 'boolean' },
+    defaultOpen: { description: 'Open at start.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean) => void' },
+    trigger: { description: 'The element that opens it.', type: 'ReactElement' },
+    title: { description: 'Accessible name of the dialog.', type: 'string', default: "'Command palette'" },
+    closeOnSelect: { description: 'Close after an item runs.', type: 'boolean', default: 'true' },
+    children: { description: 'Your own `Command.Root` instead of `groups`.', type: 'ReactNode' },
+  }}
+/>
+
+### Command.Root
+
+The palette without content. Renders a `<div role="group">` around Base UI `Autocomplete.Root`
+(`items`, `filter`, `filteredItems`, `limit`, `loopFocus` pass through).
+
+<TypeTable
+  type={{
+    items: { description: 'Flat items or `{ items }` groups to filter.', type: 'any[]' },
+    search: { description: 'The typed text. Controlled.', type: 'string' },
+    onSearchChange: { description: 'Called when the text changes.', type: '(search: string) => void' },
+  }}
+/>
+
+### Command.Item
+
+One row. Renders Base UI `Autocomplete.Item`.
+
+<TypeTable
+  type={{
+    value: { description: 'The item this row shows.', type: 'any' },
+    onSelect: { description: 'Runs on click or Enter.', type: '() => void' },
+    disabled: { description: 'Cannot be run.', type: 'boolean' },
+  }}
+/>
+
+### Command.Shortcut
+
+Kbd keys at the end of an item.
+
+<TypeTable type={{ keys: { description: "`'Ctrl+K'` or `['Ctrl', 'K']`.", type: 'string | string[]' } }} />
+
+### Command.Input, List, Empty, Group, GroupLabel, Collection, Separator, Footer
+
+The styled parts. `List` and `Collection` take a render function per item.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

@@ -1,25 +1,109 @@
 ---
 title: Scroll Area
-description: A scroll container with the thin scrollbar of the docs sidebar.
+description: A scrolling region with thin scrollbars that show on hover and while scrolling.
 ---
 
-import { ScrollAreaDemo } from '@/components/demos/display';
+<ComponentPreview name="scroll-area/default" />
 
-<Preview align="stretch">
-  <ScrollAreaDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="scroll-area" />
+
+## Usage
 
 ```tsx
-<ScrollArea className="h-64" fade>…</ScrollArea>
-<ScrollArea orientation="horizontal">…</ScrollArea>
+import { ScrollArea } from '@crazy-staff/ui';
 ```
 
-## Props
+```tsx
+<ScrollArea className="h-72">
+  <ReleaseList />
+</ScrollArea>
+```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `orientation` | `'vertical' \| 'horizontal' \| 'both'` | `'vertical'` |
-| `fade` | `boolean` (fade the top and bottom edges) | `false` |
-| `classNames` | `{ viewport, scrollbar }` | — |
+## Examples
 
-Parts: `ScrollArea.Root`, `Viewport`, `Content`, `Scrollbar`, `Corner`.
+### Horizontal
+
+`orientation="horizontal"` for rows wider than the frame — screenshots of every camp. Make the content
+`w-max` so it doesn't wrap.
+
+<ComponentPreview name="scroll-area/horizontal" />
+
+### Faded edges
+
+`fade` softens the top and bottom edges, like the docs sidebar, so text doesn't end on a hard cut.
+
+<ComponentPreview name="scroll-area/fade" />
+
+### Both directions
+
+`orientation="both"` for wide tables — the feature test matrix across builds. Sticky cells stay in place.
+
+<ComponentPreview name="scroll-area/both" />
+
+### Compound parts
+
+`ScrollArea.Root`, `ScrollArea.Viewport`, `ScrollArea.Content`, `ScrollArea.Scrollbar` and
+`ScrollArea.Corner` for full control.
+
+<ComponentPreview name="scroll-area/compound" />
+
+## Accessibility
+
+- Built on Base UI ScrollArea: the viewport is a native scroll container, so wheel, touch, keyboard and
+  screen readers work as usual.
+- The viewport is focusable when it scrolls, so keyboard users can scroll it with the arrow keys; it shows
+  a focus ring.
+- Give a scrolling region a heading or an `aria-label` if it's a landmark of its own.
+
+## API Reference
+
+### ScrollArea
+
+The one-line form: the viewport with its content and the scrollbars. Other props go to `ScrollArea.Root`.
+
+<TypeTable
+  type={{
+    orientation: { description: 'Which scrollbars to render.', type: "'vertical' | 'horizontal' | 'both'", default: "'vertical'" },
+    fade: { description: 'Fade the content at the top and bottom edges.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the root. Set the height here.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ viewport?: string; scrollbar?: string }' },
+  }}
+/>
+
+### ScrollArea.Root
+
+The frame. Renders a `<div>`; Base UI `ScrollArea.Root` props pass through.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### ScrollArea.Viewport
+
+The scrolling element. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### ScrollArea.Content
+
+Wraps the content, so the scrollbars can measure it. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### ScrollArea.Scrollbar
+
+A thin scrollbar with its thumb. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    orientation: { description: 'The direction it scrolls.', type: "'vertical' | 'horizontal'", default: "'vertical'" },
+    keepMounted: { description: 'Render it even when there is nothing to scroll.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### ScrollArea.Corner
+
+The square where two scrollbars meet. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

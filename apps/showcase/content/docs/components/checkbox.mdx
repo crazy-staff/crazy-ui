@@ -3,26 +3,135 @@ title: Checkbox
 description: A box to tick, alone or in a group that shares one array value.
 ---
 
-import { CheckboxDemo } from '@/components/demos/forms';
+<ComponentPreview name="checkbox/default" />
 
-<Preview align="start">
-  <CheckboxDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="checkbox" />
+
+## Usage
 
 ```tsx
-<Checkbox label="Remember me" defaultChecked />
-
-<CheckboxGroup value={value} onValueChange={setValue}>
-  <Checkbox value="esp" label="ESP" />
-  <Checkbox value="radar" label="Radar" />
-</CheckboxGroup>
+import { Checkbox, CheckboxGroup } from '@crazy-staff/ui';
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `label` | `ReactNode` | — |
-| `checked`, `defaultChecked`, `onCheckedChange` | Base UI props | — |
-| `indeterminate` | `boolean` | `false` |
-| `classNames` | `{ root, indicator, label }` | — |
+```tsx
+<Checkbox label="Remember the last teleport" defaultChecked />
+```
 
-Compound parts: `Checkbox.Root`, `Checkbox.Indicator` (unstyled Base UI parts).
+## Examples
+
+### With a description
+
+`description` adds a muted line under the label.
+
+<ComponentPreview name="checkbox/description" />
+
+### Group
+
+`CheckboxGroup` collects the `value` of every ticked box into one array (`value`, `defaultValue`,
+`onValueChange`). Name the group with `aria-labelledby`.
+
+<ComponentPreview name="checkbox/group" />
+
+### Select all
+
+Give the group `allValues` and add a `parent` checkbox: it ticks or clears every box, and shows a dash when only
+some are ticked.
+
+<ComponentPreview name="checkbox/parent" />
+
+### Indeterminate
+
+`indeterminate` shows the dash on a single checkbox you manage yourself.
+
+<ComponentPreview name="checkbox/indeterminate" />
+
+### Disabled
+
+<ComponentPreview name="checkbox/disabled" />
+
+### Invalid
+
+Inside an invalid [Field](/docs/components/field), the box gets a red border and the error is linked to it.
+
+<ComponentPreview name="checkbox/invalid" />
+
+### Controlled
+
+<ComponentPreview name="checkbox/controlled" />
+
+### Compound parts
+
+`Checkbox.Root` and `Checkbox.Indicator` build the bare box, e.g. for a table row that is labelled elsewhere.
+Without children the indicator draws the default tick and dash.
+
+<ComponentPreview name="checkbox/compound" />
+
+## Accessibility
+
+- Renders a `<span role="checkbox">` with `aria-checked` (`mixed` when indeterminate) and a hidden native input
+  for forms.
+- <Kbd>Space</Kbd> toggles it.
+- With `label`, the row is a `<label>`: clicking the text toggles the box. Without it, add `aria-label` or
+  `aria-labelledby`.
+- Name a `CheckboxGroup` with `aria-labelledby` (or wrap it in a fieldset with a legend).
+
+## API Reference
+
+### Checkbox
+
+The short form: the box plus an optional label row. Base UI `Checkbox.Root` props pass through.
+
+<TypeTable
+  type={{
+    label: { description: 'Text next to the box; the whole row becomes clickable.', type: 'ReactNode' },
+    description: { description: 'A muted line under the label.', type: 'ReactNode' },
+    checked: { description: 'Whether it is ticked (controlled).', type: 'boolean' },
+    defaultChecked: { description: 'Whether it is ticked at first (uncontrolled).', type: 'boolean', default: 'false' },
+    onCheckedChange: { description: 'Called when it is ticked or cleared.', type: '(checked: boolean, details) => void' },
+    indeterminate: { description: 'Shows a dash instead of the tick.', type: 'boolean', default: 'false' },
+    value: { description: 'The value it adds to a `CheckboxGroup`.', type: 'string' },
+    parent: { description: 'Makes it the "select all" box of a `CheckboxGroup` with `allValues`.', type: 'boolean', default: 'false' },
+    disabled: { description: 'Dims it and blocks interaction.', type: 'boolean', default: 'false' },
+    name: { description: 'Field name for native form submission.', type: 'string' },
+    required: { description: 'Must be ticked before the form submits.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the row (or the box, without a label), merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?: string; indicator?: string; label?: string; description?: string }',
+    },
+  }}
+/>
+
+### Checkbox.Root
+
+The styled box. Renders a `<span role="checkbox">`; takes the same Base UI props as `Checkbox`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Checkbox.Indicator
+
+The tick, or the dash when indeterminate. Pass children to draw your own icon.
+
+<TypeTable
+  type={{
+    children: { description: 'A custom icon. Defaults to a tick and a dash.', type: 'ReactNode' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### CheckboxGroup
+
+Shares one array value between its checkboxes. Renders a `<div>`; Base UI `CheckboxGroup` props pass through.
+
+<TypeTable
+  type={{
+    value: { description: 'The ticked values (controlled).', type: 'string[]' },
+    defaultValue: { description: 'The ticked values at first (uncontrolled).', type: 'string[]' },
+    onValueChange: { description: 'Called with the new array.', type: '(value: string[], details) => void' },
+    allValues: { description: 'Every value in the group; needed for a `parent` checkbox.', type: 'string[]' },
+    disabled: { description: 'Disables every checkbox in the group.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

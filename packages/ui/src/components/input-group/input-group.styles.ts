@@ -5,7 +5,8 @@ export const inputGroupStyles = tv({
     root: [
       'squircle flex w-full items-center border border-input-border bg-input text-sm text-foreground',
       'transition-[border-color] duration-[var(--cui-duration-fast)] ease-ui',
-      'focus-within:border-accent has-[input:disabled]:opacity-50 has-[[aria-invalid=true]]:border-danger',
+      'focus-within:border-accent has-[input:disabled]:opacity-50',
+      'has-[[aria-invalid=true]]:border-danger has-[[data-invalid]]:border-danger',
     ],
     input: 'h-full min-w-0 flex-1 bg-transparent outline-none placeholder:text-muted disabled:cursor-not-allowed',
     addon: 'flex shrink-0 items-center gap-1.5 text-muted [&_svg]:size-4 [&_svg]:shrink-0',

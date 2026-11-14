@@ -1,24 +1,74 @@
 ---
 title: Button Group
-description: Buttons joined into one control.
+description: Buttons joined into one control — zoom, vote, export formats.
 ---
 
-import { ButtonGroupDemo } from '@/components/demos/forms';
+<ComponentPreview name="button-group/default" />
 
-<Preview align="start">
-  <ButtonGroupDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="button-group" />
+
+## Usage
 
 ```tsx
-<ButtonGroup aria-label="Zoom">
-  <Button variant="outline" size="icon" aria-label="Zoom out"><Minus /></Button>
-  <Button variant="outline">100%</Button>
-  <Button variant="outline" size="icon" aria-label="Zoom in"><Plus /></Button>
+import { Button, ButtonGroup } from '@crazy-staff/ui';
+```
+
+```tsx
+<ButtonGroup aria-label="Map zoom">
+  <Button variant="outline">−</Button>
+  <Button variant="outline">+</Button>
 </ButtonGroup>
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+## Examples
 
-Inner corners go square and borders overlap, so outline buttons read as one control.
+### Vertical
+
+`orientation="vertical"` stacks the buttons, here as the vote control of a crazy-hub post.
+
+<ComponentPreview name="button-group/vertical" />
+
+### Sizes
+
+The group takes its size from the buttons inside it; give them all the same `size`.
+
+<ComponentPreview name="button-group/sizes" />
+
+### Filled buttons
+
+Any button variant works. Filled buttons have no border to overlap, so add a thin divider with `border-s`.
+
+<ComponentPreview name="button-group/variants" />
+
+### With an input
+
+An [Input](/docs/components/input) joins the group too.
+
+<ComponentPreview name="button-group/with-input" />
+
+## Accessibility
+
+- Renders a `<div role="group">`. Name it with `aria-label` so screen readers announce what the buttons belong to.
+- Each button keeps its own focus and name; icon-only buttons need `aria-label`.
+- The focused button is lifted above its neighbours, so its focus ring is never covered.
+- For buttons that stay pressed, use a [Toggle Group](/docs/components/toggle-group) instead.
+
+## API Reference
+
+### ButtonGroup
+
+Joins its children: inner corners go square and neighbouring borders overlap by one pixel. Renders a
+`<div role="group">`; native div props pass through.
+
+<TypeTable
+  type={{
+    orientation: {
+      description: 'Direction of the row. Also set as `data-orientation`.',
+      type: "'horizontal' | 'vertical'",
+      default: "'horizontal'",
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

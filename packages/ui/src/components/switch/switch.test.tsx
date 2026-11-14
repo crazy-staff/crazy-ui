@@ -15,4 +15,11 @@ describe('Switch', () => {
     render(<Switch aria-label="wifi" classNames={{ root: 'rounded-card' }} />);
     expect(screen.getByRole('switch', { name: 'wifi' })).toHaveClass('rounded-card');
   });
+
+  it('toggles from its label row', async () => {
+    render(<Switch label="God mode" description="Ignore all damage." />);
+    await userEvent.click(screen.getByText('God mode'));
+    expect(screen.getByRole('switch')).toBeChecked();
+    expect(screen.getByText('Ignore all damage.')).toBeInTheDocument();
+  });
 });

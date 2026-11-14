@@ -1,21 +1,144 @@
 ---
 title: Drawer
-description: A panel that slides up from the bottom and closes with a swipe — made for phones.
+description: A panel that slides up from the bottom and closes with a swipe down — made for phones.
 ---
 
-import { DrawerDemo } from '@/components/demos/overlays';
+<ComponentPreview name="drawer/default" />
 
-<Preview>
-  <DrawerDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="drawer" />
+
+## Usage
 
 ```tsx
-<Drawer trigger={<Button>Open drawer</Button>} title="Warrior starter" footer={<Drawer.Close render={<Button />}>Spawn kit</Drawer.Close>}>
+import { Drawer } from '@crazy-staff/ui';
+```
+
+```tsx
+<Drawer trigger={<Button>Warrior starter</Button>} title="Warrior starter">
   …
 </Drawer>
 ```
 
-Use a [Sheet](/docs/components/sheet) on desktop and a Drawer on small screens when the content is the same.
+## Examples
 
-Parts: `Drawer.Root` (`swipeDirection`, `snapPoints` from Base UI), `.Trigger`, `.Content` (`showHandle`), `.Title`,
-`.Description`, `.Footer`, `.Close`.
+### Compound parts
+
+`Drawer.Root`, `Trigger`, `Content`, `Title`, `Description`, `Body`, `Footer` and `Close`. `showHandle={false}`
+hides the grab handle.
+
+<ComponentPreview name="drawer/compound" />
+
+### With a form
+
+Control it with `open` and `onOpenChange`, and close it when the form is sent.
+
+<ComponentPreview name="drawer/with-form" />
+
+### Long content
+
+The drawer stops at 85 % of the screen height; the content scrolls inside it.
+
+<ComponentPreview name="drawer/long-content" />
+
+## Accessibility
+
+- A modal dialog (Base UI `Drawer`): `role="dialog"`, labelled by `Drawer.Title`, described by
+  `Drawer.Description`. Always give it a title.
+- Focus is trapped inside and returns to the trigger on close.
+- <kbd>Esc</kbd>, a click on the backdrop and a swipe down close it. The handle is decorative; don't make swiping
+  the only way out — add a Close button for long content.
+- The slide follows the motion tokens, so reduced motion turns it off.
+
+## API Reference
+
+### Drawer
+
+The short form: trigger, title, description, body and footer. Other props go to Base UI's
+[`Drawer.Root`](https://base-ui.com/react/components/drawer) (`open`, `defaultOpen`, `onOpenChange`,
+`swipeDirection`, `snapPoints` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The element that opens the drawer. Leave it out for a controlled one.', type: 'ReactElement' },
+    title: { description: 'The heading; labels the drawer.', type: 'ReactNode' },
+    description: { description: 'Text under the title.', type: 'ReactNode' },
+    children: { description: 'The body, rendered in `Drawer.Body`.', type: 'ReactNode' },
+    footer: { description: 'Buttons at the bottom.', type: 'ReactNode' },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    snapPoints: {
+      description: 'Heights it can rest at, as fractions (0–1) or px/rem values.',
+      type: '(number | string)[]',
+    },
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+  }}
+/>
+
+### Drawer.Root
+
+Holds the open state and the swipe logic. Base UI's `Drawer.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: { description: 'Lock scroll and block the page.', type: "boolean | 'trap-focus'", default: 'true' },
+    snapPoints: { description: 'Heights it can rest at.', type: '(number | string)[]' },
+  }}
+/>
+
+### Drawer.Trigger
+
+Opens the drawer. Base UI's `Drawer.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button />`.', type: 'ReactElement' } }} />
+
+### Drawer.Content
+
+Backdrop, viewport and the panel with its handle, in a portal. Renders a `<div>`; other props go to Base UI's
+`Drawer.Popup`.
+
+<TypeTable
+  type={{
+    showHandle: { description: 'The grab handle at the top.', type: 'boolean', default: 'true' },
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ backdrop?: string; viewport?: string; popup?: string; content?: string }',
+    },
+  }}
+/>
+
+### Drawer.Title
+
+The heading; labels the drawer. Renders an `<h2>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Drawer.Description
+
+Muted text under the title. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Drawer.Body
+
+The main content, spaced from the title. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Drawer.Footer
+
+A row of actions; stacked on phones. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Drawer.Close
+
+Closes the drawer. Base UI's `Drawer.Close`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button variant="outline" />`.', type: 'ReactElement' } }} />

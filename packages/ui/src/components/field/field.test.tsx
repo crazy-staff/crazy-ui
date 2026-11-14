@@ -22,3 +22,18 @@ describe('Field', () => {
     expect(screen.getByText('Required')).toBeInTheDocument();
   });
 });
+
+describe('Field.Control render', () => {
+  it('wires a Textarea through render and keeps its styles', async () => {
+    const { Textarea } = await import('../textarea/textarea');
+    render(
+      <Field label="Steps to reproduce">
+        <Field.Control render={<Textarea />} />
+      </Field>,
+    );
+    const el = screen.getByLabelText('Steps to reproduce');
+    expect(el.tagName).toBe('TEXTAREA');
+    expect(el).toHaveClass('resize-none');
+    expect(el).not.toHaveClass('h-control');
+  });
+});

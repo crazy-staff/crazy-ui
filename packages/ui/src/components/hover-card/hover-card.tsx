@@ -26,9 +26,13 @@ export interface HoverCardProps extends Omit<React.ComponentProps<typeof Preview
   /** Usually a link (`<a href>`); the card opens while it's hovered or focused. */
   trigger: React.ReactElement;
   side?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
   /** Milliseconds before it opens. @default 500 */
   delay?: number;
+  /** Milliseconds before it closes once the pointer leaves. @default 300 */
+  closeDelay?: number;
   className?: string;
+  classNames?: { positioner?: string; popup?: string };
   children: React.ReactNode;
 }
 
@@ -36,11 +40,21 @@ export interface HoverCardProps extends Omit<React.ComponentProps<typeof Preview
  * A preview card on hover — a user, a linked docs page, a feature.
  *   <HoverCard trigger={<a href="/u/dawid">@dawid</a>}>…</HoverCard>
  */
-function HoverCardSimple({ trigger, side, delay = 500, className, children, ...root }: HoverCardProps) {
+function HoverCardSimple({
+  trigger,
+  side,
+  align,
+  delay = 500,
+  closeDelay = 300,
+  className,
+  classNames,
+  children,
+  ...root
+}: HoverCardProps) {
   return (
     <PreviewCard.Root {...root}>
-      <PreviewCard.Trigger delay={delay} render={trigger} />
-      <HoverCardContent side={side} className={className}>
+      <PreviewCard.Trigger delay={delay} closeDelay={closeDelay} render={trigger} />
+      <HoverCardContent side={side} align={align} className={className} classNames={classNames}>
         {children}
       </HoverCardContent>
     </PreviewCard.Root>

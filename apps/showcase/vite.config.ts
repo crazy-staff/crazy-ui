@@ -30,6 +30,9 @@ export default defineConfig({
     tsconfigPaths: true,
     alias: [
       { find: 'tslib', replacement: 'tslib/tslib.es6.js' },
+      // Fumadocs can reach Shiki's Oniguruma WebAssembly, which the bundler can't resolve; we only
+      // use the JavaScript regex engine
+      { find: /^shiki\/wasm$/, replacement: fileURLToPath(new URL('./src/lib/empty-wasm.ts', import.meta.url)) },
       // MDX files are outside tsconfig's include, so `@/` needs a plain alias for them
       { find: /^@\//, replacement: `${fileURLToPath(new URL('./src/', import.meta.url))}` },
       // the showcase runs on the library's sources, so edits hot-reload without a rebuild

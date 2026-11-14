@@ -1,24 +1,129 @@
 ---
 title: Avatar
-description: A user picture with an initials fallback. Avatars stay circular.
+description: A person's picture, with their initials while it loads or when there is none.
 ---
 
-import { AvatarDemo } from '@/components/demos/display';
+<ComponentPreview name="avatar/default" />
 
-<Preview align="start">
-  <AvatarDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="avatar" />
+
+## Usage
 
 ```tsx
-<Avatar src={user.image} name="Dawid Seipold" size="lg" />
+import { Avatar } from '@crazy-staff/ui';
 ```
 
-## Props
+```tsx
+<Avatar src={user.image} name="Diego" />
+```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `name` | `string` | — (alt text and initials) |
-| `src` | `string` | — |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+## Examples
 
-Parts: `Avatar.Root`, `Avatar.Image`, `Avatar.Fallback`. `initials(name)` is exported too.
+### Sizes
+
+Three sizes: `sm`, `md` (default) and `lg`. The initials scale with them.
+
+<ComponentPreview name="avatar/sizes" />
+
+### Initials
+
+Without `src` (or while the image loads, or when it fails) the avatar shows the initials of `name`: the
+first letters of the first and last word.
+
+<ComponentPreview name="avatar/fallback" />
+
+### Images
+
+Any image URL works. Avatars stay circles on purpose — a face reads best in a circle.
+
+<ComponentPreview name="avatar/images" />
+
+### Group
+
+Overlap avatars with a negative space and a ring in the surface colour — here the testers who voted
+for an idea in crazy-hub. The last one is a counter built from the parts.
+
+<ComponentPreview name="avatar/group" />
+
+### With a status
+
+Wrap the avatar and place a dot on the corner for online status or a tester rank.
+
+<ComponentPreview name="avatar/status" />
+
+### Compound parts
+
+`Avatar.Root`, `Avatar.Image` and `Avatar.Fallback`. `delay` on the fallback waits before showing the
+initials, so fast images don't flash them.
+
+<ComponentPreview name="avatar/compound" />
+
+## Accessibility
+
+- The image gets `alt={name}`. Without an image the initials carry `aria-label={name}`, so screen readers
+  read the full name, not the letters.
+- A status dot is decorative: say the status in text next to the avatar (as in the example) as well.
+- In a group, list the names somewhere (a tooltip or a “voted by” list) — overlapping pictures alone
+  don't tell who is there.
+
+## API Reference
+
+### Avatar
+
+The one-line form: the image with the initials as fallback. Other props go to `Avatar.Root`.
+
+<TypeTable
+  type={{
+    name: { description: 'The person’s name. Used for the alt text and the initials.', type: 'string' },
+    src: { description: 'The image URL. Without it the initials show.', type: 'string' },
+    size: { description: 'The diameter.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ image?: string; fallback?: string }' },
+  }}
+/>
+
+### Avatar.Root
+
+The circle. Renders a `<span>`; Base UI `Avatar.Root` props pass through.
+
+<TypeTable
+  type={{
+    size: { description: 'The diameter; the fallback text follows it.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Avatar.Image
+
+The picture. Renders an `<img>` once it has loaded.
+
+<TypeTable
+  type={{
+    src: { description: 'The image URL.', type: 'string' },
+    alt: { description: 'The text alternative, usually the person’s name.', type: 'string' },
+    onLoadingStatusChange: {
+      description: 'Called when loading starts, succeeds or fails.',
+      type: "(status: 'idle' | 'loading' | 'loaded' | 'error') => void",
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Avatar.Fallback
+
+What shows while there is no image. Renders a `<span>`.
+
+<TypeTable
+  type={{
+    delay: { description: 'Milliseconds to wait before showing it.', type: 'number' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### initials
+
+`initials(name)` turns “Dawid Seipold” into “DS”. Use it when you build the fallback yourself.
+
+<TypeTable type={{ name: { description: 'A full name.', type: 'string' } }} />

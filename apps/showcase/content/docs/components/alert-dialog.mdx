@@ -1,31 +1,153 @@
 ---
 title: Alert Dialog
-description: A modal that asks to confirm an action. Clicking outside doesn't close it.
+description: A modal that asks to confirm an action before it happens — deleting, banning, resetting.
 ---
 
-import { AlertDialogDemo } from '@/components/demos/overlays';
+<ComponentPreview name="alert-dialog/default" />
 
-<Preview>
-  <AlertDialogDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="alert-dialog" />
+
+## Usage
+
+```tsx
+import { AlertDialog } from '@crazy-staff/ui';
+```
 
 ```tsx
 <AlertDialog
-  trigger={<Button variant="danger">Delete kit</Button>}
-  title="Delete this kit?"
-  description="This can't be undone."
+  trigger={<Button variant="danger">Delete post</Button>}
+  title="Delete this post?"
   actionLabel="Delete"
   tone="danger"
-  onAction={deleteKit}
+  onAction={deletePost}
 />
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `title`, `description` | `ReactNode` | — |
-| `cancelLabel` | `ReactNode` | `'Cancel'` |
-| `actionLabel` | `ReactNode` | `'Continue'` |
-| `onAction` | `() => void` | — |
-| `tone` | `'default' \| 'danger'` | `'default'` |
+## Examples
 
-Parts: `AlertDialog.Root`, `.Trigger`, `.Content`, `.Header`, `.Title`, `.Description`, `.Footer`, `.Close`.
+### Destructive
+
+`tone="danger"` paints the action red. Say exactly what will be lost and name the action after it — “Delete
+post”, not “OK”.
+
+<ComponentPreview name="alert-dialog/destructive" />
+
+### Type to confirm
+
+Build it from parts to add your own content. Here the delete button stays disabled until the kit's name is
+typed.
+
+<ComponentPreview name="alert-dialog/compound" />
+
+### Async action
+
+Keep the dialog open while the action runs: use a plain `Button` instead of `AlertDialog.Close`, control `open`,
+and close it when the work is done.
+
+<ComponentPreview name="alert-dialog/async-action" />
+
+### Opened from a menu
+
+Leave out `trigger` and control `open` to confirm a menu item — here moderating a post on crazy-hub.
+
+<ComponentPreview name="alert-dialog/from-menu" />
+
+## Accessibility
+
+- The popup has `role="alertdialog"`, labelled by `AlertDialog.Title` and described by
+  `AlertDialog.Description`.
+- Focus is trapped inside and returns to the trigger on close. <kbd>Esc</kbd> cancels.
+- A click on the backdrop does **not** close it: the user must choose.
+- In the short form focus starts on Cancel, so a stray <kbd>Enter</kbd> never confirms a destructive action.
+
+## API Reference
+
+### AlertDialog
+
+The short form: a title, a description, a Cancel and an action button. Other props go to Base UI's
+[`AlertDialog.Root`](https://base-ui.com/react/components/alert-dialog) (`open`, `defaultOpen`,
+`onOpenChange` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The element that opens the dialog. Leave it out for a controlled one.', type: 'ReactElement' },
+    title: { description: 'The question; labels the dialog.', type: 'ReactNode' },
+    description: { description: 'What will happen; describes the dialog.', type: 'ReactNode' },
+    actionLabel: { description: 'Text of the action button.', type: 'ReactNode', default: "'Continue'" },
+    cancelLabel: { description: 'Text of the cancel button.', type: 'ReactNode', default: "'Cancel'" },
+    onAction: { description: 'Called when the action is clicked, before it closes.', type: '() => void' },
+    tone: {
+      description: '`danger` paints the action red for destructive confirmations.',
+      type: "'default' | 'danger'",
+      default: "'default'",
+    },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>
+
+### AlertDialog.Root
+
+Holds the open state. Base UI's `AlertDialog.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+  }}
+/>
+
+### AlertDialog.Trigger
+
+Opens the dialog. Base UI's `AlertDialog.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button variant="danger" />`.', type: 'ReactElement' } }} />
+
+### AlertDialog.Content
+
+The backdrop and the centred panel, in a portal. No corner close button — the user answers with the footer
+buttons. Renders a `<div>`; other props go to Base UI's `AlertDialog.Popup`.
+
+<TypeTable
+  type={{
+    size: { description: 'Maximum width.', type: "'sm' | 'md' | 'lg'", default: "'sm'" },
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ backdrop?: string; popup?: string }' },
+  }}
+/>
+
+### AlertDialog.Header
+
+A column for the title and description. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### AlertDialog.Title
+
+The question; labels the dialog. Renders an `<h2>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### AlertDialog.Description
+
+What will happen; describes the dialog. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### AlertDialog.Footer
+
+A row of the answer buttons, right-aligned; stacked on phones. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### AlertDialog.Close
+
+Closes the dialog — use it for Cancel and for actions that finish at once. Base UI's `AlertDialog.Close`;
+renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button variant="outline" />`.', type: 'ReactElement' } }} />

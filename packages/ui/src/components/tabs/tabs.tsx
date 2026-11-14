@@ -3,18 +3,25 @@ import * as React from 'react';
 import { cn, type VariantProps } from '../../lib/tv';
 import { tabsStyles } from './tabs.styles';
 
-type Variant = VariantProps<typeof tabsStyles>['variant'];
-const VariantContext = React.createContext<Variant>('pill');
+type Options = Pick<VariantProps<typeof tabsStyles>, 'variant' | 'size' | 'accent'>;
+const OptionsContext = React.createContext<Options>({});
+const useStyles = () => tabsStyles(React.useContext(OptionsContext));
 
 export interface TabsRootProps extends React.ComponentPropsWithRef<typeof BaseTabs.Root> {
-  variant?: Variant;
+  /** `pill`: a soft fill glides behind the active tab. `line`: an underline glides under it. @default 'pill' */
+  variant?: 'pill' | 'line';
+  /** @default 'md' */
+  size?: 'sm' | 'md';
+  /** Mark the active tab with the soft accent; `false` uses a neutral fill. @default true */
+  accent?: boolean;
 }
 
-function TabsRoot({ className, variant = 'pill', ...props }: TabsRootProps) {
+function TabsRoot({ className, variant = 'pill', size = 'md', accent = true, ...props }: TabsRootProps) {
+  const options = React.useMemo(() => ({ variant, size, accent }), [variant, size, accent]);
   return (
-    <VariantContext.Provider value={variant}>
-      <BaseTabs.Root className={cn(tabsStyles().root(), className)} {...props} />
-    </VariantContext.Provider>
+    <OptionsContext.Provider value={options}>
+      <BaseTabs.Root className={cn(tabsStyles(options).root(), className)} {...props} />
+    </OptionsContext.Provider>
   );
 }
 
@@ -24,7 +31,7 @@ export interface TabsListProps extends React.ComponentPropsWithRef<typeof BaseTa
 
 /** The tab row; includes the gliding indicator. */
 function TabsList({ className, classNames, children, ...props }: TabsListProps) {
-  const s = tabsStyles({ variant: React.useContext(VariantContext) });
+  const s = useStyles();
   return (
     <BaseTabs.List className={cn(s.list(), classNames?.list, className)} {...props}>
       {children}
@@ -34,12 +41,12 @@ function TabsList({ className, classNames, children, ...props }: TabsListProps) 
 }
 
 function TabsTab({ className, ...props }: React.ComponentPropsWithRef<typeof BaseTabs.Tab>) {
-  const s = tabsStyles({ variant: React.useContext(VariantContext) });
-  return <BaseTabs.Tab className={cn(s.tab(), className)} {...props} />;
+  return <BaseTabs.Tab className={cn(useStyles().tab(), className)} {...props} />;
 }
 
+/** The content of one tab. The new panel fades and rises in when the tab changes. */
 function TabsPanel({ className, ...props }: React.ComponentPropsWithRef<typeof BaseTabs.Panel>) {
-  return <BaseTabs.Panel className={cn(tabsStyles().panel(), className)} {...props} />;
+  return <BaseTabs.Panel className={cn(useStyles().panel(), className)} {...props} />;
 }
 
 export interface TabItem {

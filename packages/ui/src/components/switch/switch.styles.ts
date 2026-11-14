@@ -9,12 +9,19 @@ export const switchStyles = tv({
       'focus-visible:ring-[3px] focus-visible:ring-ring',
       'data-[checked]:bg-accent',
       'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
+      'data-[invalid]:border-danger',
     ],
     thumb: [
       'block rounded-switch bg-background shadow-control',
       'transition-transform duration-[var(--cui-duration-normal)] ease-spring',
       'data-[checked]:bg-accent-foreground',
     ],
+    label: [
+      'flex cursor-pointer items-center justify-between gap-4 text-sm text-foreground',
+      'has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50',
+    ],
+    text: 'flex flex-col gap-0.5',
+    description: 'text-xs text-muted',
   },
   variants: {
     size: {

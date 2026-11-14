@@ -20,4 +20,15 @@ describe('Tooltip', () => {
     expect(screen.getByRole('button', { name: 'Trigger' })).toBeInTheDocument();
     expect(screen.queryByText('hint')).not.toBeInTheDocument();
   });
+
+  it('uses the small-control radius, not the chip one', async () => {
+    render(
+      <Tooltip content="Teleport to the Old Camp" defaultOpen>
+        <button type="button">Teleport</button>
+      </Tooltip>,
+    );
+    const popup = await screen.findByText('Teleport to the Old Camp');
+    expect(popup).toHaveClass('rounded-control-sm', 'squircle', 'bg-popover', 'border-border');
+    expect(popup).not.toHaveClass('rounded-chip');
+  });
 });

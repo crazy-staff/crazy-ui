@@ -17,4 +17,9 @@ describe('Select', () => {
     expect(onValueChange).toHaveBeenCalledWith('g2');
     expect(screen.getByRole('combobox', { name: 'Game' })).toHaveTextContent('Gothic 2');
   });
+
+  it('sizes the trigger', () => {
+    render(<Select aria-label="Game" size="sm" items={items} />);
+    expect(screen.getByRole('combobox', { name: 'Game' })).toHaveClass('h-control-sm');
+  });
 });

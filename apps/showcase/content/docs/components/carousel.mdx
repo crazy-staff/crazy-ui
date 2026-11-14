@@ -1,0 +1,123 @@
+---
+title: Carousel
+description: "Slides that scroll horizontally — screenshots, features, top ideas — with arrows, dots, swipe and keyboard."
+---
+
+<ComponentPreview name="carousel/default" />
+
+## Installation
+
+<InstallTabs component="carousel" />
+
+## Usage
+
+```tsx
+import { Carousel } from '@crazy-staff/ui';
+```
+
+```tsx
+<Carousel aria-label="Screenshots" slides={[<Shot1 />, <Shot2 />, <Shot3 />]} />
+```
+
+## Examples
+
+### Loop
+
+`loop` wraps from the last slide to the first.
+
+<ComponentPreview name="carousel/loop" />
+
+### Several per view
+
+Set the slide width with `classNames.item` (e.g. `basis-1/2 md:basis-1/3`) and `opts={{ align: 'start' }}`.
+
+<ComponentPreview name="carousel/multiple" />
+
+### Arrows or dots
+
+Turn either off with `arrows={false}` or `dots={false}`.
+
+<ComponentPreview name="carousel/controls" />
+
+### Vertical
+
+`orientation="vertical"` on `Carousel.Root`; give `Carousel.Content` a height.
+
+<ComponentPreview name="carousel/vertical" />
+
+### Compound parts
+
+`Carousel.Root`, `Content`, `Item`, `Previous`, `Next`, `Dots` and `Controls`; `useCarousel()` reads the state for your own controls.
+
+<ComponentPreview name="carousel/compound" />
+
+## Accessibility
+
+- The root is a `region` with `aria-roledescription="carousel"`; give it an `aria-label`.
+- Each slide is a `group` with `aria-roledescription="slide"` and a label like "2 of 5".
+- Left/Right (Up/Down when vertical) move between slides while focus is inside. Buttons and dots are labelled.
+- With reduced motion, slides jump instead of scrolling.
+
+## API Reference
+
+### Carousel
+
+The short form: root, slides and the control row.
+
+<TypeTable
+  type={{
+    slides: { description: 'One node per slide.', type: 'ReactNode[]' },
+    loop: { description: 'Wrap around.', type: 'boolean', default: 'false' },
+    orientation: { description: 'Scroll direction.', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    arrows: { description: 'Show previous/next buttons.', type: 'boolean', default: 'true' },
+    dots: { description: 'Show the dots.', type: 'boolean', default: 'true' },
+    card: { description: 'Wrap each slide in a squircle card.', type: 'boolean', default: 'true' },
+    opts: { description: 'Embla options (`align`, `slidesToScroll`, `dragFree` …).', type: 'EmblaOptions' },
+    plugins: { description: 'Embla plugins (autoplay …).', type: 'EmblaPlugin[]' },
+    setApi: { description: 'Receives the Embla API.', type: '(api) => void' },
+    onSelectedChange: { description: 'Called with the new slide index.', type: '(index: number) => void' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ viewport?: string; content?: string; item?: string; card?: string; controls?: string }' },
+  }}
+/>
+
+### Carousel.Root
+
+Holds the state and the keyboard handling. Same props as above except `slides`, `arrows`, `dots`, `card`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Carousel.Content
+
+The clipped viewport and the track.
+
+<TypeTable
+  type={{
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ viewport?: string }' },
+  }}
+/>
+
+### Carousel.Item
+
+One slide.
+
+<TypeTable
+  type={{
+    card: { description: 'Wrap the content in a card.', type: 'boolean', default: 'true' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ card?: string }' },
+  }}
+/>
+
+### Carousel.Previous / Next
+
+Outline icon buttons; disabled at the ends unless `loop`. Take Button props.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Carousel.Dots / Controls
+
+The dots (the current one glides) and the default row of previous, dots, next.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

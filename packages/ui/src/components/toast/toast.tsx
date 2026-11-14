@@ -1,5 +1,5 @@
 import { Toast as BaseToast } from '@base-ui/react/toast';
-import { CircleAlert, CircleCheck, Info, LoaderCircle, X } from 'lucide-react';
+import { CircleAlert, CircleCheck, Info, LoaderCircle, TriangleAlert, X } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
 import { buttonStyles } from '../button/button.styles';
@@ -12,7 +12,7 @@ const styles = toastStyles();
 export const toastManager = BaseToast.createToastManager();
 
 type AddOptions = Parameters<typeof toastManager.add>[0];
-export type ToastType = 'success' | 'error' | 'info' | 'loading';
+export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'loading';
 export type ToastOptions = Omit<AddOptions, 'title' | 'type'> & { type?: ToastType };
 
 function show(title: React.ReactNode, options: ToastOptions = {}) {
@@ -22,12 +22,16 @@ function show(title: React.ReactNode, options: ToastOptions = {}) {
 /**
  * Show a toast from anywhere:
  *   toast('Saved');  toast.success('Kit created', { description: '12 items' });
+ *   const id = toast.loading('Copying build…');  toast.update(id, { title: 'Copied', type: 'success' });
  *   toast.promise(save(), { loading: 'Saving…', success: 'Saved', error: 'Failed' });
  */
 export const toast = Object.assign(show, {
   success: (title: React.ReactNode, options?: ToastOptions) => show(title, { ...options, type: 'success' }),
   error: (title: React.ReactNode, options?: ToastOptions) => show(title, { ...options, type: 'error' }),
+  warning: (title: React.ReactNode, options?: ToastOptions) => show(title, { ...options, type: 'warning' }),
   info: (title: React.ReactNode, options?: ToastOptions) => show(title, { ...options, type: 'info' }),
+  /** Stays until updated or closed (no timeout). */
+  loading: (title: React.ReactNode, options?: ToastOptions) => show(title, { timeout: 0, ...options, type: 'loading' }),
   promise: toastManager.promise,
   update: toastManager.update,
   close: toastManager.close,
@@ -36,6 +40,7 @@ export const toast = Object.assign(show, {
 const ICONS: Record<ToastType, React.ReactNode> = {
   success: <CircleCheck className={cn(styles.icon(), 'text-success')} />,
   error: <CircleAlert className={cn(styles.icon(), 'text-danger')} />,
+  warning: <TriangleAlert className={cn(styles.icon(), 'text-warning')} />,
   info: <Info className={cn(styles.icon(), 'text-accent-soft-foreground')} />,
   loading: <LoaderCircle className={cn(styles.icon(), 'animate-spin text-muted motion-reduce:animate-none')} />,
 };

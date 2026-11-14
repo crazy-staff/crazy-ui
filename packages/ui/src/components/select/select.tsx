@@ -1,7 +1,7 @@
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '../../lib/tv';
+import { cn, type VariantProps } from '../../lib/tv';
 import { selectStyles } from './select.styles';
 
 const styles = selectStyles();
@@ -9,9 +9,14 @@ const styles = selectStyles();
 type Cls = { className?: string };
 type Props<C extends React.ElementType> = Omit<React.ComponentPropsWithRef<C>, 'className'> & Cls;
 
-function SelectTrigger({ className, children, ...props }: Props<typeof BaseSelect.Trigger>) {
+function SelectTrigger({
+  className,
+  children,
+  size,
+  ...props
+}: Props<typeof BaseSelect.Trigger> & VariantProps<typeof selectStyles>) {
   return (
-    <BaseSelect.Trigger className={cn(styles.trigger(), className)} {...props}>
+    <BaseSelect.Trigger className={cn(selectStyles({ size }).trigger(), className)} {...props}>
       {children}
       <BaseSelect.Icon className={styles.icon()}>
         <ChevronsUpDown />
@@ -71,18 +76,33 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps extends VariantProps<typeof selectStyles> {
+  /** The options. */
   items: SelectOption[];
+  /** Shown in the trigger while nothing is picked. */
   placeholder?: React.ReactNode;
+  /** The picked value (controlled). */
   value?: string | null;
+  /** The value picked at first (uncontrolled). */
   defaultValue?: string | null;
+  /** Called with the new value. */
   onValueChange?: (value: string | null) => void;
+  /** Called when the popup opens or closes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Turns the whole select off. */
   disabled?: boolean;
+  /** Shows the value but blocks changes. */
+  readOnly?: boolean;
+  /** Field name, for native form submission. */
   name?: string;
+  /** A value must be picked before the form submits. */
   required?: boolean;
+  /** Id of the trigger, for an external `<Label htmlFor>`. */
   id?: string;
   'aria-label'?: string;
+  /** Classes for the trigger, merged last. */
   className?: string;
+  /** Classes per slot. */
   classNames?: { trigger?: string; popup?: string; item?: string };
 }
 
@@ -98,16 +118,19 @@ function SelectSimple({
   classNames,
   'aria-label': ariaLabel,
   id,
+  size,
   onValueChange,
+  onOpenChange,
   ...props
 }: SelectProps) {
   return (
     <BaseSelect.Root
       items={items.map((i) => ({ value: i.value, label: i.label }))}
       onValueChange={(v) => onValueChange?.(v as string | null)}
+      onOpenChange={onOpenChange ? (open) => onOpenChange(open) : undefined}
       {...props}
     >
-      <SelectTrigger id={id} aria-label={ariaLabel} className={cn(classNames?.trigger, className)}>
+      <SelectTrigger id={id} size={size} aria-label={ariaLabel} className={cn(classNames?.trigger, className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent className={classNames?.popup}>

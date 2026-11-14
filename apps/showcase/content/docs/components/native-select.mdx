@@ -1,0 +1,69 @@
+---
+title: Native Select
+description: The browser's own select, styled like Input — best on phones and in long settings forms.
+---
+
+<ComponentPreview name="native-select/default" />
+
+## Installation
+
+<InstallTabs component="native-select" />
+
+## Usage
+
+```tsx
+import { NativeSelect } from '@crazy-staff/ui';
+```
+
+```tsx
+<NativeSelect aria-label="Game" options={[{ value: 'g1', label: 'Gothic 1' }, { value: 'g2', label: 'Gothic 2' }]} />
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg` match Input.
+
+<ComponentPreview name="native-select/sizes" />
+
+### Groups
+
+Pass `NativeSelect.Option` and `NativeSelect.OptGroup` children instead of `options`.
+
+<ComponentPreview name="native-select/groups" />
+
+### With a label and states
+
+Use a `Label` with `htmlFor`. `disabled` dims the field, `aria-invalid` paints the border red, and
+`placeholder` adds a hidden empty first option.
+
+<ComponentPreview name="native-select/field" />
+
+## Accessibility
+
+- It is a real `<select>`: keyboard, screen readers and the phone's own picker work as usual.
+- Give it a name with a `<label htmlFor>` or `aria-label`. The chevron is decorative.
+- Pick [Select](/docs/components/select) when you need styled options or icons in the list.
+
+## API Reference
+
+### NativeSelect
+
+Renders a `<span>` wrapper with a `<select>` and a chevron. Other props go to the `<select>`.
+
+<TypeTable
+  type={{
+    options: { description: 'Options to render; or pass `<option>` children.', type: '{ value: string; label: ReactNode; disabled?: boolean }[]' },
+    placeholder: { description: 'An empty, hidden first option shown while nothing is picked.', type: 'string' },
+    size: { description: 'Height and padding, like Input.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes for the wrapper (width goes here), merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?; select?; icon? }' },
+  }}
+/>
+
+### NativeSelect.Option and NativeSelect.OptGroup
+
+Plain `<option>` and `<optgroup>`.
+
+<TypeTable type={{ value: { description: 'The option value.', type: 'string' } }} />

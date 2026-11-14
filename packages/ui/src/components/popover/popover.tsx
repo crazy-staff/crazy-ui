@@ -37,7 +37,7 @@ function PopoverContent({
         sideOffset={sideOffset}
         className={cn(styles.positioner(), classNames?.positioner)}
       >
-        <BasePopover.Popup className={cn(styles.popup(), classNames?.popup, className)} {...props}>
+        <BasePopover.Popup className={cn(styles.popup(), showClose && 'pe-11', classNames?.popup, className)} {...props}>
           {children}
           {showClose && (
             <BasePopover.Close
@@ -67,7 +67,10 @@ export interface PopoverProps extends Omit<React.ComponentProps<typeof BasePopov
   description?: React.ReactNode;
   side?: Side;
   align?: Align;
+  /** Show a small close button in the corner. @default false */
+  showClose?: boolean;
   className?: string;
+  classNames?: { positioner?: string; popup?: string };
   children?: React.ReactNode;
 }
 
@@ -76,11 +79,22 @@ export interface PopoverProps extends Omit<React.ComponentProps<typeof BasePopov
  *   <Popover trigger={<Button>Open</Button>} title="Filters">…</Popover>
  * or compound: Popover.Root / Trigger / Content / Title / Description / Close.
  */
-function PopoverSimple({ trigger, title, description, side, align, className, children, ...root }: PopoverProps) {
+function PopoverSimple({
+  trigger,
+  title,
+  description,
+  side,
+  align,
+  showClose,
+  className,
+  classNames,
+  children,
+  ...root
+}: PopoverProps) {
   return (
     <BasePopover.Root {...root}>
       <BasePopover.Trigger render={trigger} />
-      <PopoverContent side={side} align={align} className={className}>
+      <PopoverContent side={side} align={align} showClose={showClose} className={className} classNames={classNames}>
         {title && <PopoverTitle>{title}</PopoverTitle>}
         {description && <PopoverDescription>{description}</PopoverDescription>}
         {children}

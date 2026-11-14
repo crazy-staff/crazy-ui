@@ -3,10 +3,10 @@ import { tv } from '../../lib/tv';
 export const selectStyles = tv({
   slots: {
     trigger: [
-      'squircle inline-flex h-control min-w-44 items-center justify-between gap-2 rounded-control',
-      'border border-input-border bg-input px-3.5 text-sm text-foreground outline-none select-none',
+      'squircle inline-flex min-w-44 items-center justify-between gap-2',
+      'border border-input-border bg-input text-foreground outline-none select-none',
       'transition-[border-color] duration-[var(--cui-duration-fast)] ease-ui',
-      'focus-visible:border-accent data-[popup-open]:border-accent',
+      'focus-visible:border-accent data-[popup-open]:border-accent data-[invalid]:border-danger',
       'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
     ],
     value: 'truncate data-[placeholder]:text-muted',
@@ -28,4 +28,12 @@ export const selectStyles = tv({
     groupLabel: 'px-2.5 pt-2 pb-1 text-xs font-medium text-muted',
     separator: 'mx-1 my-1 h-px bg-border',
   },
+  variants: {
+    size: {
+      sm: { trigger: 'h-control-sm rounded-control-sm px-2.5 text-xs' },
+      md: { trigger: 'h-control rounded-control px-3.5 text-sm' },
+      lg: { trigger: 'h-control-lg rounded-control-lg px-4 text-base' },
+    },
+  },
+  defaultVariants: { size: 'md' },
 });

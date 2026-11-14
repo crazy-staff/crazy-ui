@@ -1,26 +1,161 @@
 ---
 title: Popover
-description: Floating content anchored to a trigger — filters, quick settings, small forms.
+description: Floating content anchored to a trigger — details, a small form, filters.
 ---
 
-import { PopoverDemo } from '@/components/demos/overlays';
+<ComponentPreview name="popover/default" />
 
-<Preview>
-  <PopoverDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="popover" />
+
+## Usage
 
 ```tsx
-<Popover trigger={<Button variant="outline">Filters</Button>} title="Filters" description="Narrow down the list.">
-  …
+import { Popover } from '@crazy-staff/ui';
+```
+
+```tsx
+<Popover trigger={<Button variant="outline">About this build</Button>} title="Build 0.9">
+  Teleports, item kits and a fix for the arena crash.
 </Popover>
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `trigger` | `ReactElement` | — |
-| `title`, `description` | `ReactNode` | — |
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
-| `align` | `'start' \| 'center' \| 'end'` | `'center'` |
+## Examples
 
-Parts: `Popover.Root`, `Popover.Trigger`, `Popover.Content` (`side`, `align`, `sideOffset`, `showClose`),
-`Popover.Title`, `Popover.Description`, `Popover.Close`.
+### Sides
+
+`side` puts the popover below (default), above, to the right or to the left of the trigger. It flips when there
+is no room.
+
+<ComponentPreview name="popover/sides" />
+
+### Alignment
+
+`align` lines the popover up with the start, centre (default) or end of the trigger.
+
+<ComponentPreview name="popover/align" />
+
+### With a form
+
+Build it from parts when it holds a form. `Popover.Close` with `render` turns any button into one that closes
+the popover.
+
+<ComponentPreview name="popover/with-form" />
+
+### Close button
+
+`showClose` adds a small close button in the corner — handy when the popover has no actions of its own.
+
+<ComponentPreview name="popover/close-button" />
+
+### Controlled
+
+Pass `open` and `onOpenChange` to close the popover yourself, here after saving a teleport marker.
+
+<ComponentPreview name="popover/controlled" />
+
+## Accessibility
+
+- The trigger gets `aria-expanded` and `aria-controls`; the popup is a `dialog` labelled by `Popover.Title` and
+  described by `Popover.Description`.
+- Focus moves into the popover when it opens and back to the trigger when it closes. <kbd>Esc</kbd> and a click
+  outside close it.
+- It is not modal by default: the page stays usable. Pass `modal` to trap focus and block the page.
+
+## API Reference
+
+### Popover
+
+The short form: a trigger plus the floating panel with an optional title and description. Other props go to
+Base UI's [`Popover.Root`](https://base-ui.com/react/components/popover) (`open`, `defaultOpen`, `onOpenChange`,
+`modal` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The element that opens the popover (a Button, a link …).', type: 'ReactElement' },
+    title: { description: 'Heading of the panel; labels the dialog.', type: 'ReactNode' },
+    description: { description: 'Text under the title; describes the dialog.', type: 'ReactNode' },
+    children: { description: 'Anything below the title and description.', type: 'ReactNode' },
+    side: {
+      description: 'Which side of the trigger it appears on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'center'" },
+    showClose: { description: 'A close button in the corner.', type: 'boolean', default: 'false' },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: {
+      description: 'Trap focus and block the page while open.',
+      type: "boolean | 'trap-focus'",
+      default: 'false',
+    },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### Popover.Root
+
+Holds the open state. Base UI's `Popover.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: { description: 'Trap focus and block the page.', type: "boolean | 'trap-focus'", default: 'false' },
+  }}
+/>
+
+### Popover.Trigger
+
+The button that opens the popover. Base UI's `Popover.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable
+  type={{
+    render: { description: 'Use your own element, e.g. `<Button variant="outline" />`.', type: 'ReactElement' },
+    openOnHover: { description: 'Also open on hover.', type: 'boolean', default: 'false' },
+    delay: { description: 'Hover delay in ms (with `openOnHover`).', type: 'number', default: '300' },
+  }}
+/>
+
+### Popover.Content
+
+The floating panel: portal, positioner and popup. Renders a `<div>`; other props go to Base UI's
+`Popover.Popup`.
+
+<TypeTable
+  type={{
+    side: {
+      description: 'Which side of the trigger it appears on.',
+      type: "'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'center'" },
+    sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '8' },
+    showClose: { description: 'A close button in the corner.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### Popover.Title
+
+The heading; labels the popover. Renders an `<h2>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Popover.Description
+
+Muted text under the title; describes the popover. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Popover.Close
+
+Closes the popover. Base UI's `Popover.Close`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button size="sm" />`.', type: 'ReactElement' } }} />

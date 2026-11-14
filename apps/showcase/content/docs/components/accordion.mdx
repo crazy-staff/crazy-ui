@@ -1,30 +1,150 @@
 ---
 title: Accordion
-description: Stacked sections that expand. The panel height animates with its content.
+description: A stack of sections that open one at a time (or several) — FAQs, feature lists, install steps.
 ---
 
-import { AccordionDemo } from '@/components/demos/display';
+<ComponentPreview name="accordion/default" />
 
-<Preview align="center">
-  <AccordionDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="accordion" />
+
+## Usage
+
+```tsx
+import { Accordion } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Accordion
-  defaultValue={['install']}
   items={[
-    { value: 'install', title: 'How do I install the trainer?', content: '…' },
-    { value: 'steam', title: 'Does it work with Steam?', content: '…' },
+    { value: 'install', title: 'How do I install the trainer?', content: 'Copy the files into the Gothic folder.' },
+    { value: 'saves', title: 'Will it break my saves?', content: 'No, saves stay compatible.' },
   ]}
 />
 ```
 
-## Props
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `items` | `{ value, title, content, disabled? }[]` | — |
-| `multiple` | `boolean` | `false` |
-| `defaultValue` / `value` / `onValueChange` | `string[]` | — |
+### Separated
 
-Parts: `Accordion.Root`, `Accordion.Item`, `Accordion.Trigger` (with heading and chevron), `Accordion.Panel`.
+`variant="separated"` puts every item in its own card, with a gap between them.
+
+<ComponentPreview name="accordion/separated" />
+
+### Plain
+
+`variant="plain"` drops the frame: rows divided by lines, for an FAQ inside a page.
+
+<ComponentPreview name="accordion/plain" />
+
+### Multiple open
+
+By default opening a section closes the others. Pass `multiple` to let several stay open.
+
+<ComponentPreview name="accordion/multiple" />
+
+### Disabled
+
+Set `disabled` on an item to show it without letting it open. Pass `disabled` to the root to lock all
+of them.
+
+<ComponentPreview name="accordion/disabled" />
+
+### Compound parts
+
+Use `Accordion.Root`, `Accordion.Item`, `Accordion.Trigger` and `Accordion.Panel` when a trigger needs
+more than text — here crazy-hub posts with an icon and a vote count.
+
+<ComponentPreview name="accordion/compound" />
+
+### Controlled
+
+Pass `value` (an array of open items) and `onValueChange` to open and close sections from outside.
+
+<ComponentPreview name="accordion/controlled" />
+
+## Accessibility
+
+- Built on Base UI Accordion: every trigger is a `<button>` inside a heading, with `aria-expanded` and
+  `aria-controls` pointing at its panel; the panel has `role="region"` labelled by the trigger.
+- <kbd>Enter</kbd> and <kbd>Space</kbd> toggle a section; <kbd>↑</kbd> <kbd>↓</kbd> move between triggers,
+  <kbd>Home</kbd> and <kbd>End</kbd> jump to the first and last.
+- Triggers sit in an `<h3>`, so the sections show up in the page outline. Put the accordion under an `h2`.
+- The panel height and the chevron animate only without `prefers-reduced-motion`.
+
+## API Reference
+
+### Accordion
+
+The one-line form. Renders `Accordion.Root` with an item per entry; other props go to the root.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'The sections: `value` identifies one, `title` goes in the trigger, `content` in the panel.',
+      type: '{ value: string; title: ReactNode; content: ReactNode; disabled?: boolean }[]',
+    },
+  }}
+/>
+
+### Accordion.Root
+
+Holds the open state. Renders a `<div>`; Base UI `Accordion.Root` props pass through.
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'One framed card, a card per item, or no frame.',
+      type: "'card' | 'separated' | 'plain'",
+      default: "'card'",
+    },
+    multiple: { description: 'Let several sections stay open at once.', type: 'boolean', default: 'false' },
+    value: { description: 'The open sections, when controlled.', type: 'string[]' },
+    defaultValue: { description: 'The sections open at first, when uncontrolled.', type: 'string[]' },
+    onValueChange: { description: 'Called with the open sections when they change.', type: '(value, details) => void' },
+    disabled: { description: 'Lock every section.', type: 'boolean', default: 'false' },
+    keepMounted: { description: 'Keep closed panels in the DOM.', type: 'boolean', default: 'false' },
+    hiddenUntilFound: {
+      description: 'Closed panels stay searchable: the browser’s find-in-page opens them.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+  }}
+/>
+
+### Accordion.Item
+
+One section. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    value: { description: 'Identifies the section in `value` / `defaultValue`.', type: 'string' },
+    disabled: { description: 'The section can’t be opened.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Accordion.Trigger
+
+The clickable row with a chevron, wrapped in its heading. Renders an `<h3>` with a `<button>` inside;
+props go to the button.
+
+<TypeTable
+  type={{
+    className: { description: 'Classes for the button, merged last.', type: 'string' },
+    classNames: { description: 'Classes for the heading and the chevron.', type: '{ header?: string; chevron?: string }' },
+  }}
+/>
+
+### Accordion.Panel
+
+The content of a section. Its height animates when it opens and closes. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+    classNames: { description: 'Classes for the padded inner box.', type: '{ content?: string }' },
+  }}
+/>

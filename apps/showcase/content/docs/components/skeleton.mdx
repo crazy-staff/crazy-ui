@@ -1,22 +1,73 @@
 ---
 title: Skeleton
-description: A placeholder while content loads. The shimmer stops with reduced motion.
+description: A placeholder in the shape of the content while it loads, with a soft shimmer.
 ---
 
-import { SkeletonDemo } from '@/components/demos/display';
+<ComponentPreview name="skeleton/default" />
 
-<Preview align="stretch">
-  <SkeletonDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="skeleton" />
+
+## Usage
 
 ```tsx
-<Skeleton shape="circle" className="size-9" />
-<Skeleton lines={3} />
+import { Skeleton } from '@crazy-staff/ui';
 ```
 
-## Props
+```tsx
+<Skeleton className="w-1/2" />
+```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `shape` | `'line' \| 'block' \| 'card' \| 'circle'` | `'line'` |
-| `lines` | `number` | — (the last line is shorter) |
+## Examples
+
+### Shapes
+
+`line` (default) is a line of text, `block` a button or a thumbnail, `circle` an avatar and `card` a whole
+card. Set the size with classes.
+
+<ComponentPreview name="skeleton/shapes" />
+
+### Lines of text
+
+`lines` fakes a paragraph; the last line is shorter, like real text.
+
+<ComponentPreview name="skeleton/lines" />
+
+### A loading list
+
+Copy the layout of the real rows — here the crazy-hub post list with a vote box — so nothing jumps when the
+data arrives.
+
+<ComponentPreview name="skeleton/list" />
+
+### Swapping in the content
+
+Render skeletons while loading and the content after. Keep the sizes close, so the page doesn't shift.
+
+<ComponentPreview name="skeleton/loading" />
+
+## Accessibility
+
+- Skeletons are `aria-hidden`: they mean nothing to a screen reader.
+- Tell assistive tech that something loads in another way, e.g. `aria-busy="true"` on the region that is
+  loading, or a visually hidden “Loading posts…” text.
+- The shimmer stops with `prefers-reduced-motion`; the grey shape stays.
+
+## API Reference
+
+### Skeleton
+
+Renders a `<span>` (or a column of them with `lines`). Other props go to the span.
+
+<TypeTable
+  type={{
+    shape: {
+      description: 'The radius and default size: text line, block, circle or card.',
+      type: "'line' | 'block' | 'circle' | 'card'",
+      default: "'line'",
+    },
+    lines: { description: 'Render this many lines of text; the last is shorter.', type: 'number' },
+    className: { description: 'Classes, merged last. Set width and height here.', type: 'string' },
+  }}
+/>

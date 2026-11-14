@@ -1,0 +1,74 @@
+---
+title: Menubar
+description: A row of menus like the top of a desktop app — profiles, cheats and view options in the trainer.
+---
+
+<ComponentPreview name="menubar/default" />
+
+## Installation
+
+<InstallTabs component="menubar" />
+
+## Usage
+
+```tsx
+import { Menubar } from '@crazy-staff/ui';
+```
+
+```tsx
+<Menubar menus={[{ label: 'Profile', items: [{ label: 'Save', shortcut: 'Ctrl S' }] }]} />
+```
+
+## Examples
+
+### Checkboxes, radios and submenus
+
+The compound parts are the [Dropdown Menu](/docs/components/dropdown-menu) parts, so menus can hold
+checkbox items, radio groups, group labels and submenus.
+
+<ComponentPreview name="menubar/compound" />
+
+## Accessibility
+
+- Built on Base UI Menubar: the bar has `role="menubar"`, its buttons `role="menuitem"`.
+- **Left/Right Arrow** move between menus (and open the next one while a menu is open), **Down Arrow**
+  opens, **Esc** closes. Items work like in Dropdown Menu.
+- Shortcuts are hints only; wire the keys yourself.
+
+## API Reference
+
+### Menubar
+
+The short form.
+
+<TypeTable
+  type={{
+    menus: {
+      description: 'The menus, left to right. `items` use the Dropdown Menu entry format.',
+      type: '{ label: ReactNode; items: DropdownMenuEntry[]; disabled?: boolean }[]',
+    },
+    orientation: { description: 'Layout direction (Base UI).', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    loopFocus: { description: 'Wrap focus at the ends (Base UI).', type: 'boolean', default: 'true' },
+    disabled: { description: 'Disable the whole bar (Base UI).', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the bar, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?; trigger?; popup? }' },
+  }}
+/>
+
+### Menubar.Root
+
+Base UI `Menubar`. Renders a `<div role="menubar">`; its props pass through.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Menubar.Menu and Menubar.Trigger
+
+One menu (Base UI `Menu.Root`) and its button in the bar.
+
+<TypeTable type={{ disabled: { description: 'Disable this menu.', type: 'boolean' } }} />
+
+### Menubar.Content, Item, CheckboxItem, RadioGroup, RadioItem, Group, GroupLabel, Separator, Shortcut, Sub, SubTrigger, SubContent
+
+The same parts as Dropdown Menu; see its [API reference](/docs/components/dropdown-menu#api-reference).
+
+<TypeTable type={{ danger: { description: 'Item only: paint it in the danger colour.', type: 'boolean' } }} />

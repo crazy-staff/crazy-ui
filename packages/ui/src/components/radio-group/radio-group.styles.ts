@@ -8,7 +8,7 @@ export const radioGroupStyles = tv({
       'border border-muted/70 bg-input outline-none',
       'transition-[background-color,border-color] duration-[var(--cui-duration-fast)] ease-ui',
       'focus-visible:border-accent data-[checked]:border-accent data-[checked]:bg-accent',
-      'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
+      'data-[invalid]:border-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
     ],
     indicator: [
       'size-2 rounded-full bg-accent-foreground',

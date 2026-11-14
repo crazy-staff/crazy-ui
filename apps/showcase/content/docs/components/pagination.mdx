@@ -1,26 +1,116 @@
 ---
 title: Pagination
-description: Moves between pages of results. The highlight glides to the current page.
+description: Moves between pages of results. On a jump the bar rolls through the pages in between.
 ---
 
-import { PaginationDemo } from '@/components/demos/display';
+<ComponentPreview name="pagination/default" />
 
-<Preview align="center">
-  <PaginationDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="pagination" />
+
+## Usage
+
+```tsx
+import { Pagination } from '@crazy-staff/ui';
+```
 
 ```tsx
 const [page, setPage] = useState(1);
-<Pagination page={page} total={20} onPageChange={setPage} />
+
+<Pagination page={page} total={20} onPageChange={setPage} />;
 ```
 
-## Props
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `page` | `number` | — |
-| `total` | `number` | — |
-| `onPageChange` | `(page: number) => void` | — |
-| `siblings` | `number` | `1` |
+### Jumping far
 
-`paginationRange(page, total, siblings)` returns the numbers and ellipses if you build your own.
+The bar always has the same number of slots, so it can move like a strip of numbers. When the page jumps,
+the highlight first glides to the number you clicked, then the numbers roll from their old values to the
+new ones — faster the more pages they pass — and the highlight settles on the new page. With
+`prefers-reduced-motion` the page changes at once.
+
+<ComponentPreview name="pagination/jump" />
+
+### Few pages
+
+When every page fits, there are no gaps and the highlight just glides.
+
+<ComponentPreview name="pagination/few-pages" />
+
+### Siblings
+
+`siblings` sets how many pages show on each side of the current one (default 1).
+
+<ComponentPreview name="pagination/siblings" />
+
+### Without labels
+
+`labels={false}` keeps only the arrows on Previous and Next. On phones the words are always hidden.
+
+<ComponentPreview name="pagination/compact" />
+
+### With results
+
+Slice the data by page and show where the reader is — the idea list of crazy-hub.
+
+<ComponentPreview name="pagination/results" />
+
+### Building your own
+
+`paginationRange(page, total, siblings)` returns the slots the bar shows: page numbers and `'ellipsis'`
+for the gaps. Use it for a custom layout.
+
+```tsx
+import { paginationRange } from '@crazy-staff/ui';
+
+paginationRange(1, 20); // [1, 2, 3, 4, 5, 'ellipsis', 20]
+paginationRange(10, 20); // [1, 'ellipsis', 9, 10, 11, 'ellipsis', 20]
+```
+
+## Accessibility
+
+- Renders a `<nav aria-label="Pagination">` with a list of buttons.
+- Every number has `aria-label="Page n"`; the current one has `aria-current="page"` right away, even while
+  the numbers still roll on screen (the rolling digits are `aria-hidden`).
+- Previous and Next are labelled and disabled on the first and last page.
+- Gaps are `aria-hidden`; they are not buttons.
+- After a page change, move the focus or announce the new results if they load somewhere else on the page.
+
+## API Reference
+
+### Pagination
+
+Renders a `<nav>`; other props go to it.
+
+<TypeTable
+  type={{
+    page: { description: 'The current page, from 1.', type: 'number' },
+    total: { description: 'The number of pages.', type: 'number' },
+    onPageChange: { description: 'Called with the page to go to.', type: '(page: number) => void' },
+    siblings: { description: 'Pages on each side of the current one.', type: 'number', default: '1' },
+    labels: {
+      description: 'Show “Previous” and “Next” next to the arrows (from the `sm` breakpoint).',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: { description: 'Classes for the `<nav>`, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot. `current` is the gliding highlight.',
+      type: '{ list?: string; page?: string; current?: string; ellipsis?: string; nav?: string }',
+    },
+  }}
+/>
+
+### paginationRange
+
+The slots for a page: first, last, the current page with its siblings, and `'ellipsis'` for the gaps. The
+length is the same on every page (`siblings * 2 + 5`, or `total` when that is smaller).
+
+<TypeTable
+  type={{
+    page: { description: 'The current page.', type: 'number' },
+    total: { description: 'The number of pages.', type: 'number' },
+    siblings: { description: 'Pages on each side of the current one.', type: 'number', default: '1' },
+  }}
+/>

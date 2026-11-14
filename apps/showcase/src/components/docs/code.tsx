@@ -1,16 +1,8 @@
-import { Button, cn } from '@crazy-staff/ui';
-import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock';
-import { useState } from 'react';
+import { CodeBlock, cn } from '@crazy-staff/ui';
 
-/** A highlighted code block. */
+/** A highlighted code block (our own Code Block component). */
 export function Code({ code, lang = 'tsx', title, lineNumbers = false }: { code: string; lang?: string; title?: string; lineNumbers?: boolean }) {
-  return (
-    <DynamicCodeBlock
-      lang={lang}
-      code={code}
-      codeblock={{ title, 'data-line-numbers': lineNumbers, className: 'my-0' }}
-    />
-  );
+  return <CodeBlock code={code} lang={lang} title={title} lineNumbers={lineNumbers} />;
 }
 
 /**
@@ -33,30 +25,15 @@ export function CollapsibleCode({
   /** Inside another frame (preview): no own border and corners. */
   flush?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-  const short = code.split('\n').length <= 4;
   return (
-    <div
-      data-open={open || short ? '' : undefined}
-      className={cn('cui-code relative', flush && 'cui-code-flush', className)}
-    >
-      <div className={cn('overflow-hidden', !open && !short && 'max-h-28')}>
-        <Code code={code} lang={lang} title={title} lineNumbers />
-      </div>
-      {!short && (
-        <div
-          className={cn(
-            'flex justify-center',
-            open
-              ? 'py-2'
-              : 'pointer-events-none absolute inset-x-0 bottom-0 items-end bg-linear-to-b from-transparent to-surface pt-14 pb-3',
-          )}
-        >
-          <Button size="sm" variant="outline" className="pointer-events-auto bg-background" onClick={() => setOpen((o) => !o)}>
-            {open ? 'Collapse' : label}
-          </Button>
-        </div>
-      )}
-    </div>
+    <CodeBlock
+      code={code}
+      lang={lang}
+      title={title}
+      lineNumbers
+      collapsedLines={4}
+      expandLabel={label}
+      className={cn(flush && 'rounded-none border-0 [corner-shape:round] [--corner-shape:round]', className)}
+    />
   );
 }

@@ -11,4 +11,9 @@ describe('Chip', () => {
     render(<Chip variant="outline">beta</Chip>);
     expect(screen.getByText('beta')).toHaveClass('border');
   });
+
+  it('has status variants tinted from the status tokens', () => {
+    render(<Chip variant="warning">works badly</Chip>);
+    expect(screen.getByText('works badly')).toHaveClass('text-warning', 'bg-warning/12');
+  });
 });

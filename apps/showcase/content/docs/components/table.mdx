@@ -1,34 +1,154 @@
 ---
 title: Table
-description: A styled table, like the tables in the crazy-hub docs.
+description: Rows and columns of data in a rounded frame that scrolls sideways on small screens.
 ---
 
-import { TableDemo } from '@/components/demos/display';
+<ComponentPreview name="table/default" />
 
-<Preview align="stretch">
-  <TableDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="table" />
+
+## Usage
+
+```tsx
+import { Table } from '@crazy-staff/ui';
+```
 
 ```tsx
 <Table
-  hover
   columns={[
     { key: 'name', header: 'Feature' },
-    { key: 'status', header: 'Status', cell: (r) => <Chip size="sm">{r.status}</Chip> },
+    { key: 'hotkey', header: 'Hotkey' },
   ]}
-  rows={features}
+  rows={[{ name: 'God mode', hotkey: 'F2' }]}
 />
 ```
 
-## Props
+## Examples
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `columns` | `{ key, header, cell?, className? }[]` | — |
-| `rows` | `Row[]` | — |
-| `hover` | `boolean` | `false` |
-| `dense` | `boolean` | `false` |
-| `caption` | `ReactNode` | — |
+### Custom cells
 
-Parts: `Table.Root`, `Header`, `Body`, `Footer`, `Row`, `Head`, `Cell`, `Caption`. Sorting and filtering
-will live in **Data Table**.
+`cell` renders a column however you like — here the test status of every trainer feature as a chip
+(green verified, yellow works badly, red crashes, purple new).
+
+<ComponentPreview name="table/custom-cells" />
+
+### Row hover
+
+`hover` highlights the row under the mouse. Use it when rows open something.
+
+<ComponentPreview name="table/hover" />
+
+### Dense
+
+`dense` tightens the rows for numbers and long lists.
+
+<ComponentPreview name="table/dense" />
+
+### Caption
+
+`caption` describes the table under it; screen readers read it as the table's name.
+
+<ComponentPreview name="table/caption" />
+
+### Compound parts
+
+`Table.Root`, `Table.Header`, `Table.Body`, `Table.Footer`, `Table.Row`, `Table.Head`, `Table.Cell` and
+`Table.Caption` map to the HTML table elements — for footers, `colSpan` and anything the short form
+can't do.
+
+<ComponentPreview name="table/compound" />
+
+For sorting, filtering and selection, build on TanStack Table with these parts.
+
+## Accessibility
+
+- Renders a real `<table>`: screen readers announce rows, columns and headers.
+- Header cells are `<th>`; add `scope="row"` to a `Table.Head` that heads a row.
+- Give the table a name with `caption` (or `aria-label` on `Table.Root`).
+- The frame scrolls sideways when the table is wider than the screen; set a `min-w-*` on the table so
+  columns don't squash.
+
+## API Reference
+
+### Table
+
+The one-line form. Other props (`hover`, `dense`, `className`…) go to `Table.Root`.
+
+<TypeTable
+  type={{
+    columns: {
+      description: 'The columns: `key` reads the row, `header` is the title, `cell` renders a custom cell, `className` goes to the header and the cells.',
+      type: '{ key: string; header: ReactNode; cell?: (row) => ReactNode; className?: string }[]',
+    },
+    rows: { description: 'The data, one object per row.', type: 'Row[]' },
+    rowKey: { description: 'A stable key per row.', type: '(row, index) => Key', default: 'index' },
+    caption: { description: 'A description under the table, also its accessible name.', type: 'ReactNode' },
+  }}
+/>
+
+### Table.Root
+
+The frame and the table. Renders a `<div>` around a `<table>`; other props go to the `<table>`.
+
+<TypeTable
+  type={{
+    hover: { description: 'Highlight the row under the mouse.', type: 'boolean', default: 'false' },
+    dense: { description: 'Tighter rows.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the `<table>`, merged last.', type: 'string' },
+    classNames: { description: 'Classes for the scrolling frame.', type: '{ wrapper?: string }' },
+  }}
+/>
+
+### Table.Header
+
+Renders a `<thead>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Table.Body
+
+Renders a `<tbody>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Table.Footer
+
+Totals under the body. Renders a `<tfoot>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Table.Row
+
+Renders a `<tr>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Table.Head
+
+A header cell. Renders a `<th>`.
+
+<TypeTable
+  type={{
+    scope: { description: 'Whether it heads a column or a row.', type: "'col' | 'row'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Table.Cell
+
+Renders a `<td>`.
+
+<TypeTable
+  type={{
+    colSpan: { description: 'How many columns it spans.', type: 'number' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Table.Caption
+
+Renders a `<caption>` under the table.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

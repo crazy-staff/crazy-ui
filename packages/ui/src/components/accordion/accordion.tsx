@@ -4,14 +4,25 @@ import * as React from 'react';
 import { cn } from '../../lib/tv';
 import { accordionStyles } from './accordion.styles';
 
-const s = accordionStyles();
+type Variant = 'card' | 'separated' | 'plain';
+const VariantContext = React.createContext<Variant>('card');
+const useStyles = () => accordionStyles({ variant: React.useContext(VariantContext) });
 
-function AccordionRoot({ className, ...props }: React.ComponentPropsWithRef<typeof BaseAccordion.Root>) {
-  return <BaseAccordion.Root className={cn(s.root(), className)} {...props} />;
+export interface AccordionRootProps extends React.ComponentPropsWithRef<typeof BaseAccordion.Root> {
+  /** `card`: one framed card. `separated`: a card per item. `plain`: no frame. @default 'card' */
+  variant?: Variant;
+}
+
+function AccordionRoot({ className, variant = 'card', ...props }: AccordionRootProps) {
+  return (
+    <VariantContext.Provider value={variant}>
+      <BaseAccordion.Root className={cn(accordionStyles({ variant }).root(), className)} {...props} />
+    </VariantContext.Provider>
+  );
 }
 
 function AccordionItem({ className, ...props }: React.ComponentPropsWithRef<typeof BaseAccordion.Item>) {
-  return <BaseAccordion.Item className={cn(s.item(), className)} {...props} />;
+  return <BaseAccordion.Item className={cn(useStyles().item(), className)} {...props} />;
 }
 
 export interface AccordionTriggerProps extends React.ComponentPropsWithRef<typeof BaseAccordion.Trigger> {
@@ -20,6 +31,7 @@ export interface AccordionTriggerProps extends React.ComponentPropsWithRef<typeo
 
 /** The clickable row; includes the heading wrapper and the chevron. */
 function AccordionTrigger({ className, classNames, children, ...props }: AccordionTriggerProps) {
+  const s = useStyles();
   return (
     <BaseAccordion.Header className={cn(s.header(), classNames?.header)}>
       <BaseAccordion.Trigger className={cn(s.trigger(), className)} {...props}>
@@ -35,6 +47,7 @@ export interface AccordionPanelProps extends React.ComponentPropsWithRef<typeof 
 }
 
 function AccordionPanel({ className, classNames, children, ...props }: AccordionPanelProps) {
+  const s = useStyles();
   return (
     <BaseAccordion.Panel className={cn(s.panel(), className)} {...props}>
       <div className={cn(s.content(), classNames?.content)}>{children}</div>
@@ -49,7 +62,7 @@ export interface AccordionItemData {
   disabled?: boolean;
 }
 
-export interface AccordionProps extends Omit<React.ComponentPropsWithRef<typeof BaseAccordion.Root>, 'children'> {
+export interface AccordionProps extends Omit<AccordionRootProps, 'children'> {
   items: AccordionItemData[];
 }
 

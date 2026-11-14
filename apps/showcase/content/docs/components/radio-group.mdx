@@ -1,33 +1,111 @@
 ---
 title: Radio Group
-description: Pick one option from a set.
+description: Pick exactly one option from a short list that should stay visible.
 ---
 
-import { RadioGroupDemo } from '@/components/demos/forms';
+<ComponentPreview name="radio-group/default" />
 
-<Preview>
-  <RadioGroupDemo />
-</Preview>
+## Installation
+
+<InstallTabs component="radio-group" />
+
+## Usage
+
+```tsx
+import { Radio, RadioGroup } from '@crazy-staff/ui';
+```
 
 ```tsx
 <RadioGroup
   defaultValue="normal"
   items={[
-    { value: 'easy', label: 'Easy', description: 'Enemies deal half damage.' },
+    { value: 'easy', label: 'Easy' },
     { value: 'normal', label: 'Normal' },
   ]}
 />
-
-// or by hand
-<RadioGroup defaultValue="a">
-  <Radio value="a" label="A" />
-  <Radio value="b" label="B" />
-</RadioGroup>
 ```
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `items` | `{ value, label, description?, disabled? }[]` | — |
-| `value`, `defaultValue`, `onValueChange` | Base UI props | — |
+## Examples
 
-`Radio` takes `label`, `description` and `classNames={{ item, radio, indicator, description }}`.
+### With descriptions
+
+Each item can have a `description` under its label.
+
+<ComponentPreview name="radio-group/description" />
+
+### Compound parts
+
+Instead of `items`, place `Radio` children yourself.
+
+<ComponentPreview name="radio-group/compound" />
+
+### Horizontal
+
+The group is a flex column; switch it to a row with `className`.
+
+<ComponentPreview name="radio-group/horizontal" />
+
+### Disabled
+
+Disable one item with `disabled` on it, or the whole group with `disabled` on `RadioGroup`.
+
+<ComponentPreview name="radio-group/disabled" />
+
+### Controlled
+
+<ComponentPreview name="radio-group/controlled" />
+
+### Invalid
+
+In an invalid [Field](/docs/components/field) the circles get a red border and the error is linked to the group.
+
+<ComponentPreview name="radio-group/field" />
+
+## Accessibility
+
+- Renders `role="radiogroup"` with `role="radio"` items and a hidden native input for forms.
+- <Kbd>Tab</Kbd> moves into the group (to the checked item), arrow keys move and select inside it.
+- Name the group with `aria-label` or `aria-labelledby`; each item is named by its label.
+- For more than about six options, or when space is tight, use a [Select](/docs/components/select).
+
+## API Reference
+
+### RadioGroup
+
+Renders a `<div role="radiogroup">`. Base UI `RadioGroup` props pass through.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Short form: the options. Or pass `Radio` children.',
+      type: '{ value: string; label: ReactNode; description?: ReactNode; disabled?: boolean }[]',
+    },
+    value: { description: 'The picked value (controlled).', type: 'unknown' },
+    defaultValue: { description: 'The picked value at first (uncontrolled).', type: 'unknown' },
+    onValueChange: { description: 'Called with the new value.', type: '(value: unknown, details) => void' },
+    disabled: { description: 'Disables every item.', type: 'boolean', default: 'false' },
+    readOnly: { description: 'Shows the value but blocks changes.', type: 'boolean', default: 'false' },
+    required: { description: 'A value must be picked before the form submits.', type: 'boolean', default: 'false' },
+    name: { description: 'Field name for native form submission.', type: 'string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Radio
+
+One option. With `label` it renders a clickable `<label>` row; without it, the bare circle (name it with
+`aria-label`). Base UI `Radio.Root` props pass through.
+
+<TypeTable
+  type={{
+    value: { description: 'The value this option stands for.', type: 'unknown' },
+    label: { description: 'Text next to the circle.', type: 'ReactNode' },
+    description: { description: 'A muted line under the label.', type: 'ReactNode' },
+    disabled: { description: 'Disables this option.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the row (or the circle, without a label), merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ item?: string; radio?: string; indicator?: string; description?: string }',
+    },
+  }}
+/>
