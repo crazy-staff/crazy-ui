@@ -42,3 +42,21 @@ decision by adding a new entry that supersedes the old one; don't edit history.
     100 %) and 1920×1080; the PR preview in his browser is the source of truth.
 15. **Context.** `CLAUDE.md` per repo, this file for decisions, GitHub issues for task specs, Claude project
     memory for the owner's preferences. One conversation per task; hand off to a new session when done.
+
+## Design rounds
+
+16. **Round 1 pick (2026-11-13): direction B "Soft"**, with changes from the owner: smaller radius on
+    smaller elements (chips, small buttons) with **squircle** corners (CSS `corner-shape`, polyfilled
+    by `hyperellipse` for Firefox/Safari); the **colours of the crazy-hub docs** (neutral greys,
+    fumadocs.dev style) instead of the round-1 palettes; **accent gradients** either filling a rounded
+    frame or the whole page background, never cut off; the hub's **framed app layout** (sidebar on the
+    frame colour, page in a rounded panel) with a **collapsible sidebar**. Shown as round 1b.
+17. **Round 1c (2026-11-13), owner's feedback on 1b:** less HeroUI — the direction is *our own twist on
+    Fumadocs, but prettier*. Corners `superellipse(1.5)` (halfway between round and squircle). The light
+    accent mirrors dark (lavender fill, dark ink); colours calmer; **contrast is checked before any
+    colour change** (`contrast.test.ts`). Button glow is an opt-in `glow` prop. Card hover shadow is
+    subtle and wide. Both gradient placements (full page top, inside a frame) are used, depending on the
+    page. The showcase **is the docs**: Fumadocs' spacious layout like crazy-hub — sidebar for page
+    navigation (fully collapsible, large search, neutral gliding hover, accent active row), "On this
+    page" on the right, responsive with a drawer on mobile. Content animates in with motion (`Reveal`).
+    The component catalogue follows shadcn/ui's list.

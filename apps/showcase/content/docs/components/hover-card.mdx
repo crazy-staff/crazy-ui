@@ -1,0 +1,126 @@
+---
+title: Hover Card
+description: A preview card that opens while a link is hovered or focused — a user, a post, a feature.
+---
+
+<ComponentPreview name="hover-card/default" />
+
+## Installation
+
+<InstallTabs component="hover-card" />
+
+## Usage
+
+```tsx
+import { HoverCard } from '@crazy-staff/ui';
+```
+
+```tsx
+<HoverCard trigger={<a href="/u/dawid">@dawid</a>}>Project lead of crazy-ui and crazy-hub.</HoverCard>
+```
+
+## Examples
+
+### Sides
+
+`side` opens the card below (default), above, to the right or to the left of the link. It flips when there is no
+room.
+
+<ComponentPreview name="hover-card/sides" />
+
+### Feature preview
+
+Inline in a sentence, a hover card can show a trainer feature with its test status and hotkey.
+
+<ComponentPreview name="hover-card/feature" />
+
+### Post preview
+
+`align="start"` lines the card up with the start of a short link like a post number.
+
+<ComponentPreview name="hover-card/post" />
+
+### Controlled
+
+Pass `open` and `onOpenChange` to keep the card open from outside.
+
+<ComponentPreview name="hover-card/controlled" />
+
+## Accessibility
+
+- Opens on hover and on keyboard focus of the trigger, after a short delay; closes when both the link and the
+  card lose the pointer and focus.
+- The card is a supplement: the link must work on its own (touch screens can't hover). Don't put the only
+  copy of an action in it.
+- Use a real link (`<a href>`) as the trigger.
+
+## API Reference
+
+### HoverCard
+
+The short form: a trigger link and the card content. Other props go to Base UI's
+[`PreviewCard.Root`](https://base-ui.com/react/components/preview-card) (`open`, `defaultOpen`,
+`onOpenChange` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'Usually a link; the card opens while it is hovered or focused.', type: 'ReactElement' },
+    children: { description: 'The card content.', type: 'ReactNode' },
+    side: {
+      description: 'Which side of the trigger it opens on.',
+      type: "'top' | 'right' | 'bottom' | 'left'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'center'" },
+    delay: { description: 'Milliseconds before it opens.', type: 'number', default: '500' },
+    closeDelay: { description: 'Milliseconds before it closes once the pointer leaves.', type: 'number', default: '300' },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### HoverCard.Root
+
+Holds the open state. Base UI's `PreviewCard.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+  }}
+/>
+
+### HoverCard.Trigger
+
+The link that opens the card. Base UI's `PreviewCard.Trigger`; renders an `<a>` unless you pass `render`.
+
+<TypeTable
+  type={{
+    render: { description: 'Use your own element, e.g. a router link.', type: 'ReactElement' },
+    delay: { description: 'Milliseconds before it opens.', type: 'number', default: '600' },
+    closeDelay: { description: 'Milliseconds before it closes.', type: 'number', default: '300' },
+  }}
+/>
+
+### HoverCard.Content
+
+The floating card: portal, positioner and popup. Renders a `<div>`; other props go to Base UI's
+`PreviewCard.Popup`.
+
+<TypeTable
+  type={{
+    side: {
+      description: 'Which side of the trigger it opens on.',
+      type: "'top' | 'right' | 'bottom' | 'left'",
+      default: "'bottom'",
+    },
+    align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'center'" },
+    sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '8' },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>

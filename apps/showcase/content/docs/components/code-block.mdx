@@ -1,0 +1,92 @@
+---
+title: Code Block
+description: "Highlighted code with a copy button, a file name, line numbers, marked lines and folding."
+---
+
+<ComponentPreview name="code-block/default" />
+
+## Installation
+
+<InstallTabs component="code-block" />
+
+## Usage
+
+```tsx
+import { CodeBlock } from '@crazy-staff/ui';
+```
+
+```tsx
+<CodeBlock code={source} lang="ts" title="trainer.config.ts" />
+```
+
+## Examples
+
+### Line numbers and highlights
+
+`lineNumbers` adds a counter column; `highlightLines` marks lines (1-based) with the accent.
+
+<ComponentPreview name="code-block/line-numbers" />
+
+### Folding
+
+`collapsedLines` folds longer code behind a "View code" button.
+
+<ComponentPreview name="code-block/collapsible" />
+
+### Languages
+
+`lang` takes any Shiki language id; grammars load on first use. Unknown ids fall back to plain text.
+
+<ComponentPreview name="code-block/languages" />
+
+### Without a title
+
+Leave out `title`: the copy button stays centred on the first line.
+
+<ComponentPreview name="code-block/no-title" />
+
+## Accessibility
+
+- The code area is focusable (`tabIndex=0`) so keyboard users can scroll long lines.
+- The copy button is labelled "Copy code" and changes to "Copied".
+- The fold buttons report `aria-expanded`.
+- Colours follow the page: tokens use `light-dark()`, switched by `.dark` through `color-scheme`.
+
+## API Reference
+
+### CodeBlock
+
+The block. Highlighting runs on the client with Shiki (JavaScript engine); the plain code shows until it is ready.
+
+<TypeTable
+  type={{
+    code: { description: 'The source.', type: 'string' },
+    lang: { description: 'Shiki language id.', type: 'string', default: "'tsx'" },
+    title: { description: 'File name or title in a bar above.', type: 'ReactNode' },
+    icon: { description: 'Icon before the title.', type: 'ReactNode', default: '<FileCode />' },
+    lineNumbers: { description: 'Show line numbers.', type: 'boolean', default: 'false' },
+    highlightLines: { description: 'Lines to mark.', type: 'number[]' },
+    collapsedLines: { description: 'Fold code longer than this.', type: 'number' },
+    expandLabel: { description: 'Label of the unfold button.', type: 'string', default: "'View code'" },
+    copyable: { description: 'Show the copy button.', type: 'boolean', default: 'true' },
+    themes: { description: 'Shiki themes.', type: '{ light: string; dark: string }', default: "{ light: 'github-light', dark: 'github-dark' }" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ header?: string; title?: string; pre?: string; copy?: string; fold?: string }' },
+  }}
+/>
+
+### CodeBlock.Copy
+
+The copy button on its own. Takes Button props.
+
+<TypeTable
+  type={{
+    value: { description: 'Text to copy.', type: 'string' },
+  }}
+/>
+
+### highlightCode
+
+`highlightCode(code, { lang, themes?, highlightLines? })` returns a promise of the HTML, cached.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

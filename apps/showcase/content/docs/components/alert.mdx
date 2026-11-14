@@ -1,0 +1,100 @@
+---
+title: Alert
+description: A callout that draws attention to an important message — a new build, a warning, an error.
+---
+
+<ComponentPreview name="alert/default" />
+
+## Installation
+
+<InstallTabs component="alert" />
+
+## Usage
+
+```tsx
+import { Alert } from '@crazy-staff/ui';
+```
+
+```tsx
+<Alert title="New build available">Version 0.9 adds teleports and fixes the arena crash.</Alert>
+```
+
+## Examples
+
+### Variants
+
+Five variants: `info` (default), `success`, `warning`, `danger` and `neutral`. Colours are muted on purpose,
+so a page with several alerts doesn't shout.
+
+<ComponentPreview name="alert/variants" />
+
+### Without a title
+
+Leave out `title` and the children become the whole message.
+
+<ComponentPreview name="alert/description-only" />
+
+### Custom icon
+
+Every variant has its own icon. Pass any element to `icon` to replace it, or `false` to hide it.
+
+<ComponentPreview name="alert/custom-icon" />
+
+### With an action
+
+Put a button (or a link) in the children.
+
+<ComponentPreview name="alert/action" />
+
+### Compound parts
+
+Use `Alert.Title` and `Alert.Description` when you need to style or wrap the parts yourself.
+
+<ComponentPreview name="alert/compound" />
+
+## Accessibility
+
+- `danger` and `warning` render with `role="alert"`, so screen readers announce them right away.
+- The other variants use `role="status"` and are read politely.
+- The icon is decorative (`aria-hidden`); the text carries the meaning.
+
+## API Reference
+
+### Alert
+
+The callout. Renders a `<div>`; other props go to it.
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'The kind of message. Sets colours, icon and role.',
+      type: "'info' | 'success' | 'warning' | 'danger' | 'neutral'",
+      default: "'info'",
+    },
+    title: {
+      description: 'The heading. With a title, children become the description.',
+      type: 'ReactNode',
+    },
+    icon: {
+      description: "Replaces the variant's icon; `false` hides it.",
+      type: 'ReactNode | false',
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ icon?: string; body?: string; title?: string; description?: string }',
+    },
+  }}
+/>
+
+### Alert.Title
+
+The heading, when you build the alert from parts. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Alert.Description
+
+The message under the title. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

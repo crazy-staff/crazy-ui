@@ -1,0 +1,121 @@
+---
+title: Card
+description: A surface that groups content. Interactive cards lift a little on hover.
+---
+
+<ComponentPreview name="card/default" />
+
+## Installation
+
+<InstallTabs component="card" />
+
+## Usage
+
+```tsx
+import { Card } from '@crazy-staff/ui';
+```
+
+```tsx
+<Card title="Infinite mana" description="Keeps your mana pool full." footer={<Button size="sm">Enable</Button>}>
+  Works in every chapter.
+</Card>
+```
+
+## Examples
+
+### Compound parts
+
+Build the card from `Card.Root`, `Card.Header`, `Card.Title`, `Card.Description`, `Card.Body` and `Card.Footer`
+when the header holds more than a title — here a status chip.
+
+<ComponentPreview name="card/compound" />
+
+### Interactive
+
+`interactive` adds a pointer cursor, a stronger border and a wide, soft shadow with a small lift on hover. Use it
+when the whole card is a link or opens something.
+
+<ComponentPreview name="card/interactive" align="stretch" />
+
+### A crazy-hub post
+
+Cards don't force a layout: drop `Card.Root` around anything. Here a post from the idea board with a vote button.
+
+<ComponentPreview name="card/post" />
+
+## Accessibility
+
+- A card is a plain `<div>`; `Card.Title` is an `<h3>`, so cards in a list show up in the heading outline.
+  If `h3` is the wrong level, put your own heading in `Card.Header` instead of `Card.Title`.
+- An `interactive` card is only styled as one. Make it reachable: wrap it in a link, or give it `tabIndex={0}`
+  and a keyboard handler.
+
+## API Reference
+
+### Card
+
+The short form. With `title`, `description` or `footer` it builds the header, body and footer for you; without
+them it is just the surface and `children` render as they are. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    title: { description: 'The heading, rendered as `Card.Title`.', type: 'ReactNode' },
+    description: { description: 'Text under the title, rendered as `Card.Description`.', type: 'ReactNode' },
+    footer: { description: 'Actions at the bottom, rendered in `Card.Footer`.', type: 'ReactNode' },
+    children: {
+      description: 'With any short-form prop, goes into `Card.Body`; otherwise rendered directly.',
+      type: 'ReactNode',
+    },
+    interactive: {
+      description: 'Hover styles for a card that is clickable as a whole.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ header?: string; title?: string; description?: string; body?: string; footer?: string }',
+    },
+  }}
+/>
+
+### Card.Root
+
+The surface itself: border, background, radius and shadow. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    interactive: { description: 'Hover styles for a clickable card.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Card.Header
+
+A column for the title and description, padded on top and sides. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Card.Title
+
+The heading. Renders an `<h3>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Card.Description
+
+Muted text under the title. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Card.Body
+
+The main content, padded on all sides. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Card.Footer
+
+A row for actions at the bottom. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

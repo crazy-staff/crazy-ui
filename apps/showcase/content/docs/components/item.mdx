@@ -1,0 +1,125 @@
+---
+title: Item
+description: "A list row with media, a title, a description and actions — a trainer feature, a post, a tester."
+---
+
+<ComponentPreview name="item/default" />
+
+## Installation
+
+<InstallTabs component="item" />
+
+## Usage
+
+```tsx
+import { Item, ItemGroup } from '@crazy-staff/ui';
+```
+
+```tsx
+<Item icon={<Shield />} title="God mode" description="No damage taken." actions={<Switch />} />
+```
+
+## Examples
+
+### Variants
+
+`plain` (default) has no frame and is meant for rows inside a group; `outline` and `muted` frame a single row.
+
+<ComponentPreview name="item/variants" />
+
+### Sizes
+
+`md` (default) and a tighter `sm`.
+
+<ComponentPreview name="item/sizes" />
+
+### Group
+
+`ItemGroup framed` puts rows in one card; `ItemSeparator` draws the hairline between them.
+
+<ComponentPreview name="item/group" />
+
+### As a link
+
+Pass `render={<a href="…" />}` (or a router link): the whole row becomes the link and gets a soft hover fill.
+
+<ComponentPreview name="item/link" />
+
+### Custom media
+
+`media` shows any element as is, e.g. an avatar. It wins over `icon`.
+
+<ComponentPreview name="item/avatar" />
+
+### Compound parts
+
+Build the row from `Item.Root`, `Item.Media`, `Item.Content`, `Item.Title`, `Item.Description` and `Item.Actions`.
+
+<ComponentPreview name="item/compound" />
+
+## Accessibility
+
+- The row is a `<div>` unless you render it as a link or button; then it is focusable and shows the focus ring.
+- `ItemGroup` has `role="list"`; give each row (or its wrapper) `role="listitem"`.
+- The icon tile is decorative (`aria-hidden`). Label controls in `actions` (e.g. `aria-label` on a switch).
+
+## API Reference
+
+### Item
+
+The short form. Renders `Item.Root` with the parts; other props go to the root.
+
+<TypeTable
+  type={{
+    variant: { description: 'Frame of the row.', type: "'plain' | 'outline' | 'muted'", default: "'plain'" },
+    size: { description: 'Padding.', type: "'sm' | 'md'", default: "'md'" },
+    icon: { description: 'An icon on a tinted tile.', type: 'ReactNode' },
+    media: { description: 'Any media shown as is; wins over `icon`.', type: 'ReactNode' },
+    title: { description: 'The main text.', type: 'ReactNode' },
+    description: { description: 'Muted text under the title, clamped to two lines.', type: 'ReactNode' },
+    actions: { description: 'Controls at the end of the row.', type: 'ReactNode' },
+    render: { description: 'Element to render instead of the `<div>`, e.g. a link.', type: 'ReactElement' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ media?: string; content?: string; title?: string; description?: string; actions?: string }' },
+  }}
+/>
+
+### Item.Root
+
+The row frame. Takes `variant`, `size`, `render` and `className`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Item.Media
+
+The leading media.
+
+<TypeTable
+  type={{
+    variant: { description: '`icon` shows a tinted tile, `image` crops a picture.', type: "'default' | 'icon' | 'image'", default: "'default'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Item.Content / Title / Description / Actions / Header / Footer
+
+The text column, its parts, the trailing controls, and full-width rows above or below.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### ItemGroup
+
+A list of rows (`Item.Group`).
+
+<TypeTable
+  type={{
+    framed: { description: 'Put the rows in one card.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### ItemSeparator
+
+A hairline between rows of a framed group (`Item.Separator`).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

@@ -1,0 +1,116 @@
+---
+title: Context Menu
+description: A menu that opens on right click or long press, right where the pointer is.
+---
+
+<ComponentPreview name="context-menu/default" />
+
+## Installation
+
+<InstallTabs component="context-menu" />
+
+## Usage
+
+```tsx
+import { ContextMenu } from '@crazy-staff/ui';
+```
+
+```tsx
+<ContextMenu items={[{ label: 'Copy', shortcut: 'Ctrl C' }, { type: 'separator' }, { label: 'Delete', danger: true }]}>
+  <div>Right-click here</div>
+</ContextMenu>
+```
+
+## Examples
+
+### Compound parts
+
+Context Menu shares its items with [Dropdown Menu](/docs/components/dropdown-menu): groups with labels,
+checkbox and radio items, separators and shortcuts.
+
+<ComponentPreview name="context-menu/compound" />
+
+### On list rows
+
+Wrap each row to give it its own menu — here marking a trainer feature's test status. The row keeps a hover
+background while its menu is open (`data-popup-open`).
+
+<ComponentPreview name="context-menu/list-rows" />
+
+## Accessibility
+
+- Opens on right click, on long press on touch screens, and with the keyboard's context-menu key or
+  <kbd>Shift</kbd> + <kbd>F10</kbd> when the area is focused.
+- The popup is a `menu`; arrow keys move, type-ahead jumps, <kbd>Esc</kbd> closes.
+- A context menu is hidden by nature. Every action in it must also be reachable another way (a visible button
+  or a dropdown menu).
+
+## API Reference
+
+### ContextMenu
+
+The short form: an area and a list of entries (the same `DropdownMenuEntry` as Dropdown Menu). Other props go
+to Base UI's [`ContextMenu.Root`](https://base-ui.com/react/components/context-menu).
+
+<TypeTable
+  type={{
+    items: {
+      description: 'The entries: items, separators and labels. A label starts a group.',
+      type: 'DropdownMenuEntry[]',
+    },
+    children: { description: 'The area that opens the menu on right click.', type: 'ReactNode' },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    className: { description: 'Classes for the area, merged last.', type: 'string' },
+  }}
+/>
+
+### ContextMenu.Root
+
+Holds the open state. Base UI's `ContextMenu.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    disabled: { description: 'Let the browser’s own context menu through.', type: 'boolean', default: 'false' },
+  }}
+/>
+
+### ContextMenu.Trigger
+
+The area that opens the menu. Text selection is off inside it. Renders a `<div>`; other props go to Base UI's
+`ContextMenu.Trigger`.
+
+<TypeTable
+  type={{
+    render: { description: 'Use your own element as the area.', type: 'ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### ContextMenu.Content
+
+The floating list, placed at the pointer. Renders a `<div>`; other props go to Base UI's `ContextMenu.Popup`.
+
+<TypeTable
+  type={{
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+  }}
+/>
+
+### ContextMenu.Item and friends
+
+`ContextMenu.Item`, `CheckboxItem`, `RadioGroup`, `RadioItem`, `Group`, `GroupLabel`, `Separator` and `Shortcut`
+are the same components as in Dropdown Menu — see [their props](/docs/components/dropdown-menu#dropdownmenuitem).
+
+<TypeTable
+  type={{
+    'Item.danger': { description: 'Paint the item in the danger colour.', type: 'boolean', default: 'false' },
+    'Item.onClick': { description: 'Runs the action; the menu closes after it.', type: '(event) => void' },
+    'CheckboxItem.checked': { description: 'Controlled state of a checkbox item.', type: 'boolean' },
+    'RadioGroup.value': { description: 'Controlled value of a radio group.', type: 'any' },
+  }}
+/>

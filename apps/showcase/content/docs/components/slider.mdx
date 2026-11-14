@@ -1,0 +1,147 @@
+---
+title: Slider
+description: Pick a number — or a range — on a track, like world speed or a level range.
+---
+
+<ComponentPreview name="slider/default" />
+
+## Installation
+
+<InstallTabs component="slider" />
+
+## Usage
+
+```tsx
+import { Slider } from '@crazy-staff/ui';
+```
+
+```tsx
+<Slider label="Field of view" showValue defaultValue={90} min={60} max={120} />
+```
+
+## Examples
+
+### Range
+
+Pass an array to `defaultValue` (or `value`) and you get one thumb per entry.
+
+<ComponentPreview name="slider/range" />
+
+### Step
+
+`min`, `max` and `step` set the scale. Arrow keys move by `step`; <Kbd>Shift</Kbd> + arrow or
+<Kbd>Page Up</Kbd> by `largeStep`.
+
+<ComponentPreview name="slider/step" />
+
+### Formatting the value
+
+`format` takes `Intl.NumberFormat` options for the value next to the label (and for screen readers).
+
+<ComponentPreview name="slider/format" />
+
+### Disabled
+
+<ComponentPreview name="slider/disabled" />
+
+### Controlled
+
+<ComponentPreview name="slider/controlled" />
+
+### In a field
+
+Inside a [Field](/docs/components/field), the description is linked to the thumb and `name` goes to the hidden
+input.
+
+<ComponentPreview name="slider/field" />
+
+### Compound parts
+
+`Slider.Root`, `Slider.Label`, `Slider.Value`, `Slider.Control`, `Slider.Track`, `Slider.Indicator` and
+`Slider.Thumb` are styled like the short form; use them to change the layout or the size of a part.
+
+<ComponentPreview name="slider/compound" />
+
+## Accessibility
+
+- Each thumb is an `<input type="range">` (visually hidden) inside the thumb element, so it has
+  `role="slider"` with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`.
+- Arrow keys move by `step`, <Kbd>Shift</Kbd> + arrow and <Kbd>Page Up</Kbd>/<Kbd>Page Down</Kbd> by
+  `largeStep`, <Kbd>Home</Kbd>/<Kbd>End</Kbd> jump to the ends.
+- `label` names the slider. Without it, pass `aria-label` (or `getAriaLabel` for ranges) to the root.
+
+## API Reference
+
+### Slider
+
+The short form: label, value, track, indicator and thumbs. Base UI `Slider.Root` props pass through.
+
+<TypeTable
+  type={{
+    label: { description: 'Text above the track; also names the slider.', type: 'ReactNode' },
+    showValue: { description: 'Show the current value next to the label.', type: 'boolean', default: 'false' },
+    value: { description: 'The value (controlled). An array for a range.', type: 'number | number[]' },
+    defaultValue: { description: 'The value at first (uncontrolled). An array for a range.', type: 'number | number[]' },
+    onValueChange: { description: 'Called while the value changes.', type: '(value: number | number[], details) => void' },
+    onValueCommitted: { description: 'Called when the user lets go.', type: '(value: number | number[], details) => void' },
+    min: { description: 'The lowest value.', type: 'number', default: '0' },
+    max: { description: 'The highest value.', type: 'number', default: '100' },
+    step: { description: 'The distance between values.', type: 'number', default: '1' },
+    largeStep: { description: 'The step for Shift + arrow and Page Up/Down.', type: 'number', default: '10' },
+    format: { description: 'How the value is formatted.', type: 'Intl.NumberFormatOptions' },
+    disabled: { description: 'Dims it and blocks interaction.', type: 'boolean', default: 'false' },
+    name: { description: 'Field name for native form submission.', type: 'string' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?: string; label?: string; value?: string; track?: string; indicator?: string; thumb?: string }',
+    },
+  }}
+/>
+
+### Slider.Root
+
+Holds the state. Renders a `<div>`; takes the Base UI props listed above.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Label
+
+Names the slider. Renders a `<div>` (linked with `aria-labelledby`).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Value
+
+The formatted current value. Renders an `<output>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Control
+
+The clickable area around the track. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Track
+
+The rail. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Indicator
+
+The filled part of the track. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Slider.Thumb
+
+The handle. Renders a `<div>` with a hidden range input.
+
+<TypeTable
+  type={{
+    index: { description: 'Which value of a range this thumb moves.', type: 'number' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

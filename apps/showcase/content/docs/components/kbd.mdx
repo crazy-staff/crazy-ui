@@ -1,0 +1,80 @@
+---
+title: Kbd
+description: A keyboard key, for hotkeys in menus, buttons and help text.
+---
+
+<ComponentPreview name="kbd/default" />
+
+## Installation
+
+<InstallTabs component="kbd" />
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from '@crazy-staff/ui';
+```
+
+```tsx
+<KbdGroup>
+  <Kbd>Ctrl</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>
+```
+
+## Examples
+
+### Sizes
+
+`md` (default) for text and lists, `sm` inside buttons and inputs.
+
+<ComponentPreview name="kbd/sizes" />
+
+### Icons
+
+Icons are sized for you. Give an icon-only key an `aria-label`.
+
+<ComponentPreview name="kbd/icons" />
+
+### In text
+
+A key sits on the text baseline, so it reads well inside a sentence.
+
+<ComponentPreview name="kbd/in-text" />
+
+### Hotkey list
+
+The trainer's hotkeys, one `KbdGroup` per shortcut.
+
+<ComponentPreview name="kbd/hotkeys" />
+
+### In a button
+
+Use `size="sm"`. On a solid button, override the colours with tokens so the key stays readable.
+
+<ComponentPreview name="kbd/button" />
+
+## Accessibility
+
+- Renders a native `<kbd>`, which screen readers can announce as keyboard input.
+- Spell keys the way users see them on their keyboard. For icon keys (<Kbd>↵</Kbd>, ⌘) add `aria-label`.
+- A `Kbd` only shows the shortcut. Wire up the key handler yourself.
+
+## API Reference
+
+### Kbd
+
+Renders a `<kbd>`; native props pass through.
+
+<TypeTable
+  type={{
+    size: { description: 'Height and text size.', type: "'sm' | 'md'", default: "'md'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### KbdGroup
+
+Keys pressed together, with a small gap. Renders a `<span>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

@@ -1,0 +1,66 @@
+---
+title: Separator
+description: A thin line between groups of content, across or upright, optionally with a word in the middle.
+---
+
+<ComponentPreview name="separator/default" />
+
+## Installation
+
+<InstallTabs component="separator" />
+
+## Usage
+
+```tsx
+import { Separator } from '@crazy-staff/ui';
+```
+
+```tsx
+<Separator />
+```
+
+## Examples
+
+### Vertical
+
+`orientation="vertical"` stretches to the height of its row. Give the row a height (or let items set it).
+
+<ComponentPreview name="separator/vertical" />
+
+### With a label
+
+`label` puts a word in the middle of a horizontal line — “or” between two sign-in options, a date in a feed.
+
+<ComponentPreview name="separator/label" />
+
+### Between list rows
+
+Separators between rows of a card, without borders on the rows themselves.
+
+<ComponentPreview name="separator/list" />
+
+## Accessibility
+
+- Built on Base UI Separator: renders `role="separator"` with `aria-orientation`.
+- A separator is not focusable and has no name. If the line is only decoration, that's fine; if it
+  splits sections, give the sections headings too.
+- With a label, the text is read normally and the two lines around it are separators.
+
+## API Reference
+
+### Separator
+
+Renders a `<div role="separator">`; Base UI `Separator` props pass through.
+
+<TypeTable
+  type={{
+    orientation: {
+      description: 'A horizontal line across the width, or a vertical one that stretches to the row height.',
+      type: "'horizontal' | 'vertical'",
+      default: "'horizontal'",
+    },
+    label: { description: 'Text in the middle of a horizontal line.', type: 'ReactNode' },
+    className: { description: 'Classes for the line (or the labelled row), merged last.', type: 'string' },
+    classNames: { description: 'Classes for the two lines around a label.', type: '{ line?: string }' },
+  }}
+/>

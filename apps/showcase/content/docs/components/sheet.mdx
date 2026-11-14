@@ -1,0 +1,150 @@
+---
+title: Sheet
+description: A panel that slides in from an edge of the window — filters, settings, navigation on a phone.
+---
+
+<ComponentPreview name="sheet/default" />
+
+## Installation
+
+<InstallTabs component="sheet" />
+
+## Usage
+
+```tsx
+import { Sheet } from '@crazy-staff/ui';
+```
+
+```tsx
+<Sheet trigger={<Button>Filters</Button>} title="Filters">
+  …
+</Sheet>
+```
+
+## Examples
+
+### Sides
+
+`side` slides the panel in from the `right` (default), `left`, `top` or `bottom`. It floats a little away from
+the window edge with the card radius, like the docs page panel.
+
+<ComponentPreview name="sheet/sides" />
+
+### Settings form
+
+Control it with `open` and `onOpenChange` and put a `<form>` inside `Sheet.Content`. `Sheet.Body` grows, so the
+footer sits at the bottom of the panel.
+
+<ComponentPreview name="sheet/settings-form" />
+
+### Navigation
+
+A left sheet makes the mobile menu. Each link is a `Sheet.Close`, so picking one closes the panel.
+
+<ComponentPreview name="sheet/navigation" />
+
+## Accessibility
+
+- A sheet is a modal dialog (Base UI `Dialog`): `role="dialog"`, labelled by `Sheet.Title`, described by
+  `Sheet.Description`.
+- Focus is trapped inside and returns to the trigger on close; the page behind can't be scrolled.
+- <kbd>Esc</kbd>, the close button and a click on the backdrop close it.
+- For a panel people drag closed on a phone, use a [Drawer](/docs/components/drawer).
+
+## API Reference
+
+### Sheet
+
+The short form: trigger, header, body and footer. Other props go to Base UI's
+[`Dialog.Root`](https://base-ui.com/react/components/dialog) (`open`, `defaultOpen`, `onOpenChange`, `modal` …).
+
+<TypeTable
+  type={{
+    trigger: { description: 'The element that opens the sheet. Leave it out for a controlled one.', type: 'ReactElement' },
+    title: { description: 'The heading; labels the panel.', type: 'ReactNode' },
+    description: { description: 'Text under the title.', type: 'ReactNode' },
+    children: { description: 'The body, rendered in `Sheet.Body`.', type: 'ReactNode' },
+    footer: { description: 'Buttons at the bottom of the panel.', type: 'ReactNode' },
+    side: {
+      description: 'The window edge it slides in from.',
+      type: "'right' | 'left' | 'top' | 'bottom'",
+      default: "'right'",
+    },
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    className: { description: 'Classes for the panel, merged last.', type: 'string' },
+  }}
+/>
+
+### Sheet.Root
+
+Holds the open state. Base UI's `Dialog.Root`; renders nothing.
+
+<TypeTable
+  type={{
+    open: { description: 'Controlled open state.', type: 'boolean' },
+    defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    modal: { description: 'Lock scroll and block the page.', type: "boolean | 'trap-focus'", default: 'true' },
+  }}
+/>
+
+### Sheet.Trigger
+
+Opens the sheet. Base UI's `Dialog.Trigger`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button />`.', type: 'ReactElement' } }} />
+
+### Sheet.Content
+
+The backdrop and the sliding panel, in a portal. Renders a `<div>`; other props go to Base UI's `Dialog.Popup`.
+
+<TypeTable
+  type={{
+    side: {
+      description: 'The window edge it slides in from.',
+      type: "'right' | 'left' | 'top' | 'bottom'",
+      default: "'right'",
+    },
+    showClose: { description: 'The close button in the top corner.', type: 'boolean', default: 'true' },
+    className: { description: 'Classes for the panel (e.g. a width), merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ backdrop?: string; popup?: string }' },
+  }}
+/>
+
+### Sheet.Header
+
+A column for the title and description, with room for the close button. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sheet.Title
+
+The heading; labels the panel. Renders an `<h2>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sheet.Description
+
+Muted text under the title. Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sheet.Body
+
+The main content; grows to push the footer down. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sheet.Footer
+
+A row of actions at the bottom. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sheet.Close
+
+Closes the sheet. Base UI's `Dialog.Close`; renders a `<button>` unless you pass `render`.
+
+<TypeTable type={{ render: { description: 'Use your own element, e.g. `<Button variant="ghost" />`.', type: 'ReactElement' } }} />

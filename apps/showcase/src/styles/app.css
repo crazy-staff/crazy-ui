@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+@import 'fumadocs-ui/css/generated/spacious.css';
+
+/* crazy-ui tokens + source so Tailwind sees the library's utility classes */
+@import '@crazy-staff/ui/theme.css';
+@source '../../../../packages/ui/src';
+
+/* fonts of the theme: Inter + Geist Mono */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/geist-mono';
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+body {
+  font-family: var(--cui-font-sans);
+}
+
+/* Fumadocs' chrome reads its colours from the crazy-ui tokens, so docs and components match. */
+:root,
+.dark {
+  --color-fd-background: var(--cui-background);
+  --color-fd-foreground: var(--cui-foreground);
+  --color-fd-muted: var(--cui-surface-2);
+  --color-fd-muted-foreground: var(--cui-muted);
+  --color-fd-popover: var(--cui-popover);
+  --color-fd-popover-foreground: var(--cui-foreground);
+  --color-fd-card: var(--cui-frame);
+  --color-fd-card-foreground: var(--cui-foreground);
+  --color-fd-border: var(--cui-border);
+  --color-fd-primary: var(--cui-accent-soft-foreground);
+  --color-fd-primary-foreground: hsl(0 0% 98%);
+  --color-fd-secondary: var(--cui-surface-2);
+  --color-fd-secondary-foreground: var(--cui-foreground);
+  --color-fd-accent: var(--cui-hover);
+  --color-fd-accent-foreground: var(--cui-foreground);
+  --color-fd-ring: var(--cui-ring);
+}
+.dark {
+  --color-fd-primary-foreground: var(--cui-accent-foreground);
+}
+
+/* The page panel: a superellipse like every other surface, no shadow (keeps the squircle
+   polyfill in clip mode, so the page glow is clipped to the shape). */
+@media (min-width: 768px) {
+  #nd-page-panel {
+    --corner-shape: var(--cui-corner-shape);
+    corner-shape: var(--cui-corner-shape);
+    border-radius: var(--radius-panel);
+    border-color: var(--cui-border);
+    box-shadow: none;
+  }
+  @supports not (corner-shape: squircle) {
+    #nd-page-panel {
+      --corner-scale: 0.75;
+    }
+  }
+}
+
+/* Inline code and links in the prose, in our colours. */
+.prose :where(a):not(:where(.not-prose, .not-prose *)) {
+  text-decoration-color: color-mix(in oklab, var(--cui-accent-soft-foreground) 55%, transparent);
+}
+
+/* lets a page glow sit between the panel background and the content */
+#nd-page-panel {
+  isolation: isolate;
+}
+
+/* a page with a glow: the panel's top bar stays clear so the gradient isn't cut by a band */
+#nd-page-panel:has([data-page-glow]) > header {
+  background: none;
+}
+
+/* A new page's blocks rise in one after another, top to bottom (title, description, then each
+   section of the content). Only after client-side navigation, never on the first paint. */
+@keyframes cui-rise {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+    filter: blur(3px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-page-enter] [data-stagger] > * {
+    animation: cui-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  [data-page-enter] [data-stagger] > :nth-child(1) { animation-delay: 40ms; }
+  [data-page-enter] [data-stagger] > :nth-child(2) { animation-delay: 90ms; }
+  [data-page-enter] [data-stagger] > :nth-child(3) { animation-delay: 140ms; }
+  [data-page-enter] [data-stagger] > :nth-child(4) { animation-delay: 190ms; }
+  [data-page-enter] [data-stagger] > :nth-child(5) { animation-delay: 240ms; }
+  [data-page-enter] [data-stagger] > :nth-child(6) { animation-delay: 290ms; }
+  [data-page-enter] [data-stagger] > :nth-child(7) { animation-delay: 340ms; }
+  [data-page-enter] [data-stagger] > :nth-child(8) { animation-delay: 390ms; }
+  [data-page-enter] [data-stagger] > :nth-child(n + 9) { animation-delay: 440ms; }
+  /* the table of contents follows the content */
+  #nd-toc {
+    animation: cui-rise 0.6s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Code blocks: our corner shape, and the copy button centred on the first line of code (so a
+   one-line block doesn't look lopsided). The first line's centre sits 23px from the top; the
+   button is 24px tall. */
+figure.shiki {
+  --corner-shape: var(--cui-corner-shape);
+  corner-shape: var(--cui-corner-shape);
+  border-radius: var(--radius-control-lg);
+  border-color: var(--cui-border);
+}
+figure.shiki > div[class*='absolute'][class*='top-2'] {
+  top: 11px;
+}
+
+/* code inside a preview frame: no second border or corners */
+.cui-code-flush figure.shiki {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  corner-shape: round;
+  --corner-shape: round;
+  background: var(--cui-surface);
+}
+
+/* The page scroller: examples load lazily and change height on a first visit; Firefox's scroll
+   anchoring would then shift the page down. A page always starts at its top. */
+#nd-page-panel > div {
+  overflow-anchor: none;
+}

@@ -1,0 +1,131 @@
+---
+title: Breadcrumb
+description: The path from the top of the site to the current page, with a link to every level.
+---
+
+<ComponentPreview name="breadcrumb/default" />
+
+## Installation
+
+<InstallTabs component="breadcrumb" />
+
+## Usage
+
+```tsx
+import { Breadcrumb } from '@crazy-staff/ui';
+```
+
+```tsx
+<Breadcrumb
+  items={[
+    { label: 'Gothic 1', href: '/gothic-1' },
+    { label: 'Character', href: '/gothic-1/character' },
+    { label: 'God mode' },
+  ]}
+/>
+```
+
+## Examples
+
+### Custom separator
+
+Build the trail from parts and put any icon in `Breadcrumb.Separator`.
+
+<ComponentPreview name="breadcrumb/separator" />
+
+### With icons
+
+Labels can hold an icon and text.
+
+<ComponentPreview name="breadcrumb/icons" />
+
+### Collapsed
+
+For deep pages, hide the middle levels in a [Dropdown Menu](/docs/components/dropdown-menu).
+
+<ComponentPreview name="breadcrumb/collapsed" />
+
+### Router links
+
+`renderLink` turns every link into your router's link (here TanStack Router). With the parts, pass
+`render` to `Breadcrumb.Link`.
+
+```tsx
+import { Link } from '@tanstack/react-router';
+
+<Breadcrumb items={items} renderLink={(item) => <Link to={item.href} />} />
+
+<Breadcrumb.Link render={<Link to="/docs" />}>Docs</Breadcrumb.Link>
+```
+
+## Accessibility
+
+- Renders a `<nav aria-label="Breadcrumb">` with an ordered list, so screen readers announce the trail and
+  its length.
+- The last item is the current page: `aria-current="page"`, not a link.
+- Separators are `aria-hidden` and `role="presentation"`.
+- A button that reveals hidden levels needs an `aria-label` (“More pages”).
+
+## API Reference
+
+### Breadcrumb
+
+The one-line form. Every item except the last is a link (when it has `href`). Other props go to the `<nav>`.
+
+<TypeTable
+  type={{
+    items: { description: 'The levels, top first. The last one is the current page.', type: '{ label: ReactNode; href?: string }[]' },
+    renderLink: {
+      description: 'Renders a level as your router’s link: `(item) => <Link to={item.href} />`.',
+      type: '(item) => ReactElement',
+    },
+    className: { description: 'Classes for the `<nav>`, merged last.', type: 'string' },
+  }}
+/>
+
+### Breadcrumb.Root
+
+The landmark. Renders a `<nav aria-label="Breadcrumb">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Breadcrumb.List
+
+The trail. Renders an `<ol>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Breadcrumb.Item
+
+One level. Renders an `<li>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Breadcrumb.Link
+
+A link to a level. Renders an `<a>`.
+
+<TypeTable
+  type={{
+    href: { description: 'Where it goes.', type: 'string' },
+    render: { description: 'Render a router link instead of `<a>`.', type: 'ReactElement | (props) => ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Breadcrumb.Page
+
+The current page. Renders a `<span aria-current="page">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Breadcrumb.Separator
+
+The mark between levels. Renders an `<li aria-hidden>` with a chevron, or your children.
+
+<TypeTable
+  type={{
+    children: { description: 'Replaces the chevron.', type: 'ReactNode' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

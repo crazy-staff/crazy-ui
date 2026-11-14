@@ -1,0 +1,116 @@
+---
+title: Collapsible
+description: Shows and hides one region — advanced options, a changelog, hidden replies.
+---
+
+<ComponentPreview name="collapsible/default" />
+
+## Installation
+
+<InstallTabs component="collapsible" />
+
+## Usage
+
+```tsx
+import { Collapsible } from '@crazy-staff/ui';
+```
+
+```tsx
+<Collapsible title="Advanced options">
+  <AdvancedOptions />
+</Collapsible>
+```
+
+## Examples
+
+### Open by default
+
+`defaultOpen` starts it open. The panel height animates either way.
+
+<ComponentPreview name="collapsible/default-open" />
+
+### Compound parts
+
+Build it from `Collapsible.Root`, `Collapsible.Trigger` and `Collapsible.Panel` to put anything in the
+trigger. Pass `chevron={false}` to hide the rotating arrow.
+
+<ComponentPreview name="collapsible/compound" />
+
+### Custom trigger
+
+The trigger can be an icon button somewhere else in the layout; give it an `aria-label`.
+
+<ComponentPreview name="collapsible/custom-trigger" />
+
+### Controlled
+
+Pass `open` and `onOpenChange` to open it from outside.
+
+<ComponentPreview name="collapsible/controlled" />
+
+For several sections where only one should be open, use [Accordion](/docs/components/accordion).
+
+## Accessibility
+
+- Built on Base UI Collapsible: the trigger is a `<button>` with `aria-expanded` and `aria-controls`
+  pointing at the panel.
+- <kbd>Enter</kbd> and <kbd>Space</kbd> toggle it.
+- The chevron is decorative (`aria-hidden`). A trigger without text needs an `aria-label`.
+- The height animation turns off with `prefers-reduced-motion`.
+
+## API Reference
+
+### Collapsible
+
+The one-line form: a trigger with a chevron and the panel with `children`. Other props go to
+`Collapsible.Root`.
+
+<TypeTable
+  type={{
+    title: { description: 'The text of the trigger.', type: 'ReactNode' },
+    children: { description: 'The content of the panel.', type: 'ReactNode' },
+    classNames: { description: 'Classes per part.', type: '{ trigger?: string; panel?: string }' },
+  }}
+/>
+
+### Collapsible.Root
+
+Holds the open state. Renders a `<div>`; Base UI `Collapsible.Root` props pass through.
+
+<TypeTable
+  type={{
+    open: { description: 'Whether it is open, when controlled.', type: 'boolean' },
+    defaultOpen: { description: 'Whether it is open at first, when uncontrolled.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
+    disabled: { description: 'The trigger does nothing.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+  }}
+/>
+
+### Collapsible.Trigger
+
+The button that toggles the panel. Renders a `<button>`.
+
+<TypeTable
+  type={{
+    chevron: { description: 'Show the chevron before the label; it turns when open.', type: 'boolean', default: 'true' },
+    render: { description: 'Render another element (e.g. your own button) in its place.', type: 'ReactElement | (props) => ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Collapsible.Panel
+
+The region that opens and closes. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    keepMounted: { description: 'Keep the content in the DOM while closed.', type: 'boolean', default: 'false' },
+    hiddenUntilFound: {
+      description: 'The browser’s find-in-page can search the closed content and opens it on a match.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

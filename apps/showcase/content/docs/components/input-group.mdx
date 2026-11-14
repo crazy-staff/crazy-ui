@@ -1,0 +1,109 @@
+---
+title: Input Group
+description: An input with icons, text or small buttons before and after it, in one frame.
+---
+
+<ComponentPreview name="input-group/default" />
+
+## Installation
+
+<InstallTabs component="input-group" />
+
+## Usage
+
+```tsx
+import { InputGroup } from '@crazy-staff/ui';
+```
+
+```tsx
+<InputGroup start={<Search />} placeholder="Search the docs…" />
+```
+
+## Examples
+
+### Text add-ons
+
+`start` and `end` take text too: a URL prefix, a unit.
+
+<ComponentPreview name="input-group/text" />
+
+### With a button
+
+Put a small ghost [Button](/docs/components/button) in `end` and trim the end padding with `className`.
+
+<ComponentPreview name="input-group/button" />
+
+### Password
+
+A button that shows and hides the password.
+
+<ComponentPreview name="input-group/password" />
+
+### Sizes
+
+`sm`, `md` (default) and `lg`, matching [Input](/docs/components/input).
+
+<ComponentPreview name="input-group/sizes" />
+
+### Disabled and invalid
+
+`disabled` dims the whole frame. Inside an invalid [Field](/docs/components/field), the frame's border turns
+red.
+
+<ComponentPreview name="input-group/states" />
+
+### Compound parts
+
+`InputGroup.Root`, `InputGroup.Addon` and `InputGroup.Input` let you place any number of add-ons.
+
+<ComponentPreview name="input-group/compound" />
+
+## Accessibility
+
+- The input is a native `<input>`; the add-ons are plain text next to it. Name the input with `aria-label`, a
+  `Label` or a `Field`, since an icon or a prefix doesn't name it.
+- Buttons in an add-on need their own `aria-label` when they only show an icon.
+- The frame takes the focus border while the input inside is focused.
+
+## API Reference
+
+### InputGroup
+
+The short form: a frame with optional add-ons around the input. Other props (`placeholder`, `value`, `type`,
+`disabled`, `readOnly`…) go to the input.
+
+<TypeTable
+  type={{
+    start: { description: 'Icon, text or control before the input.', type: 'ReactNode' },
+    end: { description: 'Icon, text or control after the input.', type: 'ReactNode' },
+    size: { description: 'Height, padding and radius of the frame.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes for the frame, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?: string; input?: string; start?: string; end?: string }',
+    },
+  }}
+/>
+
+### InputGroup.Root
+
+The frame. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    size: { description: 'Height, padding and radius.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### InputGroup.Input
+
+The borderless input inside the frame. A Base UI `Input`; native input props pass through.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### InputGroup.Addon
+
+An icon, text or control next to the input, in the muted colour. Renders a `<span>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

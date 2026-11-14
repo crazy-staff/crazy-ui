@@ -1,0 +1,100 @@
+---
+title: Textarea
+description: A multi-line text field for bug reports, comments and post descriptions.
+---
+
+<ComponentPreview name="textarea/default" />
+
+## Installation
+
+<InstallTabs component="textarea" />
+
+## Usage
+
+```tsx
+import { Textarea } from '@crazy-staff/ui';
+```
+
+```tsx
+<Textarea placeholder="What happened?" />
+```
+
+## Examples
+
+### Resize
+
+The native resize handle is off: with squircle corners, Firefox and Safari drew stray lines around it. A small
+grip of our own sits in the bottom-right corner instead. Drag it, or focus it and press <Kbd>↑</Kbd> /
+<Kbd>↓</Kbd> (with <Kbd>Shift</Kbd> for bigger steps). `resize="none"` removes it.
+
+<ComponentPreview name="textarea/resize" />
+
+### Auto resize
+
+`autoResize` grows (and shrinks) the field with its content. Cap it with a `max-h-*` class; past that it
+scrolls. Dragging the grip sets a minimum height it won't shrink below.
+
+<ComponentPreview name="textarea/auto-resize" />
+
+### Rows
+
+`rows` sets the starting height. The default minimum is about four lines; add `min-h-0` for fewer.
+
+<ComponentPreview name="textarea/rows" />
+
+### Disabled and read-only
+
+A disabled textarea has no grip. A read-only one sits on a slightly darker fill.
+
+<ComponentPreview name="textarea/disabled" />
+
+### In a field
+
+Pass the textarea to `Field.Control` as `render`. The field then links the label and description, and
+validates the value (here: required, checked on blur).
+
+<ComponentPreview name="textarea/field" />
+
+### Controlled
+
+Use `value` and `onChange` like a native textarea, for example to count characters.
+
+<ComponentPreview name="textarea/controlled" />
+
+## Accessibility
+
+- Renders a native `<textarea>`; name it with a label, a `Field` or `aria-label`.
+- The grip is a focusable `role="separator"` named “Resize”: <Kbd>↑</Kbd> and <Kbd>↓</Kbd> change the height by
+  16px, <Kbd>Shift</Kbd> by 64px, <Kbd>Home</Kbd> goes back to the minimum. Its `aria-valuenow` is the height in
+  pixels.
+- No shadow and no ring: focus shows on the border (squircle polyfill rule).
+
+## API Reference
+
+### Textarea
+
+A `<textarea>` in a wrapper `<div>` that also holds the grip. Native textarea props (`rows`, `value`,
+`onChange`, `placeholder`, `maxLength`…) go to the `<textarea>`, and so does `ref`.
+
+<TypeTable
+  type={{
+    resize: {
+      description: 'Show the resize grip (`vertical`) or not (`none`).',
+      type: "'vertical' | 'none'",
+      default: "'vertical'",
+    },
+    autoResize: {
+      description: 'Grow and shrink with the content. Cap it with `max-h-*`.',
+      type: 'boolean',
+      default: 'false',
+    },
+    rows: { description: 'Starting height in lines.', type: 'number' },
+    disabled: { description: 'Dims it, blocks input and hides the grip.', type: 'boolean', default: 'false' },
+    readOnly: { description: 'Selectable but not editable.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the `<textarea>`, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot: the wrapper, the textarea and the grip.',
+      type: '{ root?: string; textarea?: string; grip?: string }',
+    },
+  }}
+/>

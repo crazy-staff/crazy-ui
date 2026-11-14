@@ -1,0 +1,136 @@
+---
+title: Toggle Group
+description: A row of toggles — a segmented control that picks one, or a toolbar that turns several on.
+---
+
+<ComponentPreview name="toggle-group/default" />
+
+## Installation
+
+<InstallTabs component="toggle-group" />
+
+## Usage
+
+```tsx
+import { ToggleGroup } from '@crazy-staff/ui';
+```
+
+```tsx
+<ToggleGroup
+  defaultValue={['planned']}
+  items={[
+    { value: 'planned', label: 'Planned' },
+    { value: 'done', label: 'Done' },
+  ]}
+/>
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg`. Items have the height of a [Toggle](/docs/components/toggle) of the same size;
+the frame adds a little padding around them.
+
+<ComponentPreview name="toggle-group/sizes" />
+
+### Multiple
+
+With `multiple`, any number of items can be pressed, each on its own soft accent fill. Here built from
+`ToggleGroup.Item` children.
+
+<ComponentPreview name="toggle-group/multiple" />
+
+### Icons
+
+`iconOnly` makes every item square. Name each one with `aria-label`.
+
+<ComponentPreview name="toggle-group/icons" />
+
+### Without a frame
+
+`variant="ghost"` drops the border and padding, for toolbars that already sit in a frame.
+
+<ComponentPreview name="toggle-group/ghost" />
+
+### Vertical
+
+`orientation="vertical"` stacks the items; arrow keys follow.
+
+<ComponentPreview name="toggle-group/vertical" />
+
+### Full width
+
+Stretch the group with `className` and let the items share the width with `classNames.item`.
+
+<ComponentPreview name="toggle-group/full-width" />
+
+### Disabled
+
+Disable one item in `items`, or the whole group with `disabled`.
+
+<ComponentPreview name="toggle-group/disabled" />
+
+### Controlled
+
+The value is always an array. To keep one item pressed at all times, ignore empty changes.
+
+<ComponentPreview name="toggle-group/controlled" />
+
+## Accessibility
+
+- Renders a `<div role="group">` of `<button>`s with `aria-pressed`. Name the group with `aria-label`.
+- <Kbd>Tab</Kbd> moves into the group, arrow keys move between items, <Kbd>Space</Kbd>/<Kbd>Enter</Kbd> press.
+- The gliding fill is decorative (`aria-hidden`) and animates only `transform`; with reduced motion it jumps.
+- If the items switch between panels of content, use [Tabs](/docs/components/tabs) instead.
+
+## API Reference
+
+### ToggleGroup
+
+A styled Base UI `ToggleGroup`. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Short form: the options. Or pass `ToggleGroup.Item` children.',
+      type: "{ value: string; label: ReactNode; disabled?: boolean; 'aria-label'?: string }[]",
+    },
+    value: { description: 'The pressed values (controlled).', type: 'string[]' },
+    defaultValue: { description: 'The pressed values at first (uncontrolled).', type: 'string[]' },
+    onValueChange: { description: 'Called with the new array.', type: '(value: string[], details) => void' },
+    multiple: {
+      description: 'Let several items be pressed. Off: pressing one releases the others and the fill glides.',
+      type: 'boolean',
+      default: 'false',
+    },
+    size: { description: 'Height, padding and radius of the items.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    variant: {
+      description: '`outline` draws a thin frame around the items; `ghost` has none.',
+      type: "'outline' | 'ghost'",
+      default: "'outline'",
+    },
+    iconOnly: { description: 'Square items for icons.', type: 'boolean', default: 'false' },
+    orientation: { description: 'Layout and arrow-key direction.', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    loopFocus: { description: 'Arrow keys wrap from the last item to the first.', type: 'boolean', default: 'true' },
+    disabled: { description: 'Disables every item.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot; `item` and `indicator` apply to every item.',
+      type: '{ root?: string; item?: string; indicator?: string }',
+    },
+  }}
+/>
+
+### ToggleGroup.Item
+
+One toggle in the group. Renders a `<button>` with the soft accent fill behind it while pressed. Base UI `Toggle`
+props pass through.
+
+<TypeTable
+  type={{
+    value: { description: 'The value it adds to the group while pressed.', type: 'string' },
+    disabled: { description: 'Disables this item.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

@@ -1,0 +1,99 @@
+---
+title: Date Picker
+description: A field that opens a calendar in a popover — styled like Input, for one date or a range.
+---
+
+<ComponentPreview name="date-picker/default" />
+
+## Installation
+
+<InstallTabs component="date-picker" />
+
+## Usage
+
+```tsx
+import { DatePicker } from '@crazy-staff/ui';
+```
+
+```tsx
+const [date, setDate] = useState<Date | null>(null);
+
+<DatePicker value={date} onValueChange={setDate} placeholder="Release date" />
+```
+
+## Examples
+
+### Range
+
+`mode="range"` picks two days. The popover closes once both ends are set, and the trigger shows the range
+formatted with `Intl.DateTimeFormat.formatRange` (`Nov 3 – 9, 2026`).
+
+<ComponentPreview name="date-picker/range" />
+
+### Sizes
+
+`sm`, `md` (default) and `lg` match the sizes of Input.
+
+<ComponentPreview name="date-picker/sizes" />
+
+### In a form
+
+With `name`, the value is submitted as `YYYY-MM-DD` (a range as `name[from]` and `name[to]`).
+`formatOptions` changes how the trigger shows the date; `min`, `max`, `disabledDates`, `locale` and
+`weekStartsOn` go to the calendar. `disabled` locks the trigger.
+
+<ComponentPreview name="date-picker/form" />
+
+## Accessibility
+
+- The trigger is a button; its name is the shown date or the placeholder. Label it with `aria-label`,
+  `aria-labelledby` or an `id` referenced by a label.
+- Opening moves focus to the picked day (or today) inside the calendar; **Esc** closes and returns focus
+  to the trigger. All [Calendar](/docs/components/calendar) keys work inside.
+
+## API Reference
+
+### DatePicker
+
+Renders a trigger button and a [Popover](/docs/components/popover) with a
+[Calendar](/docs/components/calendar).
+
+<TypeTable
+  type={{
+    mode: { description: 'Pick one day or a range.', type: "'single' | 'range'", default: "'single'" },
+    value: { description: 'The picked day or range. Controlled.', type: 'Date | null | DateRange' },
+    defaultValue: { description: 'The value at start, when uncontrolled.', type: 'Date | null | DateRange' },
+    onValueChange: { description: 'Called with the new day or range.', type: '(value) => void' },
+    placeholder: {
+      description: 'Shown while nothing is picked.',
+      type: 'ReactNode',
+      default: "'Pick a date' / 'Pick a range'",
+    },
+    formatOptions: {
+      description: 'How the trigger shows the value.',
+      type: 'Intl.DateTimeFormatOptions',
+      default: "{ dateStyle: 'medium' }",
+    },
+    size: { description: 'Height and padding, like Input.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    disabled: { description: 'Disable the trigger.', type: 'boolean', default: 'false' },
+    name: { description: 'Submit the value with a form as `YYYY-MM-DD`.', type: 'string' },
+    open: { description: 'Whether the popover is open. Controlled.', type: 'boolean' },
+    defaultOpen: { description: 'Open at start.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when the popover opens or closes.', type: '(open: boolean) => void' },
+    side: { description: 'Where the popover opens.', type: "'top' | 'bottom' | 'left' | 'right'", default: "'bottom'" },
+    align: { description: 'Alignment to the trigger.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    min: { description: 'Passed to Calendar.', type: 'Date' },
+    max: { description: 'Passed to Calendar.', type: 'Date' },
+    disabledDates: { description: 'Passed to Calendar.', type: 'Date[] | ((date: Date) => boolean)' },
+    locale: { description: 'Locale for the calendar and the trigger text.', type: 'string', default: "'en'" },
+    weekStartsOn: { description: 'Passed to Calendar.', type: '0 | 1 | 2 | 3 | 4 | 5 | 6', default: '1' },
+    numberOfMonths: { description: 'Passed to Calendar.', type: 'number', default: '1' },
+    showOutsideDays: { description: 'Passed to Calendar.', type: 'boolean', default: 'true' },
+    id: { description: 'Id of the trigger, for a `<label htmlFor>`.', type: 'string' },
+    className: { description: 'Classes for the trigger, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ trigger?; value?; placeholder?; icon?; popup?; calendar? }',
+    },
+  }}
+/>

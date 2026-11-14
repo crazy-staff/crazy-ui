@@ -1,0 +1,180 @@
+---
+title: Select
+description: Pick one value from a list in a popup — a game, a renderer, a sort order.
+---
+
+<ComponentPreview name="select/default" />
+
+## Installation
+
+<InstallTabs component="select" />
+
+## Usage
+
+```tsx
+import { Select } from '@crazy-staff/ui';
+```
+
+```tsx
+<Select
+  placeholder="Pick a game"
+  items={[
+    { value: 'g1', label: 'Gothic 1' },
+    { value: 'g2', label: 'Gothic 2' },
+  ]}
+/>
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg`, matching [Input](/docs/components/input).
+
+<ComponentPreview name="select/sizes" />
+
+### Groups
+
+Build the select from parts to add group labels and separators. Give `Select.Root` an `items` map
+(value → label) so the trigger can show the label of the picked value.
+
+<ComponentPreview name="select/groups" />
+
+### Disabled
+
+Disable single options with `disabled` in `items`, or the whole select with `disabled`.
+
+<ComponentPreview name="select/disabled" />
+
+### Controlled
+
+<ComponentPreview name="select/controlled" />
+
+### In a field
+
+Inside a [Field](/docs/components/field), the label names the trigger and the description and error are linked.
+With `required` and `validationMode="onBlur"`, closing it empty shows the error.
+
+<ComponentPreview name="select/field" />
+
+## Accessibility
+
+- The trigger is a `role="combobox"` button; the popup is a `role="listbox"` with `role="option"` items.
+- <Kbd>Enter</Kbd>, <Kbd>Space</Kbd> or <Kbd>↓</Kbd> open it; arrow keys move, typing jumps to a match,
+  <Kbd>Enter</Kbd> picks and <Kbd>Esc</Kbd> closes.
+- Name it with a `Field` label, `<Label htmlFor>` (with `id`), or `aria-label`.
+- A hidden input carries the value for native forms (`name`, `required`).
+
+## API Reference
+
+### Select
+
+The short form: trigger, value and popup with one item per entry of `items`.
+
+<TypeTable
+  type={{
+    items: {
+      description: 'The options.',
+      type: '{ value: string; label: ReactNode; disabled?: boolean }[]',
+    },
+    placeholder: { description: 'Shown in the trigger while nothing is picked.', type: 'ReactNode' },
+    size: { description: 'Height, padding and radius of the trigger.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    value: { description: 'The picked value (controlled).', type: 'string | null' },
+    defaultValue: { description: 'The value picked at first (uncontrolled).', type: 'string | null' },
+    onValueChange: { description: 'Called with the new value.', type: '(value: string | null) => void' },
+    onOpenChange: { description: 'Called when the popup opens or closes.', type: '(open: boolean) => void' },
+    disabled: { description: 'Turns the whole select off.', type: 'boolean', default: 'false' },
+    readOnly: { description: 'Shows the value but blocks changes.', type: 'boolean', default: 'false' },
+    required: { description: 'A value must be picked before the form submits.', type: 'boolean', default: 'false' },
+    name: { description: 'Field name for native form submission.', type: 'string' },
+    id: { description: 'Id of the trigger, for an external `<Label htmlFor>`.', type: 'string' },
+    className: { description: 'Classes for the trigger, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ trigger?: string; popup?: string; item?: string }' },
+  }}
+/>
+
+### Select.Root
+
+Holds the state. Renders no element. This is Base UI's `Select.Root`; all its props apply (`items`, `value`,
+`defaultValue`, `onValueChange`, `open`, `onOpenChange`, `multiple`, `name`, `required`, `disabled`…).
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Labels for the values, so the trigger can show the picked one.',
+      type: 'Record<string, ReactNode> | { value; label }[]',
+    },
+    value: { description: 'The picked value (controlled).', type: 'unknown' },
+    defaultValue: { description: 'The value picked at first (uncontrolled).', type: 'unknown' },
+    onValueChange: { description: 'Called with the new value.', type: '(value, details) => void' },
+    multiple: { description: 'Allow several values (the value becomes an array).', type: 'boolean', default: 'false' },
+  }}
+/>
+
+### Select.Trigger
+
+The button that opens the popup, with the chevron icon. Renders a `<button>`.
+
+<TypeTable
+  type={{
+    size: { description: 'Height, padding and radius.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Select.Value
+
+The picked label (or the placeholder) inside the trigger. Renders a `<span>`.
+
+<TypeTable
+  type={{
+    placeholder: { description: 'Shown while nothing is picked.', type: 'ReactNode' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Select.Content
+
+The popup: portal, positioner, popup and list in one.
+
+<TypeTable
+  type={{
+    sideOffset: { description: 'Gap between the trigger and the popup, in pixels.', type: 'number', default: '6' },
+    alignItemWithTrigger: {
+      description: 'Place the picked item over the trigger (macOS style) instead of below it.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: { description: 'Classes for the popup, merged last.', type: 'string' },
+  }}
+/>
+
+### Select.Item
+
+One option, with a tick when picked. Renders a `<div role="option">`.
+
+<TypeTable
+  type={{
+    value: { description: 'The value this option stands for.', type: 'unknown' },
+    disabled: { description: 'Makes it impossible to pick.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Select.Group
+
+Groups items under a `Select.GroupLabel`. Renders a `<div role="group">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Select.GroupLabel
+
+The small muted heading of a group. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Select.Separator
+
+A thin line between groups. Renders a `<div role="separator">`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

@@ -1,0 +1,82 @@
+---
+title: Toggle
+description: A button that stays pressed — pin a post, show hidden items, bold text.
+---
+
+<ComponentPreview name="toggle/default" />
+
+## Installation
+
+<InstallTabs component="toggle" />
+
+## Usage
+
+```tsx
+import { Toggle } from '@crazy-staff/ui';
+```
+
+```tsx
+<Toggle>Pin to roadmap</Toggle>
+```
+
+## Examples
+
+### Variants
+
+`ghost` (default) has no frame until it's pressed; `outline` has a border. Pressed, both sit on the soft accent
+fill.
+
+<ComponentPreview name="toggle/variants" />
+
+### Sizes
+
+`sm`, `md` (default) and `lg` for text, and `icon-sm`, `icon`, `icon-lg` for square icon toggles.
+
+<ComponentPreview name="toggle/sizes" />
+
+### Icon only
+
+Name an icon-only toggle with `aria-label`. For a set of them, see [Toggle Group](/docs/components/toggle-group).
+
+<ComponentPreview name="toggle/icon" />
+
+### Disabled
+
+<ComponentPreview name="toggle/disabled" />
+
+### Controlled
+
+`pressed` and `onPressedChange` — here an upvote on a crazy-hub post.
+
+<ComponentPreview name="toggle/controlled" />
+
+## Accessibility
+
+- Renders a `<button>` with `aria-pressed`. <Kbd>Space</Kbd> and <Kbd>Enter</Kbd> toggle it.
+- Keep the label the same in both states (“Pin”, not “Pin” / “Unpin”): `aria-pressed` already says whether it
+  is on.
+- The focus outline is drawn outside the button with `outline`, not a ring, so the squircle polyfill doesn't
+  fill a transparent toggle.
+
+## API Reference
+
+### Toggle
+
+A styled Base UI `Toggle`. Renders a `<button>`; native button props pass through.
+
+<TypeTable
+  type={{
+    variant: { description: 'Frame of the unpressed toggle.', type: "'ghost' | 'outline'", default: "'ghost'" },
+    size: {
+      description: 'Height, padding and radius; the `icon` sizes are square.',
+      type: "'sm' | 'md' | 'lg' | 'icon-sm' | 'icon' | 'icon-lg'",
+      default: "'md'",
+    },
+    pressed: { description: 'Whether it is pressed (controlled).', type: 'boolean' },
+    defaultPressed: { description: 'Whether it is pressed at first (uncontrolled).', type: 'boolean', default: 'false' },
+    onPressedChange: { description: 'Called when it is pressed or released.', type: '(pressed: boolean, details) => void' },
+    disabled: { description: 'Dims it and blocks interaction.', type: 'boolean', default: 'false' },
+    value: { description: 'Its value inside a Base UI toggle group.', type: 'string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

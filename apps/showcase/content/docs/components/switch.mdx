@@ -1,0 +1,94 @@
+---
+title: Switch
+description: An on/off switch for settings that apply right away — a trainer feature, a notification.
+---
+
+<ComponentPreview name="switch/default" />
+
+## Installation
+
+<InstallTabs component="switch" />
+
+## Usage
+
+```tsx
+import { Switch } from '@crazy-staff/ui';
+```
+
+```tsx
+<Switch label="God mode" defaultChecked />
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg`. The thumb glides with a soft spring; with reduced motion it jumps.
+
+<ComponentPreview name="switch/sizes" />
+
+### Settings list
+
+With `label` and `description`, the switch sits at the end of a row and the whole row is clickable, like a
+settings page.
+
+<ComponentPreview name="switch/settings-list" />
+
+### Disabled
+
+<ComponentPreview name="switch/disabled" />
+
+### Controlled
+
+Pass `checked` and `onCheckedChange` to keep the state yourself.
+
+<ComponentPreview name="switch/controlled" />
+
+### Without a label
+
+Leave out `label` to get the bare switch. Name it with `aria-label` or `aria-labelledby`.
+
+<ComponentPreview name="switch/bare" />
+
+### In a field
+
+Inside a [Field](/docs/components/field), the field's description and error are linked to the switch.
+
+<ComponentPreview name="switch/field" />
+
+## Accessibility
+
+- Renders a `<button role="switch">` with `aria-checked`, plus a hidden checkbox input for forms.
+- <Kbd>Space</Kbd> and <Kbd>Enter</Kbd> toggle it.
+- With `label`, the row is a `<label>`, so clicking the text toggles the switch and the text is its name.
+  Without it, add `aria-label` or `aria-labelledby`.
+- Use a switch for settings that apply at once. For a choice that is only saved on submit, a
+  [Checkbox](/docs/components/checkbox) reads better.
+
+## API Reference
+
+### Switch
+
+A styled Base UI `Switch.Root` with its `Switch.Thumb`. Base UI props pass through: `checked`,
+`defaultChecked`, `onCheckedChange`, `disabled`, `readOnly`, `required`, `name`, `value`, `inputRef`.
+
+<TypeTable
+  type={{
+    size: { description: 'Size of the track and thumb.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    label: { description: 'Text before the switch; the whole row becomes clickable.', type: 'ReactNode' },
+    description: { description: 'A muted line under the label.', type: 'ReactNode' },
+    checked: { description: 'Whether it is on (controlled).', type: 'boolean' },
+    defaultChecked: { description: 'Whether it is on at first (uncontrolled).', type: 'boolean', default: 'false' },
+    onCheckedChange: { description: 'Called when it flips.', type: '(checked: boolean, details) => void' },
+    disabled: { description: 'Dims it and blocks interaction.', type: 'boolean', default: 'false' },
+    name: { description: 'Field name for native form submission.', type: 'string' },
+    className: {
+      description: 'Classes for the row (or the switch, without a label), merged last.',
+      type: 'string',
+    },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ root?: string; thumb?: string; label?: string; description?: string }',
+    },
+  }}
+/>

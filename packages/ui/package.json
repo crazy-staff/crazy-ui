@@ -1,0 +1,82 @@
+{
+  "name": "@crazy-staff/ui",
+  "version": "0.2.0",
+  "description": "The design system of crazy-staff: React components on Base UI, Tailwind CSS 4 and tailwind-variants.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazy-staff/crazy-ui.git",
+    "directory": "packages/ui"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles/theme.css",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./theme.css": "./src/styles/theme.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "@base-ui/react": "1.9.0",
+    "@tanstack/charts": "1.5.0",
+    "@tanstack/react-charts": "1.5.0",
+    "@tanstack/react-table": "9.3.1",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "8.6.0",
+    "hyperellipse": "1.0.5",
+    "lucide-react": "^1.72.0",
+    "motion": "^14.13.0",
+    "react-resizable-panels": "^4.21.0",
+    "shiki": "4.6.0",
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^4.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.10",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^31.0.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "tsdown": "^0.23.7",
+    "typescript": "7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "homepage": "https://github.com/crazy-staff/crazy-ui#readme",
+  "keywords": [
+    "react",
+    "design-system",
+    "components",
+    "base-ui",
+    "tailwindcss",
+    "crazy-staff"
+  ]
+}

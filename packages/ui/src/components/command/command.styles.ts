@@ -1,0 +1,55 @@
+import { tv } from '../../lib/tv';
+import { backdropStyles, popupSurface } from '../popover/popover.styles';
+
+export const commandStyles = tv({
+  slots: {
+    root: 'squircle flex w-full flex-col overflow-hidden rounded-card border border-border bg-popover text-foreground',
+    inputWrap: 'flex shrink-0 items-center gap-2.5 border-b border-border px-4 text-muted [&>svg]:size-4 [&>svg]:shrink-0',
+    input: 'h-12 min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted',
+    list: 'max-h-80 overflow-y-auto overscroll-contain p-1.5 scroll-py-1.5 outline-none empty:hidden',
+    empty: 'px-4 py-10 text-center text-sm text-muted empty:p-0',
+    loading: 'flex items-center justify-center gap-2.5 px-4 py-10 text-sm text-muted',
+    group: 'not-last:mb-1',
+    groupLabel: 'px-2.5 pt-2 pb-1 text-xs font-medium text-muted select-none',
+    item: [
+      'squircle flex min-h-9 cursor-default items-center gap-2.5 rounded-item px-2.5 py-1.5 text-sm outline-none select-none',
+      'scroll-my-1.5 data-[highlighted]:bg-hover data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      '[&_svg]:size-4 [&_svg]:shrink-0 [&>svg]:text-muted',
+    ],
+    itemContent: 'flex min-w-0 flex-1 flex-col gap-0.5 py-0.5',
+    itemBreadcrumbs: 'flex min-w-0 items-center gap-1 text-xs text-muted [&>svg]:size-3! [&>svg]:shrink-0 [&>span]:truncate',
+    itemTitle: 'truncate text-sm text-foreground',
+    itemDescription: 'line-clamp-2 text-xs text-muted',
+    highlight: 'bg-accent-soft text-accent-soft-foreground',
+    jump: 'text-muted',
+    jumpTarget: 'font-medium text-foreground',
+    jumpKey: 'invisible ms-auto ps-4 in-data-[highlighted]:visible',
+    shortcut: 'ms-auto ps-4',
+    separator: 'mx-1 my-1.5 h-px bg-border',
+    footer: 'flex shrink-0 items-center justify-end gap-4 border-t border-border px-4 py-2.5 text-xs text-muted [&>span]:inline-flex [&>span]:items-center [&>span]:gap-1.5',
+    hint: 'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap',
+    filters: 'flex min-w-0 flex-1 items-start gap-2',
+    filterList: 'flex min-w-0 flex-1 flex-wrap items-center gap-1',
+    filterTrigger: [
+      'squircle inline-flex h-7 max-w-full items-center gap-1.5 rounded-chip border border-transparent px-2 text-xs text-muted outline-none',
+      'transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:bg-hover hover:text-foreground',
+      'focus-visible:border-ring data-[popup-open]:bg-hover data-[popup-open]:text-foreground [&>svg]:size-3.5 [&>svg]:shrink-0',
+    ],
+    filterTriggerActive: 'bg-accent-soft text-accent-soft-foreground hover:bg-accent-soft hover:text-accent-soft-foreground data-[popup-open]:bg-accent-soft data-[popup-open]:text-accent-soft-foreground',
+    filterLabel: 'opacity-75',
+    filterValue: 'truncate font-medium',
+    filterOption: 'flex min-w-0 flex-col',
+    filterOptionDescription: 'text-xs text-muted',
+    clear: [
+      'squircle inline-flex h-7 shrink-0 items-center gap-1.5 rounded-chip border border-transparent px-2 text-xs whitespace-nowrap text-muted outline-none',
+      'transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:bg-hover hover:text-foreground focus-visible:border-ring [&>svg]:size-3.5',
+    ],
+    backdrop: backdropStyles,
+    dialog: [
+      popupSurface,
+      'fixed top-[12vh] left-1/2 z-50 flex max-h-[76vh] w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 flex-col overflow-hidden rounded-card',
+      'origin-top transition-[opacity,scale] duration-[var(--cui-duration-normal)] ease-ui',
+      'data-[starting-style]:scale-96 data-[starting-style]:opacity-0 data-[ending-style]:scale-96 data-[ending-style]:opacity-0',
+    ],
+  },
+});

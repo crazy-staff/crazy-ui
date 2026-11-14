@@ -1,0 +1,65 @@
+---
+title: Label
+description: The visible name of a form control, linked to it with htmlFor.
+---
+
+<ComponentPreview name="label/default" />
+
+## Installation
+
+<InstallTabs component="label" />
+
+## Usage
+
+```tsx
+import { Input, Label } from '@crazy-staff/ui';
+```
+
+```tsx
+<Label htmlFor="hero-name">Hero name</Label>
+<Input id="hero-name" />
+```
+
+## Examples
+
+### Required
+
+`required` adds a red asterisk. It is only a visual hint: put `required` on the control too, so the browser and
+screen readers know.
+
+<ComponentPreview name="label/required" />
+
+### Wrapping a control
+
+A label can wrap its control instead of using `htmlFor`. [Checkbox](/docs/components/checkbox) and
+[Switch](/docs/components/switch) do this for you with their `label` prop.
+
+<ComponentPreview name="label/wrapping" />
+
+### Disabled
+
+`disabled` dims the label to match a disabled control.
+
+<ComponentPreview name="label/disabled" />
+
+## Accessibility
+
+- Renders a native `<label>`: clicking it focuses (or toggles) the control, and its text becomes the control's
+  accessible name.
+- Inside a [Field](/docs/components/field), use `Field.Label` instead: it links to the control without ids.
+- The asterisk of `required` is `aria-hidden`; the control's own `required` is what assistive tech announces.
+
+## API Reference
+
+### Label
+
+Renders a `<label>`; all native label props pass through.
+
+<TypeTable
+  type={{
+    htmlFor: { description: 'The `id` of the control it names.', type: 'string' },
+    required: { description: 'Adds a red asterisk after the text.', type: 'boolean', default: 'false' },
+    disabled: { description: 'Dims the label (sets `data-disabled`).', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

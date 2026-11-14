@@ -1,0 +1,126 @@
+---
+title: Button
+description: The main action control. Radius follows size, so small buttons never become pills.
+---
+
+<ComponentPreview name="button/default" />
+
+## Installation
+
+<InstallTabs component="button" />
+
+## Usage
+
+```tsx
+import { Button } from '@crazy-staff/ui';
+```
+
+```tsx
+<Button>Apply changes</Button>
+```
+
+## Examples
+
+### Variants
+
+`solid` (default) for the main action, `soft` for a secondary one that still carries the accent, `outline` and
+`ghost` for quiet actions, `danger` for anything that deletes or resets.
+
+<ComponentPreview name="button/variants" />
+
+### Sizes
+
+`sm`, `md` (default) and `lg`. Height comes from the density token and the radius shrinks with the size.
+
+<ComponentPreview name="button/sizes" />
+
+### With an icon
+
+Put a lucide icon before or after the label; it is sized for you.
+
+<ComponentPreview name="button/with-icon" />
+
+### Icon only
+
+`size="icon"` and `size="icon-sm"` make a square button. Always give it an `aria-label`.
+
+<ComponentPreview name="button/icon" />
+
+### Glow
+
+`glow` adds a soft accent shadow under the button. It is off by default — keep it for the one main action on a
+screen.
+
+<ComponentPreview name="button/glow" />
+
+### Disabled
+
+A disabled button fades out and ignores clicks.
+
+<ComponentPreview name="button/disabled" />
+
+### Loading
+
+Disable the button while the action runs and swap the icon for a `Spinner`. `aria-busy` tells screen readers
+something is happening.
+
+<ComponentPreview name="button/loading" />
+
+### As a link
+
+Pass an element to `render` to keep the button look on a link. Set `nativeButton={false}` when it is not a
+`<button>`.
+
+<ComponentPreview name="button/as-link" />
+
+## Accessibility
+
+- Renders a native `<button>` (Base UI `Button`), so <kbd>Enter</kbd> and <kbd>Space</kbd> work and it sits in
+  the tab order.
+- Focus shows a ring only for keyboard focus (`:focus-visible`).
+- Icon-only buttons need an `aria-label`; the icon itself is decorative.
+- `disabled` removes the button from the tab order. If people should still find it (to read a tooltip about
+  why), use Base UI's `focusableWhenDisabled`.
+
+## API Reference
+
+### Button
+
+Renders a `<button>`. All other props go to Base UI's
+[`Button`](https://base-ui.com/react/components/button) and the element.
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'The look. `solid` for the main action, `danger` for destructive ones.',
+      type: "'solid' | 'soft' | 'outline' | 'ghost' | 'danger'",
+      default: "'solid'",
+    },
+    size: {
+      description: 'Height, padding, radius and icon size. `icon` and `icon-sm` make a square.',
+      type: "'sm' | 'md' | 'lg' | 'icon' | 'icon-sm'",
+      default: "'md'",
+    },
+    glow: {
+      description: 'A soft accent glow under the button. Use it for one action per screen.',
+      type: 'boolean',
+      default: 'false',
+    },
+    disabled: { description: 'Turns the button off: faded, no clicks, out of the tab order.', type: 'boolean', default: 'false' },
+    focusableWhenDisabled: {
+      description: 'Keeps a disabled button focusable, so a tooltip can explain why it is off.',
+      type: 'boolean',
+      default: 'false',
+    },
+    render: {
+      description: 'Render another element (a link, a router link) with the button styles.',
+      type: 'ReactElement | ((props, state) => ReactElement)',
+    },
+    nativeButton: {
+      description: 'Set to `false` when `render` is not a `<button>`, so Base UI adds the right role and keys.',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

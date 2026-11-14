@@ -1,0 +1,138 @@
+---
+title: Sidebar
+description: "The app sidebar of crazy-hub — groups, icons, an accent active row, a gliding hover, fully collapsible, a drawer on phones."
+---
+
+<ComponentPreview name="sidebar/default" />
+
+## Installation
+
+<InstallTabs component="sidebar" />
+
+## Usage
+
+```tsx
+import { Sidebar } from '@crazy-staff/ui';
+```
+
+```tsx
+<Sidebar.Provider>
+  <Sidebar>
+    <Sidebar.Content>
+      <Sidebar.Group label="Feedback">
+        <Sidebar.Item href="/ideas" icon={<Lightbulb />} active>Ideas</Sidebar.Item>
+      </Sidebar.Group>
+    </Sidebar.Content>
+  </Sidebar>
+  <Sidebar.Inset>
+    <Sidebar.Trigger />
+  </Sidebar.Inset>
+</Sidebar.Provider>
+```
+
+## Examples
+
+### Controlled
+
+`open` and `onOpenChange` on the provider; `shortcut={false}` turns off Ctrl/⌘ B.
+
+<ComponentPreview name="sidebar/collapsed" />
+
+### Nested rows
+
+`Sidebar.Sub` hangs rows on a guide line. `disabled` dims a row.
+
+<ComponentPreview name="sidebar/sub-items" />
+
+## Accessibility
+
+- The sidebar is an `<aside>` landmark (name it with `label`); the groups are `role="group"` named by their label; rows are links (or what you `render`).
+- The active row has `aria-current="page"`. Collapsed, the sidebar is `inert`, so it leaves the tab order.
+- The trigger is labelled and reports `aria-expanded`; Ctrl/⌘ B toggles it. On phones the drawer is a modal dialog that traps focus and closes with Escape or after choosing a row.
+- The hover block follows the keyboard focus too, and respects reduced motion.
+
+## API Reference
+
+### Sidebar.Provider
+
+Holds the state and lays out sidebar and inset on the frame colour.
+
+<TypeTable
+  type={{
+    open: { description: 'Desktop open state (controlled).', type: 'boolean' },
+    defaultOpen: { description: 'Initial state.', type: 'boolean', default: 'true' },
+    onOpenChange: { description: 'Called on toggle.', type: '(open: boolean) => void' },
+    shortcut: { description: 'Key toggled with Ctrl/⌘; `false` turns it off.', type: 'string | false', default: "'b'" },
+    width: { description: 'Sidebar width.', type: 'string', default: "'16rem'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Sidebar
+
+The `<aside>` on desktop and the drawer on phones.
+
+<TypeTable
+  type={{
+    label: { description: 'Landmark name.', type: 'string', default: "'Sidebar'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ column?: string; drawer?: string; backdrop?: string }' },
+  }}
+/>
+
+### Sidebar.Header / Content / Footer
+
+The top row, the scrolling `<nav>` and the bottom row.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sidebar.Group
+
+A labelled group; each child becomes a list item.
+
+<TypeTable
+  type={{
+    label: { description: 'The heading.', type: 'ReactNode' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ label?: string; list?: string }' },
+  }}
+/>
+
+### Sidebar.Item
+
+A row. Renders an `<a>`; `render` swaps it for a router link or a button.
+
+<TypeTable
+  type={{
+    icon: { description: 'Leading icon.', type: 'ReactNode' },
+    active: { description: 'The current page.', type: 'boolean', default: 'false' },
+    badge: { description: 'Text at the end.', type: 'ReactNode' },
+    disabled: { description: 'Dim and block the row.', type: 'boolean', default: 'false' },
+    render: { description: 'Element to render.', type: 'ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Sidebar.Sub
+
+Nested rows with a guide line.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sidebar.Trigger
+
+Toggles the sidebar (the drawer on phones). Takes Button props.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Sidebar.Inset
+
+The page panel next to the sidebar. Renders `<main>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### useSidebar
+
+`{ open, setOpen, openMobile, setOpenMobile, toggle }` inside the provider.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

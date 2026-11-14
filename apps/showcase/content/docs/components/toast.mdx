@@ -1,0 +1,166 @@
+---
+title: Toast
+description: Short messages that stack in the corner. Hover the stack to expand it, swipe to dismiss.
+---
+
+<ComponentPreview name="toast/default" />
+
+## Installation
+
+<InstallTabs component="toast" />
+
+## Usage
+
+Mount `<Toaster />` once, near the root of the app. Then call `toast()` from anywhere — an event handler, a
+mutation callback, outside React.
+
+```tsx
+import { Toaster, toast } from '@crazy-staff/ui';
+```
+
+```tsx
+// root layout
+<Toaster />
+
+// anywhere
+toast.success('Kit saved');
+```
+
+## Examples
+
+### Types
+
+`toast()` for a plain message, `toast.success`, `toast.info`, `toast.warning`, `toast.error`, and
+`toast.loading` (which stays until you update or close it). The type sets the icon and how urgently screen
+readers announce it.
+
+<ComponentPreview name="toast/types" />
+
+### Description
+
+A second line under the title for the details.
+
+<ComponentPreview name="toast/description" />
+
+### Action
+
+`actionProps` adds a button — the classic Undo. `toast()` returns the toast's id, so the action can close it.
+
+<ComponentPreview name="toast/action" />
+
+### Promise
+
+`toast.promise` shows a loading toast and turns it into a success or error one when the promise settles. Each
+state takes a string, options, or (for success and error) a function of the result. This one fails sometimes on
+purpose.
+
+<ComponentPreview name="toast/promise" />
+
+### Updating a toast
+
+Keep the id from `toast.loading` and change the toast with `toast.update` as the work goes on.
+
+<ComponentPreview name="toast/update" />
+
+### Timeout
+
+`timeout` sets how long a toast stays, in milliseconds; `0` keeps it until it is closed. The `Toaster` sets the
+default for all toasts.
+
+<ComponentPreview name="toast/timeout" />
+
+### High priority
+
+`priority: 'high'` makes screen readers interrupt to announce it. Keep it for things that need attention now.
+
+<ComponentPreview name="toast/priority" />
+
+## Accessibility
+
+- The stack is a labelled region (<kbd>F6</kbd> moves focus into it). Each toast is announced through a live
+  region: politely by default, assertively with `priority: 'high'`.
+- Timers pause while the stack is hovered or focused, and while the window is in the background.
+- Swipe down or right, or use the close button (`aria-label="Close"`), to dismiss.
+- Don't put the only way to do something in a toast — it disappears. An Undo action is fine; a required step
+  is not.
+
+## API Reference
+
+### Toaster
+
+Shows the toasts added with `toast()`. Mount it once. Renders a portal with the stack in the bottom-right
+corner (full width on phones).
+
+<TypeTable
+  type={{
+    timeout: { description: 'Default milliseconds a toast stays; `0` keeps it until closed.', type: 'number', default: '5000' },
+    limit: { description: 'Toasts shown at once; older ones hide behind.', type: 'number', default: '3' },
+    className: { description: 'Classes for the viewport, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ viewport?: string; root?: string }' },
+  }}
+/>
+
+### toast
+
+Adds a toast and returns its id. Call as `toast(title, options)` or with a type helper.
+
+<TypeTable
+  type={{
+    'toast(title, options?)': { description: 'A plain toast without an icon.', type: '(title: ReactNode, options?: ToastOptions) => string' },
+    'toast.success': { description: 'A green check. Something finished well.', type: '(title, options?) => string' },
+    'toast.info': { description: 'An accent info icon. Something worth knowing.', type: '(title, options?) => string' },
+    'toast.warning': { description: 'An amber triangle. It worked, but watch out.', type: '(title, options?) => string' },
+    'toast.error': { description: 'A red circle. Something failed.', type: '(title, options?) => string' },
+    'toast.loading': {
+      description: 'A spinner. Stays (timeout 0) until you `update` or `close` it.',
+      type: '(title, options?) => string',
+    },
+    'toast.promise': {
+      description: 'Loading while the promise runs, then success or error.',
+      type: '(promise, { loading, success, error }) => Promise',
+    },
+    'toast.update': { description: 'Change an existing toast (title, type, timeout …).', type: '(id: string, options) => void' },
+    'toast.close': { description: 'Close one toast, or all of them without an id.', type: '(id?: string) => void' },
+  }}
+/>
+
+### ToastOptions
+
+The second argument of every `toast` call. These are Base UI's
+[toast manager options](https://base-ui.com/react/components/toast); `title` is the first argument.
+
+<TypeTable
+  type={{
+    description: { description: 'A second line under the title.', type: 'ReactNode' },
+    type: {
+      description: 'Sets the icon. The helpers set it for you.',
+      type: "'success' | 'error' | 'warning' | 'info' | 'loading'",
+    },
+    timeout: { description: 'Milliseconds it stays; `0` keeps it until closed.', type: 'number', default: '5000' },
+    priority: {
+      description: '`high` makes screen readers announce it at once.',
+      type: "'low' | 'high'",
+      default: "'low'",
+    },
+    actionProps: {
+      description: 'Props for an action button under the text (`children`, `onClick` …).',
+      type: 'ButtonHTMLAttributes',
+    },
+    onClose: { description: 'Called when the toast starts closing.', type: '() => void' },
+    onRemove: { description: 'Called after it has left the screen.', type: '() => void' },
+    id: { description: 'Your own id, to update or close it later.', type: 'string' },
+  }}
+/>
+
+### toastManager
+
+The queue behind `toast()`. Pass it to your own Base UI `Toast.Provider` if you build a custom toaster.
+
+<TypeTable
+  type={{
+    add: { description: 'Add a toast; returns its id.', type: '(options) => string' },
+    update: { description: 'Change a toast.', type: '(id, options) => void' },
+    close: { description: 'Close a toast.', type: '(id?) => void' },
+    promise: { description: 'Toast that follows a promise.', type: '(promise, options) => Promise' },
+  }}
+/>

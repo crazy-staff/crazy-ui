@@ -1,0 +1,146 @@
+---
+title: Data Table
+description: "TanStack Table v9 on our Table — sorting, filtering, row selection, column visibility and pagination."
+---
+
+<ComponentPreview name="data-table/default" />
+
+## Installation
+
+<InstallTabs component="data-table" />
+
+## Usage
+
+```tsx
+import { createDataTableColumns, DataTable } from '@crazy-staff/ui';
+```
+
+```tsx
+const col = createDataTableColumns<Post>();
+const columns = col.columns([col.accessor('title', { header: 'Idea' }), col.accessor('votes', { header: 'Votes' })]);
+
+<DataTable columns={columns} data={posts} getRowId={(p) => p.id} selectable />
+```
+
+The table uses a fixed layout, so sorting, paging or selecting never changes the column widths. Give short
+columns a width with `meta: { width: 120 }` (status, numbers, dates); the other columns share the rest.
+
+## Examples
+
+### Sorting
+
+Headers of sortable columns are buttons; click to cycle ascending, descending, off. Start sorted with `initialState.sorting`.
+
+<ComponentPreview name="data-table/sorting" />
+
+### Filter one column
+
+`searchColumn` points the search field at one column.
+
+<ComponentPreview name="data-table/column-filter" />
+
+### Toolbar and dense rows
+
+Put your own controls in `toolbar`; `dense` tightens the rows.
+
+<ComponentPreview name="data-table/toolbar" />
+
+### Empty
+
+`empty` replaces "No results." when nothing matches.
+
+<ComponentPreview name="data-table/empty" />
+
+### Compound parts
+
+`useDataTable()` returns the table; compose `DataTable.Root`, `Toolbar`, `Search`, `ColumnToggle`, `Content`, `Footer`, `Count` and `Pagination` to add bulk actions or row clicks.
+
+<ComponentPreview name="data-table/compound" />
+
+## Accessibility
+
+- Sorted headers set `aria-sort`; sort buttons are real buttons.
+- Selection checkboxes are labelled ("Select row", "Select all rows on this page"); Shift-click selects a range.
+- The count is a polite live region, so filtering and selection are announced.
+- Keep `columns` and `data` stable (module scope or `useMemo`).
+
+## API Reference
+
+### DataTable
+
+The short form. Also takes every TanStack table option except `features` (`getRowId`, `initialState`, `enableRowSelection` …).
+
+<TypeTable
+  type={{
+    columns: { description: 'Column definitions (typed with `createDataTableColumns<Row>()`).', type: 'DataTableColumn<Row>[]' },
+    data: { description: 'The rows.', type: 'Row[]' },
+    selectable: { description: 'Add a checkbox column.', type: 'boolean', default: 'false' },
+    pageSize: { description: 'Rows per page.', type: 'number', default: '10' },
+    search: { description: 'Show the search field; a string sets its placeholder.', type: 'boolean | string', default: 'true' },
+    searchColumn: { description: 'Filter only this column.', type: 'string' },
+    columnToggle: { description: 'Show the column menu.', type: 'boolean', default: 'true' },
+    toolbar: { description: 'Extra toolbar content.', type: 'ReactNode' },
+    empty: { description: 'Shown when no rows match.', type: 'ReactNode', default: "'No results.'" },
+    onRowClick: { description: 'Called when a row is clicked.', type: '(row) => void' },
+    dense: { description: 'Tighter rows.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### useDataTable
+
+`useDataTable(options)` creates the table with `dataTableFeatures`. Same options as above minus the UI ones.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### DataTable.Root
+
+Provides the table to the parts.
+
+<TypeTable
+  type={{
+    table: { description: 'From `useDataTable`.', type: 'DataTableInstance<Row>' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DataTable.Search
+
+The filter field.
+
+<TypeTable
+  type={{
+    placeholder: { description: 'Placeholder and label.', type: 'string', default: "'Filter…'" },
+    column: { description: 'Filter one column.', type: 'string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DataTable.ColumnToggle
+
+A "View" dropdown with a checkbox per hideable column.
+
+<TypeTable
+  type={{
+    label: { description: 'Button label.', type: 'ReactNode', default: "'View'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### DataTable.Content
+
+The table itself, in a fixed layout with one `<col>` per visible column (width from `meta.width`; the
+checkbox column is 48px). Takes Table props (`dense`, `hover`).
+
+<TypeTable
+  type={{
+    empty: { description: 'Shown when no rows match.', type: 'ReactNode', default: "'No results.'" },
+    onRowClick: { description: 'Row click handler.', type: '(row) => void' },
+  }}
+/>
+
+### DataTable.Toolbar / Footer / Count / Pagination
+
+Layout rows, the "n of m selected" text and our Pagination bound to the table (hidden on one page).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

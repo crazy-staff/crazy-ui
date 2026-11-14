@@ -1,0 +1,258 @@
+---
+title: Command
+description: A command palette and search — type to filter actions or results, run one with Enter. Also as a Ctrl/Cmd+K dialog with filters.
+---
+
+<ComponentPreview name="command/default" />
+
+## Installation
+
+<InstallTabs component="command" />
+
+## Usage
+
+```tsx
+import { Command } from '@crazy-staff/ui';
+```
+
+```tsx
+<Command
+  groups={[{ label: 'Player', items: [{ value: 'god', label: 'God mode', shortcut: 'F1', onSelect: toggleGod }] }]}
+/>
+```
+
+## Examples
+
+### Dialog
+
+`Command.Dialog` puts the palette in a modal near the top of the screen and closes it after an item runs.
+Open it with a `trigger`, or control `open` yourself — here with **Ctrl/Cmd + J** (Ctrl/Cmd + K opens this
+site's search, which is itself a `Command.Dialog`). Pass `handle` to open it from a detached
+`<Dialog.Trigger handle>` elsewhere in the app.
+
+<ComponentPreview name="command/dialog" />
+
+### Breadcrumbs and descriptions
+
+Items in the short form take `breadcrumbs` (a path line above the label) and a `description` under it.
+The typed words are highlighted in the label and the description.
+
+<ComponentPreview name="command/rich-items" />
+
+### Search with filters
+
+A docs or app search built from the parts: `Command.JumpItem` puts "Jump to …" first when the query starts
+a page title, rows stack `Command.ItemBreadcrumbs` above a `Command.Highlight`ed title, and the footer holds
+`Command.Filters` with `Command.Filter` menus and `Command.Hint` keys. Pass `filter={null}` and filter the
+items yourself. "Clear filters" has its own slot at the end of the row: it shows only when a filter is set,
+keeps its place when hidden and never wraps, so the layout doesn't move. The search of this site (Ctrl/Cmd + K)
+is built the same way on Fumadocs' search client.
+
+<ComponentPreview name="command/search" />
+
+### Loading and empty
+
+For results that come from a server, show `Command.Loading` while waiting and `Command.Empty` when nothing
+came back. The short form takes `loading` and `loadingText`.
+
+<ComponentPreview name="command/loading" />
+
+### Compound parts
+
+Use `Command.Root` with your own items and render the rows yourself. `Command.Footer` holds hints, a count
+or filters.
+
+<ComponentPreview name="command/compound" />
+
+## Accessibility
+
+- Built on Base UI Autocomplete in inline mode: the input is a `combobox` controlling an always-visible
+  `listbox`; the first match is highlighted.
+- **Arrow keys** move, **Enter** runs the highlighted item, **Esc** closes the dialog.
+- Items also match their `keywords`. Shortcuts are hints only (`aria-hidden`); wire the keys yourself.
+- The dialog is named by `title` (default "Command palette"); the input by `aria-label`
+  (default "Search commands").
+- `Command.Loading` is a `role="status"` region, so screen readers hear "Searching…".
+- Filters are menu buttons named "Section: All" etc. with a radio group inside; the filter row is a
+  `group` named "Filters". The hidden "Clear filters" button is `disabled` and out of the tab order.
+- Highlights are `<mark>` elements, so the text reads the same with or without them.
+
+## API Reference
+
+### Command
+
+The short form.
+
+<TypeTable
+  type={{
+    groups: { description: 'Groups of commands.', type: 'CommandGroupData[]' },
+    placeholder: { description: 'Hint in the search input.', type: 'string', default: "'Type a command or search…'" },
+    emptyText: { description: 'Shown when nothing matches.', type: 'ReactNode', default: "'No results.'" },
+    footer: { description: 'Content under the list (hints, filters).', type: 'ReactNode' },
+    loading: { description: 'Show `Command.Loading` instead of the list.', type: 'boolean', default: 'false' },
+    loadingText: { description: 'Text next to the spinner.', type: 'ReactNode', default: "'Searching…'" },
+    search: { description: 'The typed text. Controlled.', type: 'string' },
+    defaultSearch: { description: 'The typed text at start.', type: 'string', default: "''" },
+    onSearchChange: { description: 'Called when the text changes.', type: '(search: string) => void' },
+    filter: { description: 'Custom match function.', type: '(item, query) => boolean', default: 'label + keywords' },
+    'aria-label': { description: 'Name of the palette and its input.', type: 'string' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?; input?; list?; item? }' },
+  }}
+/>
+
+### CommandItemData
+
+One command in `groups[].items`.
+
+<TypeTable
+  type={{
+    value: { description: 'Unique id.', type: 'string' },
+    label: { description: 'Text shown and searched.', type: 'string' },
+    icon: { description: 'Icon before the label.', type: 'ReactNode' },
+    shortcut: { description: "Keys shown at the end, e.g. `'Ctrl+T'`.", type: 'string | string[]' },
+    keywords: { description: 'Extra words that match.', type: 'string[]' },
+    description: { description: 'A second line under the label; also searched.', type: 'string' },
+    breadcrumbs: { description: 'A path line above the label.', type: 'string[]' },
+    disabled: { description: 'Cannot be run.', type: 'boolean' },
+    onSelect: { description: 'Runs on click or Enter.', type: '() => void' },
+  }}
+/>
+
+### Command.Dialog
+
+The palette in a modal. Takes every `Command` prop plus:
+
+<TypeTable
+  type={{
+    open: { description: 'Whether it is open. Controlled.', type: 'boolean' },
+    defaultOpen: { description: 'Open at start.', type: 'boolean', default: 'false' },
+    onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean) => void' },
+    trigger: { description: 'The element that opens it.', type: 'ReactElement' },
+    handle: { description: 'A Base UI `Dialog.createHandle()` handle, for triggers elsewhere in the app.', type: 'Dialog.Handle' },
+    title: { description: 'Accessible name of the dialog.', type: 'string', default: "'Command palette'" },
+    closeOnSelect: { description: 'Close after an item runs.', type: 'boolean', default: 'true' },
+    children: { description: 'Your own `Command.Root` instead of `groups`.', type: 'ReactNode' },
+  }}
+/>
+
+### Command.Root
+
+The palette without content. Renders a `<div role="group">` around Base UI `Autocomplete.Root`
+(`items`, `filter`, `filteredItems`, `limit`, `loopFocus` pass through).
+
+<TypeTable
+  type={{
+    items: { description: 'Flat items or `{ items }` groups to filter.', type: 'any[]' },
+    search: { description: 'The typed text. Controlled.', type: 'string' },
+    onSearchChange: { description: 'Called when the text changes.', type: '(search: string) => void' },
+  }}
+/>
+
+### Command.Item
+
+One row. Renders Base UI `Autocomplete.Item`.
+
+<TypeTable
+  type={{
+    value: { description: 'The item this row shows.', type: 'any' },
+    onSelect: { description: 'Runs on click or Enter.', type: '() => void' },
+    disabled: { description: 'Cannot be run.', type: 'boolean' },
+  }}
+/>
+
+### Command.Shortcut
+
+Kbd keys at the end of an item.
+
+<TypeTable type={{ keys: { description: "`'Ctrl+K'` or `['Ctrl', 'K']`.", type: 'string | string[]' } }} />
+
+### Command.ItemContent, ItemBreadcrumbs, ItemTitle, ItemDescription
+
+The parts of a rich row. `ItemContent` stacks the others in a column; `ItemBreadcrumbs` renders a small
+path line with chevrons; `ItemTitle` and `ItemDescription` are styled `<span>`s.
+
+<TypeTable
+  type={{
+    items: { description: '`ItemBreadcrumbs` only: the path, e.g. `[\'Components\', \'Button\']`.', type: 'ReactNode[]' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Command.Highlight
+
+The text with every match of the query wrapped in `<mark>`. Inside a `Command.Root` it uses the typed text.
+`highlightParts(text, query)` gives the same split as data.
+
+<TypeTable
+  type={{
+    text: { description: 'The text to show.', type: 'string' },
+    query: { description: 'Words to mark.', type: 'string', default: 'the typed text' },
+    classNames: { description: 'Classes for the marks.', type: '{ mark? }' },
+  }}
+/>
+
+### Command.JumpItem
+
+A quick action row: an arrow, `label` and the target in bold, and an Enter key shown when highlighted. Takes
+every `Command.Item` prop.
+
+<TypeTable
+  type={{
+    label: { description: 'Words before the target.', type: 'ReactNode', default: "'Jump to'" },
+    children: { description: 'The target, e.g. the page title.', type: 'ReactNode' },
+  }}
+/>
+
+### Command.Loading
+
+A spinner and text shown instead of the list, `role="status"`.
+
+<TypeTable type={{ children: { description: 'The text.', type: 'ReactNode', default: "'Searching…'" } }} />
+
+### Command.Filters
+
+The filter row for the footer. Filters wrap onto more lines when there is no room; the clear button stays
+at the end in a slot that never wraps.
+
+<TypeTable
+  type={{
+    onClear: { description: 'Called by "Clear filters". Leave out to have no button.', type: '() => void' },
+    canClear: { description: 'Whether a filter is set; the button is visible only then.', type: 'boolean', default: 'false' },
+    clearLabel: { description: 'Text of the button.', type: 'ReactNode', default: "'Clear filters'" },
+    classNames: { description: 'Classes per slot.', type: '{ list?; clear? }' },
+  }}
+/>
+
+### Command.Filter
+
+One filter: a small `Label: value` button opening a radio menu. It is tinted with the accent while its value
+differs from `defaultValue`.
+
+<TypeTable
+  type={{
+    label: { description: "Name before the value, e.g. `'Section'`.", type: 'string' },
+    options: { description: 'The choices.', type: '{ value; label; description?; disabled? }[]' },
+    value: { description: 'The chosen value.', type: 'string' },
+    defaultValue: { description: 'The value that means "not filtered".', type: 'string', default: 'the first option' },
+    onValueChange: { description: 'Called with the new value.', type: '(value: string) => void' },
+    classNames: { description: 'Classes per slot.', type: '{ trigger?; content?; option? }' },
+  }}
+/>
+
+### Command.Hint
+
+A key hint for the footer: `<Command.Hint keys="Enter">open</Command.Hint>`.
+
+<TypeTable
+  type={{
+    keys: { description: "`'Enter'` or `['↑', '↓']`.", type: 'string | string[]' },
+    children: { description: 'What the keys do.', type: 'ReactNode' },
+  }}
+/>
+
+### Command.Input, List, Empty, Group, GroupLabel, Collection, Separator, Footer
+
+The styled parts. `List` and `Collection` take a render function per item.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

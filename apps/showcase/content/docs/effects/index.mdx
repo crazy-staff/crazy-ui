@@ -1,0 +1,46 @@
+---
+title: Overview
+description: Effects are layers you add on top of any component — a glow, a progressive blur, motion — without changing the component itself.
+---
+
+Components decide what something **is** (a card, a list, a button). Effects decide how it **feels**: a soft
+accent light, a blur where content runs out, a fade-in when it scrolls into view. They live apart from the
+components so you can put the same effect on anything, and take it off again, without touching the
+component's code.
+
+## How effects compose
+
+Every effect comes in one of three shapes, and each one stays out of the way of the component underneath:
+
+| Shape | Effect | How you add it |
+| --- | --- | --- |
+| **Utility class** | [Glow](/docs/effects/glow) | `className="glow"` on any element; it only sets `background-image`, so the component keeps its own background colour, border and shadow. |
+| **Overlay component** | [Progressive blur](/docs/effects/progressive-blur) | `<ProgressiveBlur />` as a child of a positioned (`relative`) element; it is `absolute`, `aria-hidden` and never catches the pointer. |
+| **Wrapper component** | [Reveal](/docs/effects/reveal) | `<Reveal>` around the content; it animates its child in and renders nothing of its own. |
+
+A few rules keep them composable:
+
+- **Tokens only.** Effects read the same tokens as components (`--cui-glow`, `--cui-background`,
+  `--cui-duration-*`), so a theme or dark mode changes them too.
+- **No layout.** An effect never changes the size or position of what it decorates, so adding one can't
+  shift a page.
+- **Reduced motion.** Anything that moves switches off with `prefers-reduced-motion`.
+- **Opt-in.** Components don't glow, blur or animate by default (the `glow` prop of `Button` is off until
+  you ask for it); one effect per screen is usually enough.
+
+```tsx
+<Card.Root className="glow relative overflow-hidden">
+  <Reveal>
+    <ScrollArea className="h-72">{releases}</ScrollArea>
+  </Reveal>
+  <ProgressiveBlur side="bottom" tint="var(--cui-surface)" />
+</Card.Root>
+```
+
+## Effects
+
+- [Glow](/docs/effects/glow): the accent light behind page tops, frames, cards and the main button.
+- [Progressive blur](/docs/effects/progressive-blur): blur that grows towards an edge, for list ends, headers
+  over scrolling content and captions on images.
+- [Motion](/docs/effects/motion): durations, easings and the reduced-motion rules.
+- [Reveal](/docs/effects/reveal): content that fades and lifts in when it scrolls into view.

@@ -1,0 +1,107 @@
+---
+title: Input OTP
+description: A one-time code field made of single-character slots — sign-in codes, tester invite keys, PINs.
+---
+
+<ComponentPreview name="input-otp/default" />
+
+## Installation
+
+<InstallTabs component="input-otp" />
+
+## Usage
+
+```tsx
+import { InputOTP } from '@crazy-staff/ui';
+```
+
+```tsx
+<InputOTP length={6} groups={[3, 3]} aria-label="Verification code" />
+```
+
+## Examples
+
+### Separators
+
+`groups` splits the slots, with a dash between groups. Pass any element to `separator` to change it.
+
+<ComponentPreview name="input-otp/separator" />
+
+### Letters and digits
+
+`validationType` accepts `'numeric'` (default), `'alpha'`, `'alphanumeric'` or `'none'`;
+`normalizeValue` can upper-case what is typed. `slotPlaceholder` hints at empty slots.
+
+<ComponentPreview name="input-otp/alphanumeric" />
+
+### Sizes
+
+`sm`, `md` (default) and `lg` match control heights.
+
+<ComponentPreview name="input-otp/sizes" />
+
+### Controlled
+
+`value` and `onValueChange` control the code; `onValueComplete` fires when every slot is filled.
+
+<ComponentPreview name="input-otp/controlled" />
+
+### Compound parts
+
+Build the slots yourself with `InputOTP.Root`, `InputOTP.Group`, `InputOTP.Slot` and
+`InputOTP.Separator` — here joined slots and `mask` for a hidden pairing code.
+
+<ComponentPreview name="input-otp/compound" />
+
+## Accessibility
+
+- Built on Base UI OTP Field: each slot is an input; typing moves forward, **Backspace** back, arrows
+  move between slots, and pasting fills every slot at once. The first slot has
+  `autocomplete="one-time-code"`.
+- Name the field with a `Field` label, a `<label htmlFor>` pointing at `id`, or `aria-label` (the short
+  form wires it to the first slot). Other slots are named "Character 2 of 6" and so on.
+- Separators have `role="separator"`.
+
+## API Reference
+
+### InputOTP
+
+The short form. All Base UI `OTPField.Root` props pass through (`value`, `defaultValue`,
+`onValueChange`, `onValueComplete`, `validationType`, `normalizeValue`, `mask`, `autoSubmit`, `name`,
+`disabled` …).
+
+<TypeTable
+  type={{
+    length: { description: 'Number of slots.', type: 'number' },
+    groups: { description: 'Slots per group, must add up to `length`.', type: 'number[]', default: '[length]' },
+    separator: { description: 'What goes between groups.', type: 'ReactNode', default: 'a dash' },
+    slotPlaceholder: { description: 'Hint in empty slots.', type: 'string' },
+    size: { description: 'Slot size.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    'aria-label': { description: 'Name of the field.', type: 'string' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?; group?; slot?; separator? }' },
+  }}
+/>
+
+### InputOTP.Root
+
+Base UI `OTPField.Root` with our layout. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    length: { description: 'Number of slots.', type: 'number' },
+    size: { description: 'Slot size for every slot inside.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+  }}
+/>
+
+### InputOTP.Slot
+
+One character input (Base UI `OTPField.Input`).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### InputOTP.Group and InputOTP.Separator
+
+A `<div>` that keeps slots close together, and the separator between groups (children replace the dash).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

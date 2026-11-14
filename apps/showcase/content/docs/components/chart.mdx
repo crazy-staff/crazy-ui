@@ -1,0 +1,219 @@
+---
+title: Chart
+description: "Line, area and bar charts (TanStack Charts) in our colours: gradient fills, smooth curves, a crosshair tooltip, a legend that toggles series, stacking and reference lines."
+---
+
+<ComponentPreview name="chart/default" />
+
+## Installation
+
+<InstallTabs component="chart" />
+
+## Usage
+
+```tsx
+import { Chart } from '@crazy-staff/ui';
+```
+
+```tsx
+<Chart type="area" data={weeks} x="week" series={[{ key: 'votes', label: 'Votes' }]} ariaLabel="Votes per week" />
+```
+
+One row per category (week, build, day…) with one field per series. The width follows the container and
+the height is fixed (`height`, 280 by default), so the chart is responsive on its own: x labels thin out
+when there is no room for all of them.
+
+## Examples
+
+### Line
+
+Several series share the palette: the accent first, then calmer colours derived from it. `points` adds
+dots on every value.
+
+<ComponentPreview name="chart/line" />
+
+### Curve
+
+`curve="smooth"` (the default) draws a monotone curve: smooth, but it never overshoots, so a peak in the
+data stays the peak of the line and a dip never goes below its value. `curve="linear"` draws straight
+segments, better for few points or when each step matters.
+
+<ComponentPreview name="chart/curve" />
+
+### Area with gradient
+
+Areas fill with the series colour fading to transparent towards the baseline; overlapping series stay
+readable because the fill is light where they meet.
+
+<ComponentPreview name="chart/area" />
+
+### Gradient under a line
+
+`gradient` adds the same fill under a `line` chart; on bars it shades each bar from full colour to a lighter
+foot.
+
+<ComponentPreview name="chart/gradient-line" />
+
+### Legend
+
+With more than one series the legend shows, and each item toggles its series (the last visible one stays
+on). Colours stay with their series while others are hidden. `defaultHiddenSeries` hides some at first;
+`hiddenSeries` with `onHiddenSeriesChange` controls it.
+
+<ComponentPreview name="chart/legend" />
+
+### Crosshair and tooltip
+
+Hovering (or moving with the arrow keys) shows a crosshair at the nearest x and a tooltip with every
+visible series at that x. `tooltip={false}` turns both off.
+
+<ComponentPreview name="chart/tooltip" />
+
+### Dates and compact numbers
+
+Dates on the x axis are formatted with `xFormat` (`day`, `week`, `month`, `year`, `Intl.DateTimeFormat`
+options or a function). `valueFormat="compact"` writes 11300 as 11.3K. Both apply to the axis and the
+tooltip; `locale` sets the language (`en-US` by default).
+
+<ComponentPreview name="chart/format-dates" />
+
+### Percentages
+
+`valueFormat="percent"` expects fractions, like `Intl`: 0.979 is shown as 97.9 %. Pass
+`Intl.NumberFormat` options or a function for anything else.
+
+<ComponentPreview name="chart/format-percent" />
+
+### Stacked bars
+
+`stacked` stacks the series; only the top of each stack is rounded. The tooltip adds a total.
+
+<ComponentPreview name="chart/stacked-bar" />
+
+### Grouped bars
+
+Without `stacked`, bars of one category stand side by side. Here with `gradient` and the legend under the
+chart (`legendPosition="bottom"`).
+
+<ComponentPreview name="chart/grouped-bar" />
+
+### Stacked areas
+
+`stacked` works for areas too: each layer starts where the one below ends.
+
+<ComponentPreview name="chart/stacked-area" />
+
+### Stacked to 100 %
+
+`stacked="percent"` stacks each series' share of the total, with a 0–100 % axis. The tooltip shows the
+value and its share.
+
+<ComponentPreview name="chart/stacked-percent" />
+
+### Reference line
+
+`referenceLines` draws dashed horizontal lines for goals, limits or averages, with an optional label. The
+y axis grows to include them.
+
+<ComponentPreview name="chart/reference-line" />
+
+### Loading
+
+`loading` shows a skeleton of the same height, so nothing jumps when the data arrives.
+
+<ComponentPreview name="chart/loading" />
+
+### Empty
+
+With no rows the chart shows an empty state; `empty` sets its title, description and action.
+
+<ComponentPreview name="chart/empty" />
+
+### Animation
+
+On mount, lines and areas grow from the baseline and bars rise; changing data or toggling a series
+animates to the new shape. With reduced motion the chart appears at once. `animate={false}` turns it off.
+
+<ComponentPreview name="chart/animation" />
+
+### Palette
+
+Six colours, each overridable with a `--cui-chart-N` variable; after six they repeat. A series can also
+take its own `color`.
+
+<ComponentPreview name="chart/palette" />
+
+## Accessibility
+
+- `ariaLabel` (required) names the chart; add `ariaDescription` for the takeaway.
+- The chart is focusable; arrow keys move between x values and the tooltip follows, like the pointer.
+  The tooltip text is announced through a live region.
+- The legend items are toggle buttons (`aria-pressed`).
+- Colour is not the only cue: the legend and tooltip name each series. Offer a table for exact values.
+- The entrance animation respects reduced motion.
+
+## API Reference
+
+### Chart
+
+The short form for category data (one row per week, build…).
+
+<TypeTable
+  type={{
+    type: { description: 'Chart type.', type: "'line' | 'area' | 'bar'", default: "'line'" },
+    data: { description: 'The rows; an empty array shows the empty state.', type: 'readonly Row[]' },
+    x: { description: 'Field with the category: strings, numbers or dates.', type: 'keyof Row' },
+    series: { description: 'Series to draw.', type: '{ key: string; label?: string; color?: string }[]' },
+    ariaLabel: { description: 'Accessible name.', type: 'string' },
+    ariaDescription: { description: 'Accessible description.', type: 'string' },
+    height: { description: 'Height in pixels; width follows the container.', type: 'number', default: '280' },
+    curve: { description: 'Monotone smooth curve or straight segments.', type: "'smooth' | 'linear'", default: "'smooth'" },
+    gradient: { description: 'Fill under lines fading to transparent; shaded bars.', type: 'boolean', default: "true for 'area'" },
+    stacked: { description: 'Stack series; percent stacks shares of the total.', type: "boolean | 'percent'", default: 'false' },
+    points: { description: 'Dots on line points.', type: 'boolean', default: 'false' },
+    legend: { description: 'Show the legend (items toggle series).', type: 'boolean', default: 'more than one series' },
+    legendPosition: { description: 'Where the legend goes.', type: "'top' | 'bottom'", default: "'top'" },
+    hiddenSeries: { description: 'Hidden series keys (controlled).', type: 'string[]' },
+    defaultHiddenSeries: { description: 'Hidden series keys at first (uncontrolled).', type: 'string[]' },
+    onHiddenSeriesChange: { description: 'Called when the legend toggles a series.', type: '(hidden: string[]) => void' },
+    grid: { description: 'Horizontal grid lines.', type: 'boolean', default: 'true' },
+    tooltip: { description: 'Crosshair and tooltip with every series at the hovered x.', type: 'boolean', default: 'true' },
+    valueFormat: { description: 'Formats values on the y axis and in the tooltip.', type: "'number' | 'compact' | 'percent' | Intl.NumberFormatOptions | (value: number) => string", default: "'number'" },
+    xFormat: { description: 'Formats x values on the axis and in the tooltip heading.', type: "'day' | 'week' | 'month' | 'year' | Intl.DateTimeFormatOptions | (value) => string" },
+    locale: { description: 'Locale for numbers and dates.', type: 'string', default: "'en-US'" },
+    referenceLines: { description: 'Dashed horizontal lines (goals, limits).', type: '{ value: number; label?: string; color?: string }[]' },
+    loading: { description: 'Show a skeleton instead of the chart.', type: 'boolean', default: 'false' },
+    empty: { description: 'Title, description and action of the empty state.', type: '{ title?: ReactNode; description?: ReactNode; action?: ReactNode }' },
+    animate: { description: 'Entrance and update animation (off with reduced motion).', type: 'boolean', default: 'true' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ chart?: string; legend?: string; tooltip?: string }' },
+  }}
+/>
+
+### Chart.Root
+
+Our frame (palette, ink, tooltip surface) around the TanStack `Chart` for your own `definition`. Takes all
+props of `@tanstack/react-charts` `Chart` (including `renderTooltipBody`); use `chartColor(i)` in marks and
+`curveSmooth` / `curveLinear` as a mark's `curve`.
+
+<TypeTable
+  type={{
+    definition: { description: 'A TanStack Charts definition.', type: 'ChartDefinition' },
+    ariaLabel: { description: 'Accessible name.', type: 'string' },
+    height: { description: 'Height in pixels.', type: 'number', default: '280' },
+    renderer: { description: "A TanStack renderer, e.g. motion() from '@tanstack/charts/motion'.", type: 'ChartRenderer' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Chart.Legend
+
+The HTML legend; with `onToggle`, each item is a toggle button.
+
+<TypeTable
+  type={{
+    items: { description: 'Swatches.', type: '{ label: string; color: string; key?: string; hidden?: boolean }[]' },
+    position: { description: 'Placement.', type: "'top' | 'bottom'", default: "'top'" },
+    onToggle: { description: 'Called with the item key when clicked.', type: '(key: string) => void' },
+  }}
+/>

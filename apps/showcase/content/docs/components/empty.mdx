@@ -1,0 +1,105 @@
+---
+title: Empty
+description: "What a list or page shows when there is nothing in it yet: icon, title, a line of text and an action."
+---
+
+<ComponentPreview name="empty/default" />
+
+## Installation
+
+<InstallTabs component="empty" />
+
+## Usage
+
+```tsx
+import { Empty } from '@crazy-staff/ui';
+```
+
+```tsx
+<Empty icon={<Inbox />} title="No ideas yet" description="Be the first to suggest a feature." />
+```
+
+## Examples
+
+### No search results
+
+Say what was searched for and offer a way out. `action` takes several buttons.
+
+<ComponentPreview name="empty/search" />
+
+### Minimal
+
+Only a title and a line of text, for small places like an empty comment thread.
+
+<ComponentPreview name="empty/minimal" />
+
+### Inside a card
+
+In a card, give it the page background so it reads as a hole in the card.
+
+<ComponentPreview name="empty/in-card" />
+
+### Compound parts
+
+`Empty.Root`, `Empty.Icon`, `Empty.Title`, `Empty.Description` and `Empty.Actions` let you add anything in
+between — here the testers you could invite.
+
+<ComponentPreview name="empty/compound" />
+
+## Accessibility
+
+- The title is an `<h3>`; put the empty state under a section with an `h2`, or pass your own heading
+  through the parts.
+- The icon is decorative (`aria-hidden`).
+- Buttons in `action` should say what they do (“New idea”, not “Click here”).
+
+## API Reference
+
+### Empty
+
+The one-line form. Renders a `<div>`; other props go to it.
+
+<TypeTable
+  type={{
+    title: { description: 'What is missing.', type: 'ReactNode' },
+    description: { description: 'A line under the title: why, or what to do.', type: 'ReactNode' },
+    icon: { description: 'An icon in a soft accent tile above the title.', type: 'ReactNode' },
+    action: { description: 'Buttons under the text.', type: 'ReactNode' },
+    children: { description: 'Anything between the text and the actions.', type: 'ReactNode' },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ icon?: string; title?: string; description?: string; actions?: string }',
+    },
+  }}
+/>
+
+### Empty.Root
+
+The dashed frame. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Empty.Icon
+
+The icon tile. Renders a `<div aria-hidden>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Empty.Title
+
+Renders an `<h3>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Empty.Description
+
+Renders a `<p>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Empty.Actions
+
+A centred row for buttons. Renders a `<div>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />

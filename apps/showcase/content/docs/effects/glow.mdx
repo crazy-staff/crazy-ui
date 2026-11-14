@@ -1,0 +1,66 @@
+---
+title: Glow
+description: The soft accent light of crazy-ui — behind the page top, inside a frame, on a card or under the main button.
+---
+
+<PageGlow />
+
+<ComponentPreview name="glow/page" />
+
+## Usage
+
+Glow is a utility class from the theme, so there is nothing to import: add `glow` to any element.
+
+```tsx
+<div className="glow rounded-panel border border-border bg-surface">…</div>
+```
+
+It paints two radial gradients from the top (a stronger one at the left, a fainter one at the right) as
+`background-image` only, so the element keeps its own background colour, border, radius and shadow. The
+gradients fade out inside the element, so the glow is never cut off at an edge.
+
+## Examples
+
+### Page top
+
+The light at the top of a page, as on this page. Put an absolutely positioned layer with `glow` at the top of
+the page panel, behind the content (`-z-10` in an `isolate` parent), as in the preview at the top. In these
+docs `<PageGlow />` does that for the whole page.
+
+### Inside a frame
+
+`glow` on a rounded frame fills it, for a call to action or an empty state. The frame's own background
+shows under it.
+
+<ComponentPreview name="glow/frame" />
+
+### On a card
+
+A card with `className="glow"` stands out from its neighbours, for the current release or a featured post.
+Use it on one card in a group, not on all of them.
+
+<ComponentPreview name="glow/card" />
+
+### On a button
+
+The `glow` prop of `Button` adds a soft accent shadow under a solid button. Keep it for the one main action
+on a screen.
+
+<ComponentPreview name="glow/button" />
+
+## Tokens
+
+| Token | What it sets |
+| --- | --- |
+| `--cui-glow` | The stronger gradient, at the top left. |
+| `--cui-glow-2` | The fainter gradient, at the top right. |
+| `--cui-shadow-glow` | The shadow under a `glow` button (`shadow-glow`). |
+
+Override them on `:root`, on `.dark` or on any element to change the colour or strength of the glow in that
+subtree.
+
+## Accessibility
+
+Glow is decoration: it carries no meaning and needs no label. Text on a glowing background keeps the
+contrast of the plain background because the gradients are light (20 % at the strongest point); check it
+when you raise `--cui-glow`.

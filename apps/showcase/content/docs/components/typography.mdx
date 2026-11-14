@@ -1,0 +1,92 @@
+---
+title: Typography
+description: "Prose styles for long text (rendered markdown, changelogs, docs) and matching text parts for UI."
+---
+
+<ComponentPreview name="typography/default" />
+
+## Installation
+
+<InstallTabs component="typography" />
+
+## Usage
+
+```tsx
+import { Prose, Typography } from '@crazy-staff/ui';
+```
+
+```tsx
+<Prose>
+  <h2>Installing</h2>
+  <p>Copy the DLL into the System folder.</p>
+</Prose>
+```
+
+## Examples
+
+### Headings
+
+`Typography.H1` to `H4` share the heading font, weight and tracking tokens.
+
+<ComponentPreview name="typography/headings" />
+
+### Text
+
+`P`, `Lead`, `Large`, `Small`, `Muted`, `InlineCode`, `Kbd` and `Link` for UI text outside long-form content.
+
+<ComponentPreview name="typography/text" />
+
+### Lists
+
+`Typography.List` is a bulleted `<ul>`; `render={<ol />}` numbers it.
+
+<ComponentPreview name="typography/lists" />
+
+### Blockquote
+
+A quote with an accent rule.
+
+<ComponentPreview name="typography/blockquote" />
+
+### Tables
+
+Plain HTML tables inside `Prose` get the rounded frame of our Table. For data use Table or Data Table.
+
+<ComponentPreview name="typography/table" />
+
+### Sizes
+
+`Prose size="sm"` for side panels and changelog entries, `lg` for landing pages.
+
+<ComponentPreview name="typography/sizes" />
+
+## Accessibility
+
+- `Prose` only styles; use real headings in order (`h2` after `h1`), lists and tables so screen readers get the structure.
+- `render` swaps the element but keeps the look: `<Typography.H2 render={<h3 />}>` for a correct outline.
+- Links are underlined, not only coloured.
+
+## API Reference
+
+### Prose
+
+Styles every element inside. Renders a `<div>`; `render` changes it (e.g. `<article />`).
+
+<TypeTable
+  type={{
+    size: { description: 'Text size and rhythm.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    render: { description: 'Element to render instead of the `<div>`.', type: 'ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Typography.*
+
+`H1`, `H2`, `H3`, `H4`, `P`, `Lead`, `Large`, `Small`, `Muted`, `Blockquote`, `List`, `InlineCode`, `Link`, `Kbd`. Each renders its element and takes `render`, `className` and the element props.
+
+<TypeTable
+  type={{
+    render: { description: 'Element to render instead of the default one; the look stays.', type: 'ReactElement' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>

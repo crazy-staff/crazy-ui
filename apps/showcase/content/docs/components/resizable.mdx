@@ -1,0 +1,99 @@
+---
+title: Resizable
+description: "Panels split by draggable handles, side by side or stacked."
+---
+
+<ComponentPreview name="resizable/default" />
+
+## Installation
+
+<InstallTabs component="resizable" />
+
+## Usage
+
+```tsx
+import { Resizable } from '@crazy-staff/ui';
+```
+
+```tsx
+<Resizable.Group>
+  <Resizable.Panel defaultSize="30">Features</Resizable.Panel>
+  <Resizable.Handle withHandle />
+  <Resizable.Panel>Details</Resizable.Panel>
+</Resizable.Group>
+```
+
+## Examples
+
+### Vertical
+
+`orientation="vertical"` stacks the panels.
+
+<ComponentPreview name="resizable/vertical" />
+
+### Nested
+
+Put a group inside a panel for layouts like an editor.
+
+<ComponentPreview name="resizable/nested" />
+
+### Without grip
+
+Leave out `withHandle` for a bare hairline; it still turns accent on hover and while dragging.
+
+<ComponentPreview name="resizable/plain-handle" />
+
+### Collapsible
+
+`collapsible` with a `collapsedSize` lets a panel snap shut when dragged below its `minSize`.
+
+<ComponentPreview name="resizable/collapsible" />
+
+## Accessibility
+
+- Each handle has `role="separator"` with `aria-valuenow`/`min`/`max`, is focusable and moves with the arrow keys (Home/End jump to the limits).
+- Double-click a handle to reset its panel to the default size.
+- Give panels with meaningful content a heading or a label so the split is understandable.
+
+## API Reference
+
+### Resizable.Group
+
+The container (react-resizable-panels `Group`). Panels and handles must be its direct children.
+
+<TypeTable
+  type={{
+    orientation: { description: 'Side by side or stacked.', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    defaultLayout: { description: 'Initial sizes by panel id.', type: 'Record<string, number>' },
+    onLayoutChange: { description: 'Called while resizing.', type: '(layout) => void' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Resizable.Panel
+
+One area (react-resizable-panels `Panel`). Numbers are pixels, strings without a unit are percentages.
+
+<TypeTable
+  type={{
+    defaultSize: { description: 'Initial size.', type: 'number | string' },
+    minSize: { description: 'Smallest size.', type: 'number | string' },
+    maxSize: { description: 'Largest size.', type: 'number | string' },
+    collapsible: { description: 'Snap shut below `minSize`.', type: 'boolean', default: 'false' },
+    collapsedSize: { description: 'Size when collapsed.', type: 'number | string' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Resizable.Handle
+
+The draggable line (react-resizable-panels `Separator`).
+
+<TypeTable
+  type={{
+    withHandle: { description: 'Show a small grip on the line.', type: 'boolean', default: 'false' },
+    disabled: { description: 'Stop resizing with this handle.', type: 'boolean', default: 'false' },
+    className: { description: 'Classes, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ grip?: string }' },
+  }}
+/>

@@ -1,0 +1,123 @@
+---
+title: Progress
+description: Shows how far a task has come — a download, an install, votes towards a goal.
+---
+
+<ComponentPreview name="progress/default" />
+
+## Installation
+
+<InstallTabs component="progress" />
+
+## Usage
+
+```tsx
+import { Progress } from '@crazy-staff/ui';
+```
+
+```tsx
+<Progress value={64} label="Downloading build 0.9" />
+```
+
+## Examples
+
+### Sizes
+
+`sm`, `md` (default) and `lg` set the thickness of the bar. Without a visible label, give it an
+`aria-label`.
+
+<ComponentPreview name="progress/sizes" />
+
+### Live value
+
+Update `value` and the bar eases to it.
+
+<ComponentPreview name="progress/live" />
+
+### Indeterminate
+
+`value={null}` when you can't tell how long it takes. Hide the percentage with `showValue={false}`.
+
+<ComponentPreview name="progress/indeterminate" />
+
+### Custom range and colour
+
+`min` and `max` change the range; the value is still shown as a percentage. `getAriaValueText` says it in
+words for screen readers, and `classNames.indicator` recolours the bar — green for verified features.
+
+<ComponentPreview name="progress/format" />
+
+### Compound parts
+
+Build it from `Progress.Root`, `Progress.Label`, `Progress.Value` and `Progress.Track` for your own header.
+
+<ComponentPreview name="progress/compound" />
+
+## Accessibility
+
+- Built on Base UI Progress: `role="progressbar"` with `aria-valuenow`, `aria-valuemin` and
+  `aria-valuemax`; indeterminate bars leave out `aria-valuenow`.
+- `label` (or `Progress.Label`) names the bar. Without one, pass `aria-label`.
+- Use `getAriaValueText` when a percentage isn't the clearest way to say the value.
+- The bar's movement turns off with `prefers-reduced-motion`.
+
+## API Reference
+
+### Progress
+
+The one-line form: an optional header (label + value) over the bar. Other props go to `Progress.Root`.
+
+<TypeTable
+  type={{
+    label: { description: 'The name shown above the bar.', type: 'ReactNode' },
+    showValue: { description: 'Show the formatted value next to the label.', type: 'boolean', default: 'true with a label' },
+    size: { description: 'The thickness of the bar.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    classNames: {
+      description: 'Classes per slot.',
+      type: '{ header?: string; label?: string; value?: string; track?: string; indicator?: string }',
+    },
+  }}
+/>
+
+### Progress.Root
+
+Holds the value. Renders a `<div role="progressbar">`; Base UI `Progress.Root` props pass through.
+
+<TypeTable
+  type={{
+    value: { description: 'The current value; `null` is indeterminate.', type: 'number | null' },
+    min: { description: 'The lowest value.', type: 'number', default: '0' },
+    max: { description: 'The highest value.', type: 'number', default: '100' },
+    format: { description: 'How `Progress.Value` formats the number.', type: 'Intl.NumberFormatOptions' },
+    locale: { description: 'The locale for the formatting.', type: 'Intl.LocalesArgument' },
+    getAriaValueText: {
+      description: 'The value in words for screen readers.',
+      type: '(formattedValue: string, value: number | null) => string',
+    },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### Progress.Label
+
+The visible name, linked to the bar. Renders a `<span>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Progress.Value
+
+The formatted value (a percentage by default). Renders a `<span>`.
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
+
+### Progress.Track
+
+The bar with its indicator inside. Renders a `<div>`.
+
+<TypeTable
+  type={{
+    size: { description: 'The thickness.', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes for the track, merged last.', type: 'string' },
+    classNames: { description: 'Classes for the filled part.', type: '{ indicator?: string }' },
+  }}
+/>

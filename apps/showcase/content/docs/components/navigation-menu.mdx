@@ -1,0 +1,127 @@
+---
+title: Navigation Menu
+description: Site navigation with panels — the top bar of crazy-hub with Trainer, Community and Changelog.
+---
+
+<ComponentPreview name="navigation-menu/default" />
+
+## Installation
+
+<InstallTabs component="navigation-menu" />
+
+## Usage
+
+```tsx
+import { NavigationMenu } from '@crazy-staff/ui';
+```
+
+```tsx
+<NavigationMenu
+  items={[
+    { label: 'Trainer', links: [{ title: 'Install', href: '/docs/install', description: 'Copy the DLL.' }] },
+    { label: 'Changelog', href: '/changelog' },
+  ]}
+/>
+```
+
+## Examples
+
+### Custom panel content
+
+Give an item `content` to put anything in its panel. The floating box resizes smoothly between panels,
+and panels slide in from the side the pointer came from. `active` marks the current page link.
+
+<ComponentPreview name="navigation-menu/custom-content" />
+
+### Compound parts
+
+Use `NavigationMenu.Root`, `List`, `Item`, `Trigger`, `Content`, `Link`, `LinkCard` and `Viewport`.
+Pass `render` to `Link` to use your router's link component.
+
+<ComponentPreview name="navigation-menu/compound" />
+
+## Accessibility
+
+- Built on Base UI Navigation Menu: the root is a `<nav>` (name it with `aria-label`), triggers are
+  buttons with `aria-expanded`, panels open on hover, click, **Enter** or **Space**.
+- **Tab** moves through triggers and links; **Esc** closes the panel. The active link gets
+  `aria-current="page"`.
+- The gliding highlight and the panel slide are decorative; with reduced motion they don't move.
+
+## API Reference
+
+### NavigationMenu
+
+The short form. Base UI `NavigationMenu.Root` props pass through (`value`, `onValueChange`, `delay`,
+`closeDelay`, `orientation`).
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Top-level entries: a link (`href`), a panel of link cards (`links`), or custom `content`.',
+      type: 'NavigationMenuItemData[]',
+    },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ list?; trigger?; content?; popup? }' },
+  }}
+/>
+
+### NavigationMenuItemData
+
+<TypeTable
+  type={{
+    label: { description: 'Text of the trigger or link.', type: 'ReactNode' },
+    href: { description: 'Makes the entry a plain link.', type: 'string' },
+    active: { description: 'Marks the link as the current page.', type: 'boolean' },
+    links: { description: 'Link cards in the panel.', type: '{ title; href; description?; icon? }[]' },
+    columns: { description: 'Columns of link cards.', type: '1 | 2', default: '2' },
+    content: { description: 'Custom panel content.', type: 'ReactNode' },
+  }}
+/>
+
+### NavigationMenu.List
+
+The row of items with the gliding highlight. Renders a `<ul>`.
+
+<TypeTable type={{ classNames: { description: 'Classes for the highlight.', type: '{ indicator? }' } }} />
+
+### NavigationMenu.Item, Trigger, Content
+
+An entry (`<li>`), the button that opens its panel (with a chevron), and the panel content.
+
+<TypeTable type={{ value: { description: 'Item only: id used by the controlled `value`.', type: 'string' } }} />
+
+### NavigationMenu.Link
+
+A link styled like a trigger. Base UI props pass through.
+
+<TypeTable
+  type={{
+    active: { description: 'Marks the current page (`aria-current`).', type: 'boolean' },
+    render: { description: "Your router's link element.", type: 'ReactElement' },
+  }}
+/>
+
+### NavigationMenu.LinkCard
+
+A link inside a panel.
+
+<TypeTable
+  type={{
+    title: { description: 'The link title.', type: 'ReactNode' },
+    description: { description: 'One line under the title.', type: 'ReactNode' },
+    icon: { description: 'Icon in a soft accent square.', type: 'ReactNode' },
+  }}
+/>
+
+### NavigationMenu.Viewport
+
+The floating box the panels render in. Put it once inside `Root`, after `List`.
+
+<TypeTable
+  type={{
+    sideOffset: { description: 'Gap below the list in px.', type: 'number', default: '8' },
+    align: { description: 'Alignment to the trigger.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    classNames: { description: 'Classes per slot.', type: '{ positioner?; popup?; viewport? }' },
+  }}
+/>
