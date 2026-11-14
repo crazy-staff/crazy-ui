@@ -13,6 +13,9 @@ function App() {
   return (
     <Sidebar.Provider>
       <Sidebar label="Main">
+        <Sidebar.Header>
+          <a href="/">Crazy Hub</a>
+        </Sidebar.Header>
         <Sidebar.Content>
           <Sidebar.Group label="Feedback">
             <Sidebar.Item href="/ideas" active badge={12}>
@@ -37,6 +40,12 @@ describe('Sidebar', () => {
     expect(active).toHaveAttribute('aria-current', 'page');
     expect(active).toHaveAttribute('data-active', 'true');
     expect(screen.getByRole('link', { name: 'Roadmap' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('keeps the header out of the glide', () => {
+    render(<App />);
+    expect(screen.getByRole('link', { name: 'Crazy Hub' }).closest('[data-no-glide-area]')).not.toBeNull();
+    expect(screen.getByRole('link', { name: 'Roadmap' }).closest('[data-no-glide-area]')).toBeNull();
   });
 
   it('renders one glide block per area', () => {

@@ -41,7 +41,8 @@ export const sidebarStyles = tv({
       'squircle relative m-2 flex min-w-0 flex-1 flex-col rounded-panel border border-border bg-background',
       'md:ms-0 md:group-data-[sidebar=collapsed]/provider:ms-2',
     ],
-    trigger: 'text-muted hover:text-foreground',
+    // the same 32px button with a 16px icon as the docs sidebar's collapse button
+    trigger: 'size-8 rounded-control-sm text-muted hover:text-foreground [&_svg]:size-4',
     backdrop: [backdropStyles, 'md:hidden'],
     drawer: [
       'squircle fixed inset-y-2 left-2 z-50 flex w-[min(var(--sidebar-width),calc(100vw-3rem))] flex-col overflow-hidden rounded-card',

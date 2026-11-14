@@ -144,7 +144,13 @@ function SidebarRoot({ label = 'Sidebar', className, classNames, children, ...pr
   );
 }
 
-const SidebarHeader = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => <div className={cn(s.header(), className)} {...p} />;
+/**
+ * The top row (title, trigger). Its controls keep their own hover: the gliding block is for the rows
+ * only, it never jumps up onto the title or the trigger (as in the docs sidebar).
+ */
+const SidebarHeader = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => (
+  <div data-no-glide-area="" className={cn(s.header(), className)} {...p} />
+);
 const SidebarFooter = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => <div className={cn(s.footer(), className)} {...p} />;
 const SidebarSeparator = ({ className, ...p }: React.ComponentPropsWithRef<'div'>) => (
   <div role="separator" className={cn(s.separator(), className)} {...p} />
