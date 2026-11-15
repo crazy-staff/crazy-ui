@@ -77,3 +77,17 @@ regress (decision 13).
   get a plain radius scaled to match. Rows that share a column with a gliding block (sidebar rows,
   tabs, toggle-group items — their active fill sits where the hover block goes) use
   `squircle-motion` too, so hover and active always have the same corners.
+
+## Declutter
+
+Owner's rule (crazy-hub ideas review, 2026-11-15), for every app built on crazy-ui:
+
+- **No text where an icon carries the meaning.** Toolbar actions that are universally understood
+  (filter, search, edit, delete, close, more, copy, collapse) are icon-only buttons with an
+  `aria-label` and a tooltip; a count or state goes in a badge, not in words.
+- **Whitespace first.** Groups of choices, form fields, list items and comment threads get room to
+  breathe; when a screen feels cluttered, add space and hierarchy before adding borders or dividers.
+- **Controls in one row have the same size** (height, and width for icon buttons): a search input,
+  a select and a button next to each other share one `size`.
+- No decorative outline around a control that is already a clear group (e.g. a segmented
+  ToggleGroup used for sorting).
