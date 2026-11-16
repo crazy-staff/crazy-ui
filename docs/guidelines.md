@@ -91,3 +91,32 @@ Owner's rule (crazy-hub ideas review, 2026-11-15), for every app built on crazy-
   a select and a button next to each other share one `size`.
 - No decorative outline around a control that is already a clear group (e.g. a segmented
   ToggleGroup used for sorting).
+
+## Mobile
+
+Owner's rules (crazy-hub review, round 7, 2026-11-16), for every app built on crazy-ui. A **phone** is
+a window below `sm` (640px).
+
+- **Whatever is small and opens becomes a bottom drawer on a phone**: dropdown menus, popovers,
+  pickers (language, theme, account), filters, search, a reaction picker, row actions ("…"). Not a
+  dropdown that has to be hit with a fingertip. On larger screens they stay the dropdown or popover.
+- **Drawer rows are made for a finger**: at least 48px tall (`min-h-12`), `text-base`, 20px icons,
+  a gap of 4px between rows. The drawer has a title; no divider straight under it.
+- **Picked options** (in drawers and dropdowns alike) are tinted with the soft accent and carry a small
+  check at the end. No leading indicator column; a menu's title has room under it.
+- **Nothing runs off the screen.** A segmented ToggleGroup that doesn't fit becomes a full-width button
+  showing the current choice (icon + label + chevron) that opens the choices in a drawer.
+- **Main navigation opens from the bottom right on a phone** (a 56px floating button), where the thumb
+  is; the top bar keeps only small icon actions.
+- **Management panels** (moderation, quick admin) open from an icon button placed among the page's own
+  controls, on every screen: on a wide screen it shows or hides the panel in the right column (pressed
+  while open, remembered); on a narrow one it opens the same content in a drawer with touch-size
+  controls (`lg` selects and switches, full-size icon buttons, 44px rows). No floating "show panel"
+  buttons in random places.
+- **Toolbars**: a group of icon buttons stays together when the row wraps; on a phone tighten spacing
+  and item padding first so sorting and the icon buttons share one row.
+- **Grids** of cards stack to one column when the container is narrower than about 48rem.
+- Touch targets in drawers are at least 44px; visible focus and reduced motion still apply.
+
+Keep this file current: whenever the owner settles a design question in an app review, the rule lands
+here (and in the app's own notes) in the same change.
