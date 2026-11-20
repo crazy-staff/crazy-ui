@@ -24,7 +24,10 @@ All decisions behind it are in `docs/decisions.md`; read it before changing dire
 
 ## Stack (decided)
 
-- React 19, TypeScript strict, Tailwind CSS 4, **Base UI** (`@base-ui/react`) primitives.
+- React 19, TypeScript strict, Tailwind CSS 4. **Behaviour: UI SDK** (https://ui-sdk.dev — `@ui-sdk/core`
+  behaviours + `@ui-sdk/react`, pinned exact versions) for every new or rebuilt component (decision 18).
+  Agent skill: `npx skills@latest add vercel-labs/ui --skill ui-sdk`; docs in Markdown at
+  `https://ui-sdk.dev/docs.md`. Older components still use **Base UI** (`@base-ui/react`) until touched.
 - Styling API: **tailwind-variants** (variants + slots) with tailwind-merge; `cn()` (clsx + tailwind-merge)
   for one-off classes. Every component takes `className` and `classNames={{ slot }}` (HeroUI style).
 - Compound parts (`<Select.Root>`, `<Select.Item>` … like Base UI) **and** a simple one-line form
