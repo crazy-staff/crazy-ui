@@ -117,6 +117,25 @@ a window below `sm` (640px).
   and item padding first so sorting and the icon buttons share one row.
 - **Grids** of cards stack to one column when the container is narrower than about 48rem.
 - Touch targets in drawers are at least 44px; visible focus and reduced motion still apply.
+- **Suggestions while typing are the exception** (crazy-hub @-mentions, 2026-11-20): a list that
+  answers what is being typed (people for `@`, completions) opens inside the field, right under the
+  text, on every screen size — never a drawer or a floating popup, which would cover the text or close
+  the phone keyboard. The field keeps the focus (combobox, `aria-activedescendant`); arrows move,
+  Enter/Tab pick, Escape closes; rows are 40px, 48px on a phone.
+- **A dialog body never shrinks under its footer**: in a scrolling popup the body is `shrink-0`, so a
+  `min-h-*` on it can't let the footer buttons cover the fields on a short screen.
+
+## Names, states and sessions
+
+From the crazy-hub ideas work (2026-11-20, #5):
+
+- **Role badges** are small soft chips right after a person's name, like a "Team" chip; only roles
+  marked public.
+- **Waiting for approval**: content only its author sees until a moderator approves it carries a
+  warning chip ("Waiting for review"); a whole page of it (an idea) gets a warning alert above the text.
+- **A session that ended** shows no error toast: the sign-in dialog opens over the same page as "Sign
+  in again" with the e-mail filled in, and unsent text is kept (session storage) so nothing typed is
+  lost.
 
 Keep this file current: whenever the owner settles a design question in an app review, the rule lands
 here (and in the app's own notes) in the same change.
