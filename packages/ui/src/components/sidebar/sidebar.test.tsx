@@ -64,3 +64,35 @@ describe('Sidebar', () => {
     expect(aside).toHaveAttribute('data-state', 'open');
   });
 });
+
+describe('Sidebar on a phone', () => {
+  it('opens from the floating button in the bottom right; the top-bar trigger hides there', async () => {
+    window.matchMedia = ((query: string) => ({
+      matches: query.includes('max-width'),
+      media: query,
+      addEventListener() {},
+      removeEventListener() {},
+    })) as unknown as typeof window.matchMedia;
+    render(<App />);
+    const fab = screen.getByRole('button', { name: 'Open menu' });
+    expect(fab.className).toContain('size-14');
+    expect(fab.className).toContain('bottom-5');
+    expect(fab.className).toContain('md:hidden');
+    expect(screen.getByRole('button', { name: 'Collapse sidebar' }).className).toContain('max-md:hidden');
+    await userEvent.click(fab);
+    expect(await screen.findByRole('dialog', { name: 'Main' })).toBeInTheDocument();
+  });
+
+  it('keeps the trigger in the top bar with mobileTrigger="inline"', () => {
+    render(
+      <Sidebar.Provider mobileTrigger="inline">
+        <Sidebar label="Main">x</Sidebar>
+        <Sidebar.Inset>
+          <Sidebar.Trigger />
+        </Sidebar.Inset>
+      </Sidebar.Provider>,
+    );
+    expect(screen.queryByRole('button', { name: 'Open menu' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Collapse sidebar' }).className).not.toContain('max-md:hidden');
+  });
+});

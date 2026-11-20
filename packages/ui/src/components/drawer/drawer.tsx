@@ -1,5 +1,6 @@
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer';
 import * as React from 'react';
+import { TouchProvider } from '../../lib/responsive';
 import { cn } from '../../lib/tv';
 import { drawerStyles } from './drawer.styles';
 
@@ -8,17 +9,21 @@ const styles = drawerStyles();
 export interface DrawerContentProps extends React.ComponentPropsWithRef<typeof BaseDrawer.Popup> {
   /** Show the grab handle at the top. @default true */
   showHandle?: boolean;
+  /** Render the controls inside at touch size (`TouchProvider`). The adaptive drawers turn it on. @default false */
+  touch?: boolean;
   classNames?: { backdrop?: string; viewport?: string; popup?: string; content?: string };
 }
 
-function DrawerContent({ showHandle = true, className, classNames, children, ...props }: DrawerContentProps) {
+function DrawerContent({ showHandle = true, touch = false, className, classNames, children, ...props }: DrawerContentProps) {
   return (
     <BaseDrawer.Portal>
       <BaseDrawer.Backdrop className={cn(styles.backdrop(), classNames?.backdrop)} />
       <BaseDrawer.Viewport className={cn(styles.viewport(), classNames?.viewport)}>
         <BaseDrawer.Popup className={cn(styles.popup(), classNames?.popup, className)} {...props}>
           {showHandle && <div aria-hidden className={styles.handle()} />}
-          <BaseDrawer.Content className={cn(styles.content(), classNames?.content)}>{children}</BaseDrawer.Content>
+          <BaseDrawer.Content className={cn(styles.content(), classNames?.content)}>
+            {touch ? <TouchProvider>{children}</TouchProvider> : children}
+          </BaseDrawer.Content>
         </BaseDrawer.Popup>
       </BaseDrawer.Viewport>
     </BaseDrawer.Portal>

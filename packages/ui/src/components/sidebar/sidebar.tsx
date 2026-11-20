@@ -1,7 +1,7 @@
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
-import { PanelLeft } from 'lucide-react';
+import { Menu as MenuIcon, PanelLeft } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../lib/tv';
 import { glideBlockClass, useGlide } from './glide';
@@ -21,6 +21,7 @@ interface SidebarContextValue {
   /** Opens/closes the drawer on a phone, the sidebar otherwise. */
   toggle: () => void;
   id: string;
+  mobileTrigger: 'floating' | 'inline';
 }
 
 const SidebarContext = React.createContext<SidebarContextValue | null>(null);
@@ -44,6 +45,12 @@ export interface SidebarProviderProps extends React.ComponentPropsWithRef<'div'>
   shortcut?: string | false;
   /** Sidebar width, any CSS length. @default '16rem' */
   width?: string;
+  /**
+   * Where the drawer opens from on a phone (below `md`): `floating` — a 56px button in the bottom
+   * right corner, under the thumb (`Sidebar.Inset` renders it; `Sidebar.Trigger` hides there);
+   * `inline` — the `Sidebar.Trigger` in the top bar. @default 'floating'
+   */
+  mobileTrigger?: 'floating' | 'inline';
 }
 
 /** Holds the open state and lays out the sidebar next to `Sidebar.Inset` on the frame colour. */
@@ -53,6 +60,7 @@ function SidebarProvider({
   onOpenChange,
   shortcut = 'b',
   width,
+  mobileTrigger = 'floating',
   className,
   style,
   ...props
@@ -83,7 +91,7 @@ function SidebarProvider({
   }, [shortcut, toggle]);
 
   return (
-    <SidebarContext.Provider value={{ open, setOpen, openMobile, setOpenMobile, toggle, id }}>
+    <SidebarContext.Provider value={{ open, setOpen, openMobile, setOpenMobile, toggle, id, mobileTrigger }}>
       <div
         data-sidebar={open ? 'open' : 'collapsed'}
         className={cn(s.provider(), className)}
@@ -243,14 +251,14 @@ function SidebarSub({ className, children, ...props }: React.ComponentPropsWithR
 
 /** Opens and closes the sidebar (the drawer on a phone). Looks like the docs sidebar's collapse button. */
 function SidebarTrigger({ className, onClick, children, ...props }: React.ComponentPropsWithRef<'button'>) {
-  const { open, openMobile, toggle, id } = useSidebar();
+  const { open, openMobile, toggle, id, mobileTrigger } = useSidebar();
   return (
     <button
       type="button"
       aria-label={open ? 'Collapse sidebar' : 'Open sidebar'}
       aria-controls={id}
       aria-expanded={isMobile() ? openMobile : open}
-      className={cn(s.trigger(), className)}
+      className={cn(s.trigger(), mobileTrigger === 'floating' && 'max-md:hidden', className)}
       onClick={(event) => {
         onClick?.(event);
         toggle();
@@ -262,9 +270,40 @@ function SidebarTrigger({ className, onClick, children, ...props }: React.Compon
   );
 }
 
+/**
+ * The floating menu button of a phone (below `md`): 56px, bottom right, where the thumb is
+ * (guidelines → Mobile). `Sidebar.Inset` renders it when `mobileTrigger="floating"`; render it
+ * yourself only for a custom layout.
+ */
+function SidebarFab({ className, onClick, children, ...props }: React.ComponentPropsWithRef<'button'>) {
+  const { openMobile, toggle, id } = useSidebar();
+  return (
+    <button
+      type="button"
+      aria-label={openMobile ? 'Close menu' : 'Open menu'}
+      aria-controls={id}
+      aria-expanded={openMobile}
+      className={cn(s.fab(), className)}
+      onClick={(event) => {
+        onClick?.(event);
+        toggle();
+      }}
+      {...props}
+    >
+      {children ?? <MenuIcon />}
+    </button>
+  );
+}
+
 /** The page panel next to the sidebar (rounded, on the background colour). */
-function SidebarInset({ className, ...props }: React.ComponentPropsWithRef<'main'>) {
-  return <main className={cn(s.inset(), className)} {...props} />;
+function SidebarInset({ className, children, ...props }: React.ComponentPropsWithRef<'main'>) {
+  const { mobileTrigger } = useSidebar();
+  return (
+    <main className={cn(s.inset(), className)} {...props}>
+      {children}
+      {mobileTrigger === 'floating' && <SidebarFab />}
+    </main>
+  );
 }
 
 /**
@@ -293,5 +332,6 @@ export const Sidebar = Object.assign(SidebarRoot, {
   Item: SidebarItem,
   Sub: SidebarSub,
   Trigger: SidebarTrigger,
+  Fab: SidebarFab,
   Inset: SidebarInset,
 });

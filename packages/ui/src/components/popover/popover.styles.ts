@@ -21,5 +21,7 @@ export const popoverStyles = tv({
     title: 'text-sm font-semibold text-foreground',
     description: 'mt-1 text-sm text-muted',
     close: 'absolute top-2.5 right-2.5',
+    /** The content in the phone drawer: the title, then the content with room around it. */
+    drawerBody: 'flex flex-col gap-3 pb-2 text-base [&>p]:text-sm',
   },
 });

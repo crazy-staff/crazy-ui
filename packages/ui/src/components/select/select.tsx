@@ -1,6 +1,7 @@
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
+import { useTouch } from '../../lib/responsive';
 import { cn, type VariantProps } from '../../lib/tv';
 import { selectStyles } from './select.styles';
 
@@ -16,7 +17,7 @@ function SelectTrigger({
   ...props
 }: Props<typeof BaseSelect.Trigger> & VariantProps<typeof selectStyles>) {
   return (
-    <BaseSelect.Trigger className={cn(selectStyles({ size }).trigger(), className)} {...props}>
+    <BaseSelect.Trigger className={cn(selectStyles({ size: useTouch() ? 'lg' : size }).trigger(), className)} {...props}>
       {children}
       <BaseSelect.Icon className={styles.icon()}>
         <ChevronsUpDown />

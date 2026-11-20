@@ -1,5 +1,15 @@
 export { cn, tv, twMergeConfig, type VariantProps } from './lib/tv';
 export { registerSquircles } from './lib/squircle';
+export {
+  PHONE_QUERY,
+  useMediaQuery,
+  usePhone,
+  useDrawerMode,
+  TouchProvider,
+  useTouch,
+  type MobileMode,
+  type TouchProviderProps,
+} from './lib/responsive';
 
 export { Button, type ButtonProps } from './components/button/button';
 export { buttonStyles } from './components/button/button.styles';

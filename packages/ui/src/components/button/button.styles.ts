@@ -26,6 +26,8 @@ export const buttonStyles = tv({
       lg: 'h-control-lg rounded-control-lg px-5 text-base [&_svg]:size-5',
       icon: 'h-control w-control rounded-control [&_svg]:size-4',
       'icon-sm': 'h-control-sm w-control-sm rounded-control-sm [&_svg]:size-3.5',
+      /** Touch size (44px): what `icon` and `icon-sm` become inside a `TouchProvider`. */
+      'icon-lg': 'h-control-lg w-control-lg rounded-control-lg [&_svg]:size-5',
     },
     /** A soft accent glow under solid buttons. Off by default; use it for the one main action. */
     glow: {

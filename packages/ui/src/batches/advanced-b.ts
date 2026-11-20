@@ -56,3 +56,16 @@ export { itemStyles, itemMediaStyles, itemGroupStyles } from '../components/item
 
 export { ProgressiveBlur, type ProgressiveBlurProps } from '../components/progressive-blur/progressive-blur';
 export { progressiveBlurStyles } from '../components/progressive-blur/progressive-blur.styles';
+export {
+  SidePanel,
+  SidePanelButton,
+  SidePanelSection,
+  useSidePanel,
+  WIDE_QUERY,
+  type SidePanelState,
+  type SidePanelProps,
+  type SidePanelButtonProps,
+  type SidePanelSectionProps,
+  type UseSidePanelOptions,
+} from '../components/side-panel/side-panel';
+export { sidePanelStyles } from '../components/side-panel/side-panel.styles';
