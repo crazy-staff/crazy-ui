@@ -3,7 +3,7 @@ import { BookOpen, Download } from 'lucide-react';
 
 export default function SidebarSubItems() {
   return (
-    <Sidebar.Provider shortcut={false} className="squircle h-96 min-h-0 overflow-hidden rounded-card border border-border">
+    <Sidebar.Provider mobileTrigger="inline" shortcut={false} className="squircle h-96 min-h-0 overflow-hidden rounded-card border border-border">
       <Sidebar label="Docs">
         <Sidebar.Content>
           <Sidebar.Group label="Docs">

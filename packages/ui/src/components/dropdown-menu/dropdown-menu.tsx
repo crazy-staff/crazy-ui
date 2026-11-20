@@ -103,7 +103,8 @@ export interface DropdownMenuContentProps extends React.ComponentPropsWithRef<ty
   title?: string;
   /** Also show `title` at the top of the desktop menu, with room under it (pickers: language, theme). */
   showTitle?: boolean;
-  classNames?: { positioner?: string; popup?: string; title?: string };
+  /** `drawer` and `list` style the phone drawer and its column of rows. */
+  classNames?: { positioner?: string; popup?: string; title?: string; drawer?: string; list?: string };
 }
 
 function DropdownMenuContent({
@@ -121,9 +122,9 @@ function DropdownMenuContent({
   if (drawer) {
     const label = (props as { 'aria-label'?: string })['aria-label'];
     return (
-      <Drawer.Content touch aria-label={title ? undefined : label}>
+      <Drawer.Content touch aria-label={title ? undefined : label} className={classNames?.drawer}>
         {title && <Drawer.Title className={classNames?.title}>{title}</Drawer.Title>}
-        <div className={cn(ds.list(), !title && 'pt-0')}>{children as React.ReactNode}</div>
+        <div className={cn(ds.list(), !title && 'pt-0', classNames?.list)}>{children as React.ReactNode}</div>
       </Drawer.Content>
     );
   }

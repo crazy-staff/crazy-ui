@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function SidebarCollapsed() {
   const [open, setOpen] = useState(false);
   return (
-    <Sidebar.Provider open={open} onOpenChange={setOpen} shortcut={false} className="squircle h-80 min-h-0 overflow-hidden rounded-card border border-border">
+    <Sidebar.Provider mobileTrigger="inline" open={open} onOpenChange={setOpen} shortcut={false} className="squircle h-80 min-h-0 overflow-hidden rounded-card border border-border">
       <Sidebar label="Feedback">
         <Sidebar.Content>
           <Sidebar.Group label="Feedback">

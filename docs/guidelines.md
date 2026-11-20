@@ -118,5 +118,27 @@ a window below `sm` (640px).
 - **Grids** of cards stack to one column when the container is narrower than about 48rem.
 - Touch targets in drawers are at least 44px; visible focus and reduced motion still apply.
 
+How the library implements these (issue #7):
+
+- **Adaptive overlays.** `DropdownMenu` and `Popover` take `mobile` (`'drawer'` by default, `'none'` to
+  opt out): below `sm` the same compound parts render a bottom `Drawer`. Use `usePhone()` /
+  `useDrawerMode()` for your own adaptive components, never a second copy of the content. Context Menu
+  and Menubar stay floating (they have no phone use).
+- **Every drawer has a title.** Pass `title` to the menu (it also names the desktop popup) or a
+  `Popover.Title`; it becomes the drawer's title.
+- **Touch size is a context.** Controls read `useTouch()` and grow inside a `TouchProvider`: `sm`/`md`
+  become `lg`, icon buttons become `icon-lg` (44px). Library drawers turn it on (`Drawer.Content
+  touch`); a new control with sizes must honour it too.
+- **Picks close, toggles don't.** Radio items and plain items close the menu (or drawer) when picked;
+  checkbox items stay open.
+- **Choice Field** collapses to the button on a phone and whenever the segmented toggle doesn't fit its
+  container; off a phone the collapsed field opens a menu, not a drawer.
+- The sidebar's floating button follows the sidebar's own breakpoint (`md`), so it is there whenever the
+  sidebar is a drawer.
+- Showcase pages show the phone version in a `PhonePreview` frame (an iframe 390px wide, a real phone
+  window); visual snapshots of these run at 390 × 844, light and dark (`apps/showcase/e2e`).
+- Open in round "mobile" (`/docs/rounds/mobile`): drawer row style, picked-option tint, floating button
+  look. The library ships variant A (crazy-hub round 7) until the owner picks.
+
 Keep this file current: whenever the owner settles a design question in an app review, the rule lands
 here (and in the app's own notes) in the same change.

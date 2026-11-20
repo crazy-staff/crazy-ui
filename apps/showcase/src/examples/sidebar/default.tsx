@@ -18,7 +18,7 @@ const nav = [
 export default function SidebarDefault() {
   const [active, setActive] = useState('Ideas');
   return (
-    <Sidebar.Provider className="squircle h-[30rem] min-h-0 overflow-hidden rounded-card border border-border">
+    <Sidebar.Provider mobileTrigger="inline" className="squircle h-[30rem] min-h-0 overflow-hidden rounded-card border border-border">
       <Sidebar label="Crazy Hub">
         <Sidebar.Header>
           <Sparkles className="size-5 text-accent-soft-foreground" />

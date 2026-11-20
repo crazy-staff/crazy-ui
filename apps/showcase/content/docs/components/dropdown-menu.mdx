@@ -1,6 +1,6 @@
 ---
 title: Dropdown Menu
-description: A menu opened by a button, with icons, shortcuts, checkbox and radio items, groups and submenus.
+description: A menu opened by a button, with icons, shortcuts, checkbox and radio items, groups and submenus — a bottom drawer on a phone.
 ---
 
 <ComponentPreview name="dropdown-menu/default" />
@@ -26,7 +26,24 @@ import { DropdownMenu } from '@crazy-staff/ui';
 />
 ```
 
+## On a phone
+
+Below `sm` (640 px) the same menu opens as a bottom drawer titled by `title`, with rows made for a finger
+(at least 48 px, `text-base`, 20 px icons). Every compound part works there: radio and checkbox items keep
+their state, a submenu shows inline under its heading, shortcuts are hidden. Picking an item closes the
+drawer and focus returns to the trigger. Set `mobile="none"` to keep the floating menu.
+
+<PhonePreview name="dropdown-menu/phone" height={560} />
+
 ## Examples
+
+### Picked option
+
+A picker (theme, language): `showTitle` puts the title on top with room under it, and `checked` marks the
+picked option — tinted with the soft accent, a small check at the end, no indicator column. Radio and
+checkbox items look the same.
+
+<ComponentPreview name="dropdown-menu/picked" />
 
 ### Groups and labels
 
@@ -43,7 +60,7 @@ out an item.
 
 ### Radio items
 
-`DropdownMenu.RadioGroup` with `DropdownMenu.RadioItem` picks one value from a few.
+`DropdownMenu.RadioGroup` with `DropdownMenu.RadioItem` picks one value from a few. Picking closes the menu.
 
 <ComponentPreview name="dropdown-menu/radio-items" />
 
@@ -81,6 +98,8 @@ bottom.
   letter jumps to the matching item, <kbd>Esc</kbd> closes and returns focus.
 - Shortcuts are shown as text only. Bind the keys yourself.
 - Icons are decorative; the label carries the meaning.
+- On a phone the drawer is a dialog titled by `title`; its rows are buttons, picked ones with
+  `aria-pressed`. Focus returns to the trigger when it closes.
 
 ## API Reference
 
@@ -103,6 +122,9 @@ The short form: a trigger and a list of entries. Other props go to Base UI's
       default: "'bottom'",
     },
     align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'start'" },
+    title: { description: "The menu's name: the drawer title on a phone and the popup's accessible name.", type: 'string' },
+    showTitle: { description: 'Also show the title at the top of the desktop menu.', type: 'boolean', default: 'false' },
+    mobile: { description: "On a phone: a bottom drawer, or keep the menu.", type: "'drawer' | 'none'", default: "'drawer'" },
     open: { description: 'Controlled open state.', type: 'boolean' },
     onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
     className: { description: 'Classes for the popup, merged last.', type: 'string' },
@@ -117,8 +139,8 @@ One entry of `items`.
   type={{
     "type: 'item'": {
       description:
-        'An action (the default when `type` is left out): `label`, `icon`, `shortcut`, `danger`, `disabled`, `onClick`.',
-      type: '{ label: ReactNode; icon?: ReactNode; shortcut?: string; danger?: boolean; disabled?: boolean; onClick?: () => void }',
+        'An action (the default when `type` is left out): `label`, `icon`, `shortcut`, `danger`, `disabled`, `onClick`; `checked` marks the picked option of a choice, `render` renders it as e.g. a router link.',
+      type: '{ label: ReactNode; icon?: ReactNode; shortcut?: string; danger?: boolean; disabled?: boolean; checked?: boolean; render?: ReactElement; lang?: string; onClick?: () => void }',
     },
     "type: 'separator'": { description: 'A thin line between groups.', type: "{ type: 'separator' }" },
     "type: 'label'": { description: 'A small muted heading that starts a group.', type: "{ type: 'label'; label: ReactNode }" },
@@ -127,10 +149,11 @@ One entry of `items`.
 
 ### DropdownMenu.Root
 
-Holds the open state. Base UI's `Menu.Root`; renders nothing.
+Holds the open state. Base UI's `Menu.Root` (a drawer's root on a phone); renders nothing.
 
 <TypeTable
   type={{
+    mobile: { description: 'On a phone: a bottom drawer, or keep the menu.', type: "'drawer' | 'none'", default: "'drawer'" },
     open: { description: 'Controlled open state.', type: 'boolean' },
     defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
     onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },
@@ -164,8 +187,10 @@ The floating list: portal, positioner and popup. Renders a `<div>`; other props 
     },
     align: { description: 'Alignment along that side.', type: "'start' | 'center' | 'end'", default: "'start'" },
     sideOffset: { description: 'Gap to the trigger in px.', type: 'number', default: '6' },
+    title: { description: "The menu's name: the drawer title on a phone, the popup's accessible name.", type: 'string' },
+    showTitle: { description: 'Also show the title at the top of the desktop popup, with room under it.', type: 'boolean', default: 'false' },
     className: { description: 'Classes for the popup, merged last.', type: 'string' },
-    classNames: { description: 'Classes per slot.', type: '{ positioner?: string; popup?: string }' },
+    classNames: { description: 'Classes per slot (`drawer` and `list` style the phone drawer).', type: '{ positioner?: string; popup?: string; title?: string; drawer?: string; list?: string }' },
   }}
 />
 
@@ -176,6 +201,8 @@ An action. Renders a `<div role="menuitem">`; other props go to Base UI's `Menu.
 <TypeTable
   type={{
     danger: { description: 'Paint it in the danger colour (delete, sign out …).', type: 'boolean', default: 'false' },
+    checked: { description: 'Mark it as the picked option of a choice: tinted, a check at the end (`menuitemradio`).', type: 'boolean' },
+    render: { description: 'Render it as another element, e.g. a router link.', type: 'ReactElement' },
     onClick: { description: 'Runs the action; the menu closes after it.', type: '(event) => void' },
     disabled: { description: 'Grey it out and skip it with the keyboard.', type: 'boolean', default: 'false' },
     closeOnClick: { description: 'Close the menu when it is clicked.', type: 'boolean', default: 'true' },
@@ -186,7 +213,7 @@ An action. Renders a `<div role="menuitem">`; other props go to Base UI's `Menu.
 
 ### DropdownMenu.CheckboxItem
 
-An item that toggles on and off, with a check mark. Base UI's `Menu.CheckboxItem`.
+An item that toggles on and off: tinted with a check at the end while on. Base UI's `Menu.CheckboxItem`.
 
 <TypeTable
   type={{
@@ -213,12 +240,12 @@ Groups radio items that share one value. Base UI's `Menu.RadioGroup`; renders a 
 
 ### DropdownMenu.RadioItem
 
-One choice in a radio group, with a dot. Base UI's `Menu.RadioItem`.
+One choice in a radio group: the picked one is tinted with a check at the end. Base UI's `Menu.RadioItem`.
 
 <TypeTable
   type={{
     value: { description: 'The value this item picks.', type: 'any' },
-    closeOnClick: { description: 'Close the menu when picked.', type: 'boolean', default: 'false' },
+    closeOnClick: { description: 'Close the menu when picked.', type: 'boolean', default: 'true' },
     disabled: { description: 'Grey it out.', type: 'boolean', default: 'false' },
     className: { description: 'Classes, merged last.', type: 'string' },
   }}

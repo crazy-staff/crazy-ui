@@ -1,0 +1,72 @@
+---
+title: Choice Field
+description: Picking one of a few options in a form — a segmented toggle where it fits, a full-width button that opens a drawer on a phone.
+---
+
+<ComponentPreview name="choice-field/default" />
+
+On a phone (390 px):
+
+<PhonePreview name="choice-field/settings" height={560} />
+
+## Installation
+
+<InstallTabs component="choice-field" />
+
+## Usage
+
+```tsx
+import { ChoiceField } from '@crazy-staff/ui';
+```
+
+```tsx
+<ChoiceField
+  label="Theme"
+  value={theme}
+  onValueChange={setTheme}
+  choices={[
+    { value: 'light', label: 'Light', icon: <Sun /> },
+    { value: 'dark', label: 'Dark', icon: <Moon /> },
+    { value: 'system', label: 'System', icon: <Monitor /> },
+  ]}
+/>
+```
+
+## Examples
+
+### When it doesn't fit
+
+The field measures itself: when the segmented toggle would run off its container, it becomes the button
+(on a wider screen the choices open in a menu). Drag the corner of the box.
+
+<ComponentPreview name="choice-field/narrow" />
+
+### A settings form
+
+<ComponentPreview name="choice-field/settings" />
+
+## Accessibility
+
+- The toggle is a `group` named by `label`, with `aria-pressed` buttons.
+- The button is named by `label` and shows the current choice; the drawer is a dialog titled by `label`.
+  Picking closes it and focus returns to the button.
+
+## API Reference
+
+<TypeTable
+  type={{
+    label: { description: 'The accessible name and the drawer title.', type: 'string', required: true },
+    choices: { description: 'The options.', type: '{ value: string; label: ReactNode; icon?: ReactNode; lang?: string; disabled?: boolean }[]', required: true },
+    value: { description: 'Controlled value.', type: 'string' },
+    defaultValue: { description: 'Value on first render.', type: 'string' },
+    onValueChange: { description: 'Called with the picked value.', type: '(value: string) => void' },
+    collapse: {
+      description: 'When it becomes the button: on a phone and whenever the toggle doesn\'t fit (`auto`), only on a phone, always or never.',
+      type: "'auto' | 'phone' | 'always' | 'never'",
+      default: "'auto'",
+    },
+    size: { description: 'Size of the toggle and the button (always `lg` on a phone).', type: "'sm' | 'md' | 'lg'", default: "'md'" },
+    className: { description: 'Classes for the root, merged last.', type: 'string' },
+    classNames: { description: 'Classes per slot.', type: '{ root?: string; toggle?: string; button?: string; menu?: string }' },
+  }}
+/>

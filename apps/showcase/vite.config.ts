@@ -21,7 +21,7 @@ export default defineConfig({
           crawlLinks: false,
         },
       },
-      pages: [{ path: '/docs' }, { path: '/api/search' }],
+      pages: [{ path: '/docs' }, { path: '/api/search' }, { path: '/preview' }],
     }),
     react(),
     nitro(),
