@@ -5,6 +5,11 @@ description: Floating content anchored to a trigger — details, a small form, f
 
 <ComponentPreview name="popover/default" />
 
+On a phone (below `sm`) the same content opens in a bottom drawer titled by `title`, and its controls grow
+to touch size. Set `mobile="none"` to keep the popover.
+
+<PhonePreview name="popover/phone" height={560} />
+
 ## Installation
 
 <InstallTabs component="popover" />
@@ -74,7 +79,8 @@ Base UI's [`Popover.Root`](https://base-ui.com/react/components/popover) (`open`
 <TypeTable
   type={{
     trigger: { description: 'The element that opens the popover (a Button, a link …).', type: 'ReactElement' },
-    title: { description: 'Heading of the panel; labels the dialog.', type: 'ReactNode' },
+    title: { description: 'Heading of the panel; labels the dialog (and the drawer on a phone).', type: 'ReactNode' },
+    mobile: { description: 'On a phone: a bottom drawer, or keep the popover.', type: "'drawer' | 'none'", default: "'drawer'" },
     description: { description: 'Text under the title; describes the dialog.', type: 'ReactNode' },
     children: { description: 'Anything below the title and description.', type: 'ReactNode' },
     side: {
@@ -99,10 +105,11 @@ Base UI's [`Popover.Root`](https://base-ui.com/react/components/popover) (`open`
 
 ### Popover.Root
 
-Holds the open state. Base UI's `Popover.Root`; renders nothing.
+Holds the open state. Base UI's `Popover.Root` (a drawer's root on a phone); renders nothing.
 
 <TypeTable
   type={{
+    mobile: { description: 'On a phone: a bottom drawer, or keep the popover.', type: "'drawer' | 'none'", default: "'drawer'" },
     open: { description: 'Controlled open state.', type: 'boolean' },
     defaultOpen: { description: 'Open state on first render.', type: 'boolean', default: 'false' },
     onOpenChange: { description: 'Called when it opens or closes.', type: '(open: boolean, details) => void' },

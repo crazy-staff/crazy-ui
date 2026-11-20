@@ -9,9 +9,12 @@
     "colors",
     "typography",
     "shape",
+    "mobile",
     "---Effects---",
     "...effects",
     "---Components---",
-    "...components"
+    "...components",
+    "---Design rounds---",
+    "...rounds"
   ]
 }

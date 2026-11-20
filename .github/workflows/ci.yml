@@ -20,3 +20,16 @@ jobs:
         run: bun run typecheck
       - name: Test
         run: bun run test
+      - name: Install Chromium for visual tests
+        run: bunx playwright install --with-deps chromium
+        working-directory: apps/showcase
+      - name: Visual snapshots (phone, light and dark)
+        run: bun run test:visual
+        working-directory: apps/showcase
+      - name: Upload the visual diff report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/showcase/playwright-report
+          retention-days: 7
