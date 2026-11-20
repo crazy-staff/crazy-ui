@@ -1,5 +1,20 @@
 # @crazy-staff/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- f4246e0: Phone patterns (#7): Dropdown Menu and Popover open as bottom drawers below `sm` (`mobile="none"` to opt
+  out); picked options are tinted with a check at the end (`checked` items, `title`/`showTitle` on menus);
+  `TouchProvider`/`useTouch` switch controls to touch size, `Drawer.Content touch`, Button size `icon-lg`;
+  `usePhone`, `useMediaQuery`, `useDrawerMode`; new `ChoiceField`; Sidebar opens from a floating button on a
+  phone (`mobileTrigger`) with a drawer as wide as its rows; new `SidePanel`, `SidePanelButton`,
+  `SidePanelSection`, `useSidePanel`. Radio items now close the menu when picked.
+
+### Patch Changes
+
+- a8a3ee2: Sidebar matches the docs sidebar: the gliding hover stays on the rows (no longer jumps onto `Sidebar.Header`), 4px between rows and 24px between groups, the docs' header row (56px) and content padding, and `Sidebar.Trigger` is the docs' collapse button (32px, 16px icon, neutral hover, no press scale; now a plain `<button>`).
+
 ## 0.2.0
 
 ### Minor Changes
