@@ -1,0 +1,73 @@
+---
+title: "Round: mobile"
+description: Pick the look of the phone patterns (issue 7) — drawer rows, the picked option and the floating menu button. Behaviour is already built; only these three looks are open.
+---
+
+Everything on this page runs in real phone-sized frames (390 px): the menus open as bottom drawers, as they
+do on a phone. Each variant is shown in light and dark; the ↺ button above a frame replays the opening
+animation. **A** in each group is what crazy-hub ships today (round 7); **B** and **C** are alternatives.
+Pick one per group (or mix), and the pick becomes the library default.
+
+Already decided and built (not part of this round): drawers below `sm`, rows at least 48 px with
+`text-base` and 20 px icons, a title on every drawer, touch-size controls inside drawers, focus returning to
+the trigger, reduced motion.
+
+## 1. Drawer rows
+
+How the rows of a menu look in the drawer.
+
+- **A — Plain.** Rows straight on the drawer, 4 px apart, the neutral hover; a line before the danger row.
+- **B — Grouped.** One inset card with hairlines between the rows, like a settings list.
+- **C — Icon tiles.** Each icon in a small squircle tile, labels in medium weight, slightly taller rows.
+
+<PhoneVariants
+  height={460}
+  variants={[
+    { label: 'A — Plain', name: 'round-mobile/rows-a' },
+    { label: 'B — Grouped', name: 'round-mobile/rows-b' },
+    { label: 'C — Icon tiles', name: 'round-mobile/rows-c' },
+  ]}
+/>
+
+## 2. Picked option
+
+The picked option in pickers (theme, language) — in drawers and in dropdowns alike. Tap rows to move the
+pick. The desktop dropdowns are under the frames.
+
+- **A — Soft tint.** The soft accent (lighter in a dropdown), a small check at the end.
+- **B — Full tint.** The soft accent everywhere, medium weight, the check in a filled accent dot.
+- **C — Outlined.** A light tint inside a thin accent border.
+
+<PhoneVariants
+  height={600}
+  variants={[
+    { label: 'A — Soft tint', name: 'round-mobile/picked-a' },
+    { label: 'B — Full tint', name: 'round-mobile/picked-b' },
+    { label: 'C — Outlined', name: 'round-mobile/picked-c' },
+  ]}
+/>
+
+Desktop dropdowns (A, B, C):
+
+<div className="not-prose -mt-4 grid gap-3 sm:grid-cols-3">
+  <ComponentPreview name="round-mobile/picked-a" />
+  <ComponentPreview name="round-mobile/picked-b" />
+  <ComponentPreview name="round-mobile/picked-c" />
+</div>
+
+## 3. Floating menu button
+
+The button that opens the main navigation on a phone, bottom right. Tap it to open the drawer.
+
+- **A — Surface.** The surface colour, a border and the overlay shadow.
+- **B — Accent.** Filled with the accent, with the soft glow.
+- **C — Frosted.** Translucent with a backdrop blur, no shadow.
+
+<PhoneVariants
+  height={600}
+  variants={[
+    { label: 'A — Surface', name: 'round-mobile/fab-a' },
+    { label: 'B — Accent', name: 'round-mobile/fab-b' },
+    { label: 'C — Frosted', name: 'round-mobile/fab-c' },
+  ]}
+/>

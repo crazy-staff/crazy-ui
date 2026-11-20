@@ -2,6 +2,7 @@ import { Toggle as BaseToggle } from '@base-ui/react/toggle';
 import { ToggleGroup as BaseToggleGroup } from '@base-ui/react/toggle-group';
 import { motion, useReducedMotion } from 'motion/react';
 import * as React from 'react';
+import { useTouch } from '../../lib/responsive';
 import { cn, type VariantProps } from '../../lib/tv';
 import { glideBlockClass, useGlide } from '../sidebar/glide';
 import { toggleGroupStyles } from './toggle-group.styles';
@@ -79,7 +80,7 @@ export interface ToggleGroupProps extends Omit<BaseToggleGroup.Props<string>, 'c
  */
 function ToggleGroupRoot({
   items,
-  size = 'md',
+  size: sizeProp = 'md',
   variant = 'outline',
   iconOnly = false,
   multiple = false,
@@ -99,6 +100,7 @@ function ToggleGroupRoot({
     },
     [glideRef, ref],
   );
+  const size = useTouch() ? 'lg' : sizeProp;
   const styles = toggleGroupStyles({ size, variant, iconOnly });
   const ctx = React.useMemo<GroupContextValue>(
     () => ({ id, multiple, size, variant, iconOnly: Boolean(iconOnly), classNames }),

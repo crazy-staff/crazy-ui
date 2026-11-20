@@ -1,5 +1,6 @@
 import { Switch as BaseSwitch } from '@base-ui/react/switch';
 import * as React from 'react';
+import { useTouch } from '../../lib/responsive';
 import { cn, type VariantProps } from '../../lib/tv';
 import { switchStyles } from './switch.styles';
 
@@ -21,7 +22,8 @@ export interface SwitchProps
  * With `label`, the switch sits at the end of a clickable row, like a settings list.
  */
 export function Switch({ className, classNames, size, label, description, ...props }: SwitchProps) {
-  const styles = switchStyles({ size });
+  const touch = useTouch();
+  const styles = switchStyles({ size: touch ? 'lg' : size });
   const control = (
     <BaseSwitch.Root className={cn(styles.root(), classNames?.root, !label && className)} {...props}>
       <BaseSwitch.Thumb className={cn(styles.thumb(), classNames?.thumb)} />

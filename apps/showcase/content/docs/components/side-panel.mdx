@@ -1,0 +1,92 @@
+---
+title: Side Panel
+description: A management panel (moderation, quick admin) — the right column on a wide screen, a drawer with touch-size controls on a narrow one, opened by one icon button among the page's controls.
+---
+
+<ComponentPreview name="side-panel/default" align="stretch" />
+
+On a phone (390 px), the same button opens a drawer:
+
+<PhonePreview name="side-panel/default" height={620} />
+
+## Installation
+
+<InstallTabs component="side-panel" />
+
+## Usage
+
+```tsx
+import { SidePanel, SidePanelButton, SidePanelSection, useSidePanel } from '@crazy-staff/ui';
+```
+
+```tsx
+const panel = useSidePanel('idea-moderation');
+const content = (
+  <SidePanelSection label="Status" icon={<Tag />}>
+    <Select … />
+  </SidePanelSection>
+);
+
+<header>
+  <h1>{idea.title}</h1>
+  <SidePanelButton panel={panel} title="Moderation" icon={<Shield />}>
+    {content}
+  </SidePanelButton>
+</header>
+<aside>
+  <SidePanel panel={panel} title="Moderation">
+    {content}
+  </SidePanel>
+</aside>
+```
+
+- On a wide screen (`(min-width: 1024px)` by default) the button shows or hides the panel in the right
+  column. It looks pressed while the panel is open, and the choice is remembered per `id` in this browser.
+- On a narrow screen it opens the same content in a drawer, where the controls render at touch size.
+- No floating "show panel" buttons: the panel always opens from the page's own controls.
+
+## API Reference
+
+### useSidePanel
+
+<TypeTable
+  type={{
+    id: { description: 'Remembers open/hidden per panel in this browser.', type: 'string', required: true },
+    'options.query': { description: 'Media query of the wide layout.', type: 'string', default: "'(min-width: 1024px)'" },
+    'options.wide': { description: 'Force the layout (e.g. from a container measurement).', type: 'boolean' },
+    'options.defaultOpen': { description: 'Shown until the person hides it.', type: 'boolean', default: 'true' },
+  }}
+/>
+
+### SidePanel
+
+<TypeTable
+  type={{
+    panel: { description: 'The state from `useSidePanel`.', type: 'SidePanelState', required: true },
+    title: { description: 'The heading and the region name.', type: 'string', required: true },
+    hideLabel: { description: 'Label of the hide button.', type: 'string', default: "'Hide panel'" },
+    className: { description: 'Classes, merged last.', type: 'string' },
+  }}
+/>
+
+### SidePanelButton
+
+<TypeTable
+  type={{
+    panel: { description: 'The state from `useSidePanel`.', type: 'SidePanelState', required: true },
+    title: { description: 'Label, tooltip and drawer title.', type: 'string', required: true },
+    icon: { description: 'The icon of the button.', type: 'ReactNode', required: true },
+    variant: { description: 'Button variant.', type: "'ghost' | 'outline'", default: "'ghost'" },
+    children: { description: 'The panel content, for the drawer.', type: 'ReactNode' },
+  }}
+/>
+
+### SidePanelSection
+
+<TypeTable
+  type={{
+    label: { description: 'One word: the section name.', type: 'string', required: true },
+    icon: { description: 'Icon before the name.', type: 'ReactNode' },
+    actions: { description: 'Icon actions on the right.', type: 'ReactNode' },
+  }}
+/>

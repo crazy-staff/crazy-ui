@@ -49,9 +49,16 @@ export const sidebarStyles = tv({
       'transition-colors duration-[var(--cui-duration-fast)] ease-ui hover:bg-hover hover:text-foreground',
       'focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4',
     ],
+    // a phone's menu button: 56px in the bottom right corner, under the thumb
+    fab: [
+      'squircle fixed end-5 bottom-5 z-40 flex size-14 items-center justify-center rounded-card md:hidden',
+      'border border-border bg-surface text-foreground shadow-overlay outline-none',
+      'transition-transform duration-[var(--cui-duration-fast)] ease-ui active:scale-95 focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-6',
+    ],
     backdrop: [backdropStyles, 'md:hidden'],
     drawer: [
-      'squircle fixed inset-y-2 left-2 z-50 flex w-[min(var(--sidebar-width),calc(100vw-3rem))] flex-col overflow-hidden rounded-card',
+      // as wide as its rows need, at most the sidebar width
+      'squircle fixed inset-y-2 left-2 z-50 flex w-fit min-w-56 max-w-[min(var(--sidebar-width),calc(100vw-3rem))] flex-col overflow-hidden rounded-card',
       'border border-border bg-frame text-[0.9375rem] text-foreground shadow-overlay outline-none md:hidden',
       'transition-[translate,opacity] duration-[var(--cui-duration-normal)] ease-ui',
       'data-[starting-style]:-translate-x-[calc(100%+1rem)] data-[ending-style]:-translate-x-[calc(100%+1rem)]',

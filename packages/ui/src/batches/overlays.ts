@@ -1,7 +1,7 @@
 // Components of the overlays batch.
 export { Tooltip, type TooltipProps, type TooltipContentProps } from '../components/tooltip/tooltip';
 export { tooltipStyles } from '../components/tooltip/tooltip.styles';
-export { Popover, type PopoverProps, type PopoverContentProps } from '../components/popover/popover';
+export { Popover, type PopoverProps, type PopoverRootProps, type PopoverContentProps } from '../components/popover/popover';
 export { popoverStyles, popupSurface, popupMotion, backdropStyles } from '../components/popover/popover.styles';
 export { Dialog, type DialogProps, type DialogContentProps } from '../components/dialog/dialog';
 export { dialogStyles } from '../components/dialog/dialog.styles';
@@ -14,11 +14,12 @@ export { drawerStyles } from '../components/drawer/drawer.styles';
 export {
   DropdownMenu,
   type DropdownMenuProps,
+  type DropdownMenuRootProps,
   type DropdownMenuContentProps,
   type DropdownMenuItemProps,
   type DropdownMenuEntry,
 } from '../components/dropdown-menu/dropdown-menu';
-export { menuStyles } from '../components/dropdown-menu/dropdown-menu.styles';
+export { menuStyles, menuDrawerStyles } from '../components/dropdown-menu/dropdown-menu.styles';
 export { ContextMenu, type ContextMenuProps, type ContextMenuContentProps } from '../components/context-menu/context-menu';
 export { contextMenuStyles } from '../components/context-menu/context-menu.styles';
 export { HoverCard, type HoverCardProps, type HoverCardContentProps } from '../components/hover-card/hover-card';

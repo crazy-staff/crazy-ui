@@ -1,0 +1,59 @@
+---
+title: Mobile
+description: How crazy-ui behaves on a phone — small things that open become bottom drawers, controls in drawers grow to touch size, the main menu opens from the bottom right.
+---
+
+A **phone** is a window below `sm` (640 px). The rules are in `docs/guidelines.md` → _Mobile_; the library
+does most of them for you.
+
+<PhonePreview name="choice-field/settings" height={560} />
+
+## What switches on a phone
+
+| Component | On a phone |
+| --- | --- |
+| [Dropdown Menu](/docs/components/dropdown-menu) | A bottom drawer titled by the menu's `title`, rows at least 48 px tall. |
+| [Popover](/docs/components/popover) | The same content in a bottom drawer, its controls at touch size. |
+| [Choice Field](/docs/components/choice-field) | A full-width button with the current choice that opens a drawer. |
+| [Sidebar](/docs/components/sidebar) | A drawer from the left, opened by a 56 px button in the bottom right. |
+| [Side Panel](/docs/components/side-panel) | A drawer instead of the right column (below `lg`). |
+
+Set `mobile="none"` on a Dropdown Menu or Popover to keep its floating form.
+
+## Touch size
+
+`TouchProvider` switches the controls of a subtree to touch size: buttons, inputs, selects, switches and
+toggle groups render at `lg`, icon buttons at `icon-lg` (44 px). The adaptive drawers turn it on for their
+content; `Drawer.Content` takes `touch` for your own drawers.
+
+```tsx
+import { TouchProvider, useTouch } from '@crazy-staff/ui';
+
+<TouchProvider>
+  <Switch label="Locked" /> {/* lg */}
+</TouchProvider>
+
+// your own component
+const touch = useTouch();
+```
+
+## Hooks
+
+```tsx
+import { usePhone, useMediaQuery, PHONE_QUERY } from '@crazy-staff/ui';
+
+const phone = usePhone(); // below sm
+const wide = useMediaQuery('(min-width: 1024px)');
+```
+
+Both are `false` on the server and until mounted, so the first render matches the server's HTML.
+
+<TypeTable
+  type={{
+    'usePhone()': { description: 'True on a window below `sm` (640px).', type: 'boolean' },
+    'useMediaQuery(query)': { description: 'Whether a media query matches; follows changes.', type: 'boolean' },
+    'useDrawerMode(mobile)': { description: 'Whether an adaptive overlay with this `mobile` mode is a drawer now.', type: 'boolean' },
+    TouchProvider: { description: 'Switches the subtree to touch size; `value={false}` turns it off again.', type: '{ value?: boolean }' },
+    'useTouch()': { description: 'True inside a `TouchProvider`.', type: 'boolean' },
+  }}
+/>

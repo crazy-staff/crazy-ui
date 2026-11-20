@@ -37,3 +37,6 @@ export { buttonGroupStyles } from '../components/button-group/button-group.style
 
 export { NumberField, type NumberFieldProps, type NumberFieldRootProps } from '../components/number-field/number-field';
 export { numberFieldStyles } from '../components/number-field/number-field.styles';
+
+export { ChoiceField, type ChoiceFieldProps, type Choice } from '../components/choice-field/choice-field';
+export { choiceFieldStyles } from '../components/choice-field/choice-field.styles';

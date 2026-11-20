@@ -5,6 +5,7 @@ import { Example, PageGlow, Preview } from '@/components/docs/preview';
 import { ComponentGrid } from '@/components/docs/component-grid';
 import { LinkCards } from '@/components/docs/link-cards';
 import { ComponentPreview } from '@/components/docs/component-preview';
+import { PhonePreview, PhoneVariants } from '@/components/docs/phone-preview';
 import { InstallTabs, PackageInstall } from '@/components/docs/install';
 import { Code, CollapsibleCode } from '@/components/docs/code';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
@@ -25,6 +26,8 @@ export function getMDXComponents(components?: MDXComponents) {
     ComponentGrid,
     LinkCards,
     ComponentPreview,
+    PhonePreview,
+    PhoneVariants,
     InstallTabs,
     PackageInstall,
     Code,

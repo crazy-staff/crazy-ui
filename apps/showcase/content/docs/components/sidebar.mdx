@@ -5,6 +5,14 @@ description: "The app sidebar of crazy-hub — groups, icons, an accent active r
 
 <ComponentPreview name="sidebar/default" />
 
+## On a phone
+
+Below `md` the sidebar is a drawer from the left, only as wide as its rows (at most `--sidebar-width`). It
+opens from a 56 px button in the bottom right corner, where the thumb is: `Sidebar.Inset` renders it, and
+`Sidebar.Trigger` hides on a phone. `mobileTrigger="inline"` keeps the trigger in the top bar instead.
+
+<PhonePreview name="sidebar/phone" height={640} />
+
 ## Installation
 
 <InstallTabs component="sidebar" />
@@ -64,9 +72,21 @@ Holds the state and lays out sidebar and inset on the frame colour.
     onOpenChange: { description: 'Called on toggle.', type: '(open: boolean) => void' },
     shortcut: { description: 'Key toggled with Ctrl/⌘; `false` turns it off.', type: 'string | false', default: "'b'" },
     width: { description: 'Sidebar width.', type: 'string', default: "'16rem'" },
+    mobileTrigger: {
+      description: 'Where the drawer opens from on a phone: the floating button bottom right, or the `Sidebar.Trigger` in the top bar.',
+      type: "'floating' | 'inline'",
+      default: "'floating'",
+    },
     className: { description: 'Classes, merged last.', type: 'string' },
   }}
 />
+
+### Sidebar.Fab
+
+The floating menu button of a phone: 56 px, bottom right, hidden from `md` up. `Sidebar.Inset` renders it
+when `mobileTrigger="floating"`; render it yourself only in a custom layout (with `mobileTrigger="inline"`).
+
+<TypeTable type={{ className: { description: 'Classes, merged last.', type: 'string' } }} />
 
 ### Sidebar
 
