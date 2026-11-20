@@ -20,7 +20,10 @@ regress (decision 13).
   element, `classNames={{ slot }}`.
 - Styles live in a sibling `<name>.styles.ts` using `tv()` from `../../lib/tv`, never inline `tv` imported
   straight from `tailwind-variants` (ours carries the merge table).
-- Prefer Base UI primitives for anything with behaviour (focus, keyboard, ARIA). Don't reimplement it.
+- Behaviour (focus, keyboard, ARIA, popups, lists, selection, drag) comes from **UI SDK** behaviours
+  (`@ui-sdk/core`, rendered with `@ui-sdk/react`) for every new or rebuilt component (decision 18); the
+  older components keep Base UI until they are touched. Don't reimplement behaviour by hand: if UI SDK
+  lacks one, say so in the PR.
 
 ## Motion
 

@@ -60,3 +60,15 @@ decision by adding a new entry that supersedes the old one; don't edit history.
     navigation (fully collapsible, large search, neutral gliding hover, accent active row), "On this
     page" on the right, responsive with a drawer on mobile. Content animates in with motion (`Reveal`).
     The component catalogue follows shadcn/ui's list.
+
+## Building components
+
+18. **UI SDK for component behaviour (2026-11-20, owner).** Every new component, and every component
+    that gets rebuilt, is built with **UI SDK** (https://ui-sdk.dev, Vercel Labs, `vercel-labs/ui`):
+    behaviours from `@ui-sdk/core` (popup, listbox, selection, typeahead, roving focus, reorder, resize,
+    virtualizer …) composed into a primitive and rendered with `@ui-sdk/react` (`createParts`).
+    Supersedes decision 4 for new work: existing Base UI components stay until they are touched, then
+    move to UI SDK. Our styling layer is unchanged (tokens, tailwind-variants, `className`/`classNames`,
+    compound parts + one-line form, motion). UI SDK is in beta: versions are pinned exactly, and a
+    behaviour it lacks is reported in the PR rather than hand-rolled silently.
+
