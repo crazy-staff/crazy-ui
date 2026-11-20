@@ -91,6 +91,10 @@ Owner's rule (crazy-hub ideas review, 2026-11-15), for every app built on crazy-
   a select and a button next to each other share one `size`.
 - No decorative outline around a control that is already a clear group (e.g. a segmented
   ToggleGroup used for sorting).
+- **Destructive actions are always red** (owner, 2026-11-15): delete, remove, ban, reset, avatar
+  removal… use the `danger` tone (red text or icon with a red hover tint for ghost/icon buttons,
+  `variant="danger"` for a primary one, `danger` menu items) and confirm with an `AlertDialog`
+  `tone="danger"` first. A destructive action never looks like a neutral button.
 
 ## Mobile
 
